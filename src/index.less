@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "Proxima Nova F";
+  src: url("/fonts/Mark Simonson - Proxima Nova Regular.otf");
+}
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("/fonts/Mark Simonson - Proxima Nova Alt Regular.otf");
+}
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("/fonts/Mark Simonson - Proxima Nova Alt Bold.otf");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("/fonts/Mark Simonson - Proxima Nova Alt Extrabold.otf");
+  font-weight: 900;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  display: inherit;
+}
+
+button, input {
+  font: inherit;
+  color: inherit;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+body {
+  background: #f9f9f9;
+  margin: 0;
+  font-family: "Proxima Nova", "Proxima Nova F", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}

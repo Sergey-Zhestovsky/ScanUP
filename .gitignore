@@ -10,6 +10,8 @@
 
 # production
 /build
+/public/fonts
+/public/images
 
 # misc
 .DS_Store

@@ -1,0 +1,51 @@
+.header {
+    display: flex;
+    font-size: 1.25em;
+    background: #fdfdfd;
+    height: 64px;
+}
+
+.icon-block {
+    width: 230px;
+    background: #343e42;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.icon-wrapper {
+    display: flex;
+}
+
+.icon-name {
+    width: 115px;
+}
+
+.menu-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.menu {
+    display: flex;
+    padding: 10px 0;
+}
+
+.menu-elements {
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.account {
+    &.header {
+        margin-left: 230px;
+    }
+
+    .icon-block {
+        position: fixed;
+        left: 0;
+        height: 64px;
+    }
+}
