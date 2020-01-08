@@ -21,7 +21,7 @@ export default function Header(props) {
     <header className={concatClasses(style, styles.header)}>
       <div className={styles["icon-block"]}>
         <div className={styles["icon-wrapper"]}>
-          <img className={styles["icon-name"]} src="/images/site/ScanUP.png" />
+          <img className={styles["icon-name"]} src="/public/images/site/ScanUP.png" />
         </div>
       </div>
       <div className={styles["menu-wrapper"]}>
