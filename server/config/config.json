@@ -1,0 +1,15 @@
+{
+  "port": "3001",
+  "encode_server_key": "ZQ26e-0sxNw-d0fdz-rYqql-BzotU-0woTc",
+  "mongoDB_connect": {
+    "url": "mongodb://localhost/ScanUP",
+    "options": {
+      "useNewUrlParser": "true",
+      "useCreateIndex": "true",
+      "useFindAndModify": "false"
+    }
+  },
+  "imageStorage": {
+    "models": "/public/img/models/"
+  }
+}
