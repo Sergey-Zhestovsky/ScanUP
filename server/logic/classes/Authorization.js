@@ -5,7 +5,7 @@ const SESSION_COOKIE_NAME = config.session.identification["session_name"];
 const SESSION_EXPIRES_TIME = config.session.identification["expires_time"];
 
 class Authorization {
-  constructor(request, response) {
+  constructor({ request, response }) {
     this.request = request;
     this.response = response;
   }
@@ -41,10 +41,10 @@ class Authorization {
     }),
       token = user.setToken();
 
-    response.cookie(SESSION_COOKIE_NAME, token, {
-      expires: SESSION_EXPIRES_TIME,
-      httpOnly: true
+    this.response.cookie(SESSION_COOKIE_NAME, token, {
+      expires: new Date(Date.now() + SESSION_EXPIRES_TIME)
     });
+    
     this.request.data.user = user;
   }
 }

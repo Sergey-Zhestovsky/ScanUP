@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact render={() => (
-            <Redirect to="/account" />
+            123
           )} />
           <PageRoute to="/account" component={PersonalAccount} {...pageConfig} />
         </Switch>

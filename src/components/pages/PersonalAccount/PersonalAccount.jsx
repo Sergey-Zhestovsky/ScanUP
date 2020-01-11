@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 
 import Menu from "./parts/Menu/Menu";
 import { HEADER_STYLE } from "../../parts/Header/Header";
+import withAuthentication from "../../../hoc/withAuthentication";
 
 import styles from "./PersonalAccount.module.less";
 
@@ -23,7 +24,7 @@ export const pageConfig = {
 
 function PersonalAccount(props) {
   let relPath = props.match.path,
-  routes = generateRoutes(account.menu, relPath);
+    routes = generateRoutes(account.menu, relPath);
 
   function generateRoutes(list, relPath) {
     let res = [];
@@ -31,7 +32,7 @@ function PersonalAccount(props) {
     for (let key in list) {
       let el = list[key];
 
-      res.push(<Route key={res.length} 
+      res.push(<Route key={res.length}
         path={`${relPath}${el.link}`} component={el.Component} />)
     }
 
@@ -50,4 +51,4 @@ function PersonalAccount(props) {
   );
 }
 
-export default withRouter(PersonalAccount);
+export default withAuthentication(withRouter(PersonalAccount));
