@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
+import Logo from "./Logo/Logo";
 import UserMenu from "./UserMenu/UserMenu";
 import concatClasses from "../../../modules/concatClasses";
 
@@ -14,24 +17,34 @@ const styleClass = {
   [HEADER_STYLE.account]: styles["account"]
 };
 
-export default function Header(props) {
+function Header(props) {
   let style = styleClass[props.styleClass];
-
+console.log(props.isAuthorized)
   return (
     <header className={concatClasses(style, styles.header)}>
-      <div className={styles["icon-block"]}>
-        <div className={styles["icon-wrapper"]}>
-          <img className={styles["icon-name"]} src="/public/images/site/ScanUP.png" />
-        </div>
+      <div className={styles["logo-block"]}>
+        <Logo />
       </div>
       <div className={styles["menu-wrapper"]}>
         <nav className={styles.menu}>
-          <div className={styles["menu-elements"]}>Home</div>
-          <div className={styles["menu-elements"]}>Transport systems</div>
-          <div className={styles["menu-elements"]}>About us</div>
+          <Link className={styles["menu-elements"]} to="/">Home</Link>
+          <Link className={styles["menu-elements"]} to="/">Transport systems</Link>
+          <Link className={styles["menu-elements"]} to="/">About us</Link>
         </nav>
-        <UserMenu />
+        {
+          props.isAuthorized
+            ? <UserMenu />
+            : <Link className={styles["button"]} to="/login">Log in</Link>
+        }
       </div>
     </header>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    isAuthorized: state.auth.isAuthorized
+  };
+}
+
+export default connect(mapStateToProps)(Header);

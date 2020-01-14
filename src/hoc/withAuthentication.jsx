@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 function withAuthorization(WrappedComponent, { authorized = true, redirect = "/", privilege } = {}) {
-  console.log(authorized, redirect, privilege);
-
   class WithAuthorization extends Component {
     render() {
       let enter = false,

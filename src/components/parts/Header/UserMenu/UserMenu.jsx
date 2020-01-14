@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+import { connect } from "react-redux";
+import { logout } from "../../../../storage/actions/authActions";
 import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUserAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
@@ -55,7 +58,7 @@ class UserMenu extends Component {
   }
 
   exitHandler = (e) => {
-    console.log('exit!');
+    return this.props.logout();
   }
 
   render() {
@@ -78,4 +81,15 @@ class UserMenu extends Component {
   }
 }
 
-export default UserMenu;
+function mapStateToProps(state) {
+  return {
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => dispatch(logout())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);

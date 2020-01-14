@@ -13,7 +13,7 @@ import styles from "./PersonalAccount.module.less";
  */
 import privileges from "../../../data/privileges";
 import accounts from "../../../data/accounts";
-const privilege = privileges.MODERATOR;
+const privilege = privileges.MODERATOR.index;
 const account = accounts[privilege];
 
 export const pageConfig = {

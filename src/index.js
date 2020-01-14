@@ -7,14 +7,14 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootReducer from "./storage/reducers/rootReducer";
-//import rootConnector from "./storage/connection/rootConnector";
+import rootConnector from "./storage/connections/rootConnector";
 
 import "./index.less";
 import "normalize.css";
 
 let store = createStore(
   rootReducer,
-  //applyMiddleware(thunk.withExtraArgument(rootConnector))
+  applyMiddleware(thunk.withExtraArgument(rootConnector))
 );
 
 ReactDOM.render(
