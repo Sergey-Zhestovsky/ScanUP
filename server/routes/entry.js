@@ -1,22 +1,24 @@
 let express = require("express"),
   config = require("../config"),
-  router = express.Router();
+  router = express.Router(),
+  Authorization = require("../logic/classes/Authorization");
 
-router.all('*', function (req, res, next) {
-  new Promise((resolve, reject) => {
-    req.data = {};
+router.all('*', async function (req, res, next) {
+  req.data = {};
 
-    resolve(req, res, next);
-  })
-    .then(identification)
-    .catch((error) => {
-      return res.header("Connection", "close").destroy();
-    });
+  try {
+    await identification(req, res, next);
+  } catch (error) {
+    return res.header("Connection", "close").destroy();
+  }
+
+  return next();
 });
 
-function identification(req, res, next) {
-  let authToken = req.cookies[config.session.identification.session_name];
+async function identification(req, res, next) {
+  let auth = new Authorization({ request: req, response: res });
 
+  return await auth.verify();
 }
 
 module.exports = router;

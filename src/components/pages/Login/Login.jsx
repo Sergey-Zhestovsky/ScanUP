@@ -27,7 +27,7 @@ class Login extends Component {
     };
 
     this.validator = new Validator({
-      email: ["required", "email"],
+      email: ["required"],
       password: ["required"]
     });
   }

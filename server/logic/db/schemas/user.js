@@ -3,14 +3,19 @@ let mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
 let userSchema = new Schema({
-  fullName: {
+  name: {
     type: String,
     required: true
   },
   email: {
     type: String,
     unique: true,
-    required: true
+    require: true
+  },
+  passport: {
+    type: String,
+    unique: true,
+    default: null
   },
   privilegeId: {
     type: Schema.Types.ObjectId,

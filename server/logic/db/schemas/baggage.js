@@ -27,8 +27,8 @@ module.exports = new Schema({
     type: Number,
     default: null
   },
-  passportId: {
-    type: Schema.Types.ObjectId,
+  passport: {
+    type: String,
     required: true
   },
   time: {

@@ -7,7 +7,8 @@ export default class AuthorisationConnector extends Connector {
     ({
       root: pathStructure.root = "",
       logout: pathStructure.logout = "",
-      login: pathStructure.login = ""
+      login: pathStructure.login = "",
+      getDetails: pathStructure.getDetails = ""
     } = pathStructure);
 
     this.pathStructure = pathStructure;
@@ -23,5 +24,11 @@ export default class AuthorisationConnector extends Connector {
     let path = this.pathStructure;
 
     return super.straightRequest(path.root + path.login, user);
+  }
+
+  getDetails() {
+    let path = this.pathStructure;
+
+    return super.straightRequest(path.root + path.getDetails);
   }
 }

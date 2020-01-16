@@ -55,16 +55,14 @@ export function AuthField(props) {
     ...rest
   } = props;
 
-  let body = <Input className={concatClasses(
-    styles["auth-input"],
-    error ? styles["error"] : null
-  )} {...rest} />
+  let inputClass = concatClasses(styles["auth-input"],
+    error ? styles["error"] : null);
 
   return (
     <div className={styles["auth-input-field"]}>
       <div className={styles["auth-line-wrapper"]}>
         <div className={styles["auth-input-field-name"]}>{children}</div>
-        {body}
+        <Input className={inputClass} {...rest} />
       </div>
       <div className={styles["auth-error-message"]}>{error}</div>
     </div>

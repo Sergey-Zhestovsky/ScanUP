@@ -67,7 +67,7 @@ class UserMenu extends Component {
     return (
       <div className={concatClasses(styles["menu"], activeClass)} ref={this.menuRef}>
         <div className={styles["menu-wrapper"]}>
-          <div className={styles["name"]}>Zhestovsky Sergey</div>
+          <div className={styles["name"]}>{this.props.userName}</div>
           <FontAwesomeIcon className={styles["enter-icon"]} icon={faBars} onClick={this.toggleMenu} />
         </div>
         <CSSTransition in={this.state.open} timeout={175} classNames={this.animationMenuClasses} unmountOnExit>
@@ -83,6 +83,7 @@ class UserMenu extends Component {
 
 function mapStateToProps(state) {
   return {
+    userName: state.auth.details.name
   };
 }
 

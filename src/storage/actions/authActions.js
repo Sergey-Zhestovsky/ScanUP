@@ -41,10 +41,11 @@ export function login(user) {
     dispatch({ type: ACTIONS.LOGIN_LOADING });
 
     authConnector.login(user)
-      .then(isAuthorized => {
+      .then(details => {
         dispatch({
           type: ACTIONS.LOGIN_SUCCES,
-          user: Cookies.getAuthrizationFromCookie()
+          user: Cookies.getAuthrizationFromCookie(),
+          details
         });
       })
       .catch(error => {
@@ -53,5 +54,18 @@ export function login(user) {
           error
         });
       });
+  }
+}
+
+export function getUserDetail() {
+  return (dispatch, getState, { authConnector }) => {
+    authConnector.getDetails()
+      .then(details => {
+        dispatch({
+          type: ACTIONS.DETAILS_SUCCES,
+          details
+        });
+      })
+      .catch(error => { });
   }
 }

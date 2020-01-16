@@ -28,7 +28,7 @@ class User {
     if (!this.id || !this.privilege) // TODO VERIFICATION
       throw new ServerError(serverErrors.USER__VALIDATION_MISSING_DATA);
 
-    this.token = jwt.sign(this.getUser(), ENCODE_SERVER_KEY);
+    this.token = jwt.sign(this.getUser(), ENCODE_SERVER_KEY, {noTimestamp: true});
 
     return this.token;
   }

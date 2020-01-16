@@ -1,8 +1,28 @@
-export default class Validator {
+class Validator {
   constructor(config = {}) {
     this.config = null;
 
     this.init(config);
+  }
+
+  requiredFields() {
+    let result = [];
+
+    walkThrought(this.config);
+
+    function walkThrought(config) {
+      for (let field in config) {
+        let fieldConfig = config[field];
+
+        if (Array.isArray(fieldConfig) && fieldConfig.some((el) => el.rule === "required"))
+          result.push(field)
+      
+        if (fieldConfig instanceof Object)
+          walkThrought(fieldConfig);
+      }
+    }
+
+    return result;
   }
 
   init(config) {
@@ -153,55 +173,4 @@ export default class Validator {
   }
 }
 
-// {
-//   name: "val"
-//   name2: {
-//     subName1: "val"
-//     subName2: {
-//       subSubName1: "val"
-//       subSubName2: "val"
-//     }
-//   }
-// }
-
-// {
-//   name: ["setting1"]
-//   name2: {
-//     subName1: ["setting1", ["setting2", "additionalData"]]
-//     subName2: {
-//       subSubName1: ["setting1", ["setting2", "additionalData"]]
-//       subSubName2: [["setting1", "additionalData", "name2.newSubName1"]]
-//     }
-//   }
-// }
-// // rules [rule] > "str"
-// // rule {name: rules} > [r] > "str"
-// // [r] = [validationF, additionalData, newName]
-
-// {
-//   // name: true
-//   name2: {
-//     // subName1: true
-//     subName2: {
-//       subSubName1: ["setting1"]
-//     }
-//     newSubName1: ["setting1"]
-//   }
-// }
-
-// {
-//   name: ["setting", ["setting", "additionalData"]]
-//   name2: {
-//     property: ["subName1", {
-//       property: ["subSubName1"],
-//       rules: [["setting", ["setting", "additionalData"]]]
-//     }]
-//     rules: [
-//       ["setting", ["setting", "additionalData"]],
-//       ["setting", ["setting", "additionalData"]]
-//     ]
-//   }
-// }
-//   // rule {property, rules} > [] > "str"
-//   // property ["str"] > "str"
-//   // rules [rule] > rule
+module.exports = Validator;

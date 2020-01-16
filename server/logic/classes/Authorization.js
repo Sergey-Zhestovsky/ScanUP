@@ -31,7 +31,7 @@ class Authorization {
   }
 
   logout() {
-    this.response.cookie(SESSION_COOKIE_NAME, null, { expires: new Date(0) });
+    return this.response.cookie(SESSION_COOKIE_NAME, null, { expires: new Date(0) });
   }
 
   login({ id, privilege }) {
@@ -44,7 +44,7 @@ class Authorization {
     this.response.cookie(SESSION_COOKIE_NAME, token, {
       expires: new Date(Date.now() + SESSION_EXPIRES_TIME)
     });
-    
+
     this.request.data.user = user;
   }
 }

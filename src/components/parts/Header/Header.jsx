@@ -19,7 +19,7 @@ const styleClass = {
 
 function Header(props) {
   let style = styleClass[props.styleClass];
-console.log(props.isAuthorized)
+
   return (
     <header className={concatClasses(style, styles.header)}>
       <div className={styles["logo-block"]}>

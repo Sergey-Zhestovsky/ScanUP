@@ -4,7 +4,8 @@ export default {
       root: "/authorization/",
       signup: "signup",
       logout: "logout",
-      login: "login"
+      login: "login",
+      getDetails: "user"
     }
   }
 }

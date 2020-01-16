@@ -78,7 +78,8 @@ class Input extends Component {
         type={this.props.type || "text"}
         value={this.props.value}
         onChange={this.changeHandler}
-        placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder}
+        disabled={this.props.disabled} />
     );
   }
 }

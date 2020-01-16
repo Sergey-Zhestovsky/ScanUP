@@ -3,16 +3,22 @@ let crypto = require("crypto"),
 
 class ServerError extends Error {
   constructor({ code, name }, source) {
+    super(name);
+
     this.code = code;
     this.name = name;
     this.source = source;
-    this.date = Date.now();
+    this.date = Date.now().toString();
 
     let hash = crypto.createHash("sha256"),
-      hashDate = hash.update(date).slice(-8),
-      hashSource = source ? `-${hash.update(source).slice(-8)}` : "";
+      hashDate = hash.update(this.date).digest("hex").slice(-8),
+      hashSource = source ? `-${hash.update(source).digest("hex").slice(-12)}` : "";
 
     this.id = `${code}-${hashDate}${hashSource}`;
+  }
+
+  static customError(name, source) {
+    return new ServerError({ code: "000", name }, source);
   }
 
   getOriginError() {
