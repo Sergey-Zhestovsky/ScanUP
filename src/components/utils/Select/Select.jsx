@@ -6,12 +6,6 @@ class Select extends Component {
 
     this.selectRef = React.createRef();
   }
-  componentDidMount() {
-    return this.changeHandler({
-      target: this.selectRef.current
-    });
-  }
-
   changeHandler = (event) => {
     return this.props.onChange(this.props.name, event.target.value);
   }
@@ -25,9 +19,11 @@ class Select extends Component {
     } = this.props;
 
     function setOptions(array) {
-      return array.map(({ key, value }) => {
-        return <option key={key} value={key}>{value}</option>
-      })
+      return [<option key={null} value="">Choose one</option>].concat(
+        array.map(
+          ({ key, value }) => <option key={key} value={key}>{value}</option>
+        )
+      );
     }
 
     return (

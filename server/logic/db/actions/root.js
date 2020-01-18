@@ -1,5 +1,11 @@
-let user = require("./user");
+let user = require("./user"),
+  transportSystem = require("./transportSystem"),
+  tsType = require("./tsType"),
+  tsReception = require("./tsReception");
 
 module.exports = {
-  user
+  user,
+  tsType,
+  transportSystem,
+  tsReception
 }

@@ -5,8 +5,11 @@ export default function formatOutput(string) {
   if (string === false)
     return "no";
 
-  if (string === undefined || string === null)
+  if (string === null)
     return "empty";
+
+  if (string === undefined)
+    return ". . .";
 
   if (string instanceof Number)
     return string.toString();

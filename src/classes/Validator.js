@@ -96,6 +96,7 @@ export default class Validator {
   validationCore(data, rule) {
     const func = {
       required,
+      length,
       maxLength,
       minLength,
       min,
@@ -103,13 +104,21 @@ export default class Validator {
       email,
       password,
       number,
-      test
+      test,
+      backTest
     };
 
     return func[rule.toString()](data, rule.value);
 
     function required(value) {
       return value !== null && value !== undefined && value !== "";
+    }
+
+    function length(data, size) {
+      if (data === null)
+        return;
+
+      return data.toString().length === size;
     }
 
     function maxLength(data, size) {
@@ -149,6 +158,10 @@ export default class Validator {
 
     function test(str, regExp) {
       return regExp.test(str);
+    }
+
+    function backTest(str, regExp) {
+      return !regExp.test(str);
     }
   }
 }

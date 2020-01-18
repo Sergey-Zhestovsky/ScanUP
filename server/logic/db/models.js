@@ -31,4 +31,4 @@ module.exports = {
   TransportSystemReception: mongoose.model('TransportSystemReception', transportSystemReception),
   TransportSystemType: mongoose.model('TransportSystemType', transportSystemType),
   User: mongoose.model('User', user),
-}
+};

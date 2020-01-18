@@ -30,5 +30,13 @@ module.exports = {
   "VALIDATION__REQUIRED_DATA": {
     "code": "008",
     "name": "Required data not received"
-  }
+  },
+  "TRANSPORT_SYSTEM_REMOVE__RECEPTIONS": {
+    "code": "009",
+    "name": "Transport system have receptions"
+  },
+  "USER_REMOVE__BLOCKED": {
+    "code": "010",
+    "name": "Cant remove user due to his privilege"
+  },
 }

@@ -17,7 +17,10 @@ class ServerError extends Error {
     this.id = `${code}-${hashDate}${hashSource}`;
   }
 
-  static customError(name, source) {
+  static customError(name, sourceError) {
+    if (sourceError instanceof ServerError)
+      return sourceError;
+
     return new ServerError({ code: "000", name }, source);
   }
 

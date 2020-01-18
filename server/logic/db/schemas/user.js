@@ -14,7 +14,10 @@ let userSchema = new Schema({
   },
   passport: {
     type: String,
-    unique: true,
+    index: {
+      unique: true,
+      partialFilterExpression: { passport: { "$type": "string" } }
+    },
     default: null
   },
   privilegeId: {

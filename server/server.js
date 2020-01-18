@@ -7,6 +7,9 @@ let express = require("express"),
 let entryRouter = require("./routes/entry"),
   indexRouter = require("./routes/index"),
   authorizationRouter = require("./routes/authorization"),
+  tsTypesRouter = require("./routes/tsTypes"),
+  transportSystemRouter = require("./routes/transportSystem"),
+  tsReceptionRouter = require("./routes/tsReception"),
   errorRouter = require("./routes/error");
 
 let app = express();
@@ -20,6 +23,9 @@ app.use("/public", express.static(__dirname + `/../public`));
 
 app.all("*", entryRouter);
 app.use("/authorization", authorizationRouter);
+app.use("/transport-system-type", tsTypesRouter);
+app.use("/transport-system", transportSystemRouter);
+app.use("/transport-system-reception", tsReceptionRouter);
 app.use("/", indexRouter);
 
 app.use(errorRouter.error);

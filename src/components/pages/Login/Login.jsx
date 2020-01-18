@@ -27,8 +27,8 @@ class Login extends Component {
     };
 
     this.validator = new Validator({
-      email: ["required"],
-      password: ["required"]
+      email: ["required", ["maxLength", 100]],
+      password: ["required", ["maxLength", 100]]
     });
   }
 

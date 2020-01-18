@@ -1,13 +1,13 @@
 import ERRORS from "../data/errors";
 
-export default function errorHandler(error) {
+export default function errorHandler(error, withMessage = true) {
   if (Array.isArray(error)) {
     return serError(error[0]);
   }
 
   if (typeof error == typeof {}) {
     for (let key in error)
-      error[key] = errorHandler(error[key]);
+      error[key] = errorHandler(error[key], withMessage);
 
     return error;
   }
@@ -18,6 +18,9 @@ export default function errorHandler(error) {
     if (!index)
       return null;
 
-    return ERRORS[index].message;
+    if (withMessage)
+      return ERRORS[index] ? ERRORS[index].message : true;
+
+    return true;
   }
 }

@@ -10,14 +10,32 @@ async function add(data) {
     let isUserExists = await isExists({ email: data.email, passport: data.passport });
 
     if (isUserExists.email)
-      return new ServerError(serverErrors.USER_REGISTRATION__EMAIL_EXISTS).reject();
-    if (isUserExists.passport)
-      return new ServerError(serverErrors.USER_REGISTRATION__PASSPORT_EXISTS).reject();
+      throw new ServerError(serverErrors.USER_REGISTRATION__EMAIL_EXISTS);
+    if (data.passport && isUserExists.passport)
+      throw new ServerError(serverErrors.USER_REGISTRATION__PASSPORT_EXISTS);
 
     responce = await user.save();
     responce = await getPublicData(responce._id);
   } catch (error) {
-    return ServerError.customError("add_user", error).reject();
+    throw ServerError.customError("add_user", error);
+  }
+
+  return responce;
+}
+
+async function removeGlobalModerator(id) {
+  let responce;
+
+  try {
+    let privilege = await schemas.Privilege.findOne({ index: "02" });
+    let user = await schemas.User.findOne({ _id: id, privilegeId: privilege._id });
+
+    if (user === null)
+      throw new ServerError(serverErrors.USER_REMOVE__BLOCKED);
+
+    responce = await schemas.User.findByIdAndRemove(id);
+  } catch (error) {
+    throw ServerError.customError("add_user", error);
   }
 
   return responce;
@@ -29,7 +47,7 @@ async function get(data) {
   try {
     user = await schemas.User.findOne(data);
   } catch (error) {
-    return ServerError.customError("get_user", error).reject();
+    throw ServerError.customError("get_user", error).reject();
   }
 
   return user;
@@ -54,7 +72,7 @@ async function isExists({ email, passport }) {
       }
     }]);
   } catch (error) {
-    return ServerError.customError("isExists_user", error).reject();
+    throw ServerError.customError("isExists_user", error).reject();
   }
 
   counter = counter[0];
@@ -73,16 +91,16 @@ async function authorize({ email, password }) {
     user = await get({ email });
 
     if (!user)
-      return new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
+      throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
 
     user = new schemas.User(user);
 
     if (user.checkPassword(password))
       return await getPublicData(user._id);
 
-    return new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
+    throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
   } catch (error) {
-    return ServerError.customError("authorize_user", error).reject();
+    throw ServerError.customError("authorize_user", error).reject();
   }
 }
 
@@ -98,9 +116,9 @@ async function getPublicData(id) {
     }]);
 
     if (user.length === 0)
-      return new ServerError(serverErrors.USER_GET__NO_USER).reject();
+      throw new ServerError(serverErrors.USER_GET__NO_USER).reject();
   } catch (error) {
-    return ServerError.customError("getPublicData_user", error).reject();
+    throw ServerError.customError("getPublicData_user", error).reject();
   }
 
   return user[0];
@@ -111,5 +129,6 @@ module.exports = {
   get,
   isExists,
   authorize,
-  getPublicData
+  getPublicData,
+  removeGlobalModerator
 };
