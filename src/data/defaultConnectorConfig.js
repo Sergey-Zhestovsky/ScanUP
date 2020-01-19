@@ -27,7 +27,15 @@ export default {
       root: "/transport-system-reception/",
       add: "add",
       addToTS: "add-to-transport-system",
+      getByTSId: "get-by-transport-system",
       getAll: "get-all"
     }
-  }
+  },
+  moderatorConnector: {
+    pathStructure: {
+      root: "/moderator/",
+      add: "add",
+      getAll: "get-all"
+    }
+  },
 }

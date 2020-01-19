@@ -16,7 +16,7 @@ class Validator {
 
         if (Array.isArray(fieldConfig) && fieldConfig.some((el) => el.rule === "required"))
           result.push(field)
-      
+
         if (fieldConfig instanceof Object)
           walkThrought(fieldConfig);
       }
@@ -133,15 +133,15 @@ class Validator {
     }
 
     function maxLength(data, size) {
-      if (data === null)
-        return;
+      if (typeof data !== typeof "")
+        return false;
 
       return data.toString().length <= size;
     }
 
     function minLength(data, size) {
-      if (data === null)
-        return;
+      if (typeof data !== typeof "")
+        return false;
 
       return data.toString().length >= size;
     }

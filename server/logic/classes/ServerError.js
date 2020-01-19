@@ -12,7 +12,16 @@ class ServerError extends Error {
 
     let hash = crypto.createHash("sha256"),
       hashDate = hash.update(this.date).digest("hex").slice(-8),
-      hashSource = source ? `-${hash.update(source).digest("hex").slice(-12)}` : "";
+      hashSource = "";
+
+    if (source) {
+      let hash = crypto.createHash("sha256");
+
+      source = typeof source === typeof {}
+        ? JSON.stringify(source)
+        : source.toString();
+      hashSource = "-" + hash.update(source).digest("hex").slice(-12);
+    }
 
     this.id = `${code}-${hashDate}${hashSource}`;
   }
@@ -21,7 +30,7 @@ class ServerError extends Error {
     if (sourceError instanceof ServerError)
       return sourceError;
 
-    return new ServerError({ code: "000", name }, source);
+    return new ServerError({ code: "000", name }, sourceError);
   }
 
   getOriginError() {

@@ -47,7 +47,7 @@ async function get(data) {
   try {
     user = await schemas.User.findOne(data);
   } catch (error) {
-    throw ServerError.customError("get_user", error).reject();
+    throw ServerError.customError("get_user", error);
   }
 
   return user;
@@ -124,11 +124,84 @@ async function getPublicData(id) {
   return user[0];
 }
 
+async function getModerator(query = {}) {
+  let result;
+
+  try {
+    let privilege = await schemas.Privilege.findOne({ index: "03" });
+
+    result = await schemas.User.aggregate([{
+      $match: {
+        ...query,
+        privilegeId: privilege._id
+      }
+    }, {
+      $project: { "salt": 0, "userPassword": 0 }
+    }, {
+      $lookup: {
+        from: "transportsystemreceptions",
+        localField: "transportSystemReceptionId",
+        foreignField: "_id",
+        as: "transportSystemReception"
+      }
+    }, {
+      $unwind: {
+        path: "$transportSystemReception",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $project: { "transportSystemReceptionId": 0 }
+    }, {
+      $lookup: {
+        from: "transportsystems",
+        localField: "transportSystemReception.transportSystemId",
+        foreignField: "_id",
+        as: "transportSystem"
+      }
+    }, {
+      $unwind: {
+        path: "$transportSystem",
+        preserveNullAndEmptyArrays: true
+      }
+    }]);
+  } catch (error) {
+    throw ServerError.customError("getAllModerators_user", error);
+  }
+
+  return result;
+}
+
+async function getAllModerators() {
+  return await getModerator();
+}
+
+async function addModerator(data) {
+  let result;
+
+  try {
+    let privilege = await schemas.Privilege.findOne({ index: "03" });
+    let user = new schemas.User({
+      name: "Moderator",
+      privilegeId: privilege._id,
+      ...data
+    });
+
+    result = await user.save();
+    result = (await getModerator({ _id: new mongoose.Types.ObjectId(result._id) }))[0];
+  } catch (error) {
+    throw ServerError.customError("addModerator_user", error);
+  }
+
+  return result;
+}
+
 module.exports = {
   add,
   get,
   isExists,
   authorize,
   getPublicData,
-  removeGlobalModerator
+  removeGlobalModerator,
+  getAllModerators,
+  addModerator
 };

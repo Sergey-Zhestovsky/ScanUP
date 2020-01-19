@@ -19,6 +19,9 @@ class Select extends Component {
     } = this.props;
 
     function setOptions(array) {
+      if (!array)
+        return null;
+
       return [<option key={null} value="">Choose one</option>].concat(
         array.map(
           ({ key, value }) => <option key={key} value={key}>{value}</option>

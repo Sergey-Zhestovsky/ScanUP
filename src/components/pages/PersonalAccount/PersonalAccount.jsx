@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import Menu from "./parts/Menu/Menu";
 import { HEADER_STYLE } from "../../parts/Header/Header";
@@ -18,22 +18,19 @@ export const pageConfig = {
 };
 
 function PersonalAccount(props) {
-  let relPath = props.match.path,
-    account = accounts[getPrivilege(props.privilege).index],
-    routes = generateRoutes(account.menu, relPath);
+  let currentPrivilege = getPrivilege(props.privilege),
+    match = props.match;
 
-  function generateRoutes(list, relPath) {
-    let res = [];
+  if (currentPrivilege === null)
+    return <Redirect to="/" />
 
-    for (let key in list) {
-      let el = list[key];
+  let account = accounts[currentPrivilege.index];
 
-      res.push(<Route key={res.length}
-        path={`${relPath}${el.link}`} component={el.Component} />)
-    }
+  if (match.isExact)
+    return <Redirect to={match.path + account.menu[0].link} />
 
-    return res;
-  }
+  let routes = account.menu.map((el, i) => <Route key={i}
+    path={`${match.path}${el.link}`} component={el.Component} />);
 
   return (
     <React.Fragment>
@@ -54,4 +51,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)
-  (withAuthentication(withRouter(PersonalAccount)));
+  (withAuthentication(withRouter(PersonalAccount), { redirect: "/login" }));

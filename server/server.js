@@ -10,6 +10,7 @@ let entryRouter = require("./routes/entry"),
   tsTypesRouter = require("./routes/tsTypes"),
   transportSystemRouter = require("./routes/transportSystem"),
   tsReceptionRouter = require("./routes/tsReception"),
+  moderatorRouter = require("./routes/moderator"),
   errorRouter = require("./routes/error");
 
 let app = express();
@@ -26,6 +27,7 @@ app.use("/authorization", authorizationRouter);
 app.use("/transport-system-type", tsTypesRouter);
 app.use("/transport-system", transportSystemRouter);
 app.use("/transport-system-reception", tsReceptionRouter);
+app.use("/moderator", moderatorRouter);
 app.use("/", indexRouter);
 
 app.use(errorRouter.error);

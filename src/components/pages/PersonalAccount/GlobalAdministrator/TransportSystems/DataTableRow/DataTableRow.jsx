@@ -3,11 +3,7 @@ import React from "react";
 import { TABLE_STYLES } from "../../../parts/DataTable/DataTable";
 import { ButtonsGroup, Button } from "../../../parts/DataTable/DataTable";
 import { BUTTON_STYLE } from "../../../../../utils/Button/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
-import concatClasses from "../../../../../../modules/concatClasses";
-
-import styles from "../transportSystems.module.less";
+import CheckState from "../../../../../utils/CheckState/CheckState";
 
 export default function DataTableRow(props) {
   let {
@@ -25,15 +21,7 @@ export default function DataTableRow(props) {
       <td>{object.type.name}</td>
       <td>{object.receptions}</td>
       <td className={TABLE_STYLES.CENTER}>
-        {
-          object.selfControl
-            ? <FontAwesomeIcon
-              className={concatClasses(styles["check-icon"], styles["check"])}
-              icon={faCheckCircle} />
-            : <FontAwesomeIcon
-              className={concatClasses(styles["check-icon"], styles["times"])}
-              icon={faTimesCircle} />
-        }
+        <CheckState checked={object.selfControl} />
       </td>
       <td className={TABLE_STYLES.FIT}>
         <ButtonsGroup>

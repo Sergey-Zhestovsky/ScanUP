@@ -3,24 +3,23 @@ let express = require("express"),
   serverAnswer = require("../logic/modules/serverAnswer"),
   dbAPI = require("../logic/db/API"),
   Validator = require("../logic/classes/Validator"),
-  addTSReceptionVconf = require("../logic/data/validationConfigs/addTSReception");
-getTSReceptionByIdVconf = require("../logic/data/validationConfigs/getTSReceptionById");
+  addModeratorVconf = require("../logic/data/validationConfigs/addModerator");
 
-let addTSReceptionValidator = new Validator(addTSReceptionVconf);
-let getTSReceptionByIdValidator = new Validator(getTSReceptionByIdVconf);
+let addModeratorValidator = new Validator(addModeratorVconf);
 
 router.all('*', function (req, res, next) {
   return next();
 });
 
 router.post('/add', function (req, res, next) {
+
   let data = req.body,
-    isValid = addTSReceptionValidator.validate(data);
+    isValid = addModeratorValidator.validate(data);
 
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.tsReception.add(data)
+  dbAPI.user.addModerator(data)
     .then((answer) => {
       return res.send(serverAnswer(null, answer));
     })
@@ -29,14 +28,8 @@ router.post('/add', function (req, res, next) {
     });
 });
 
-router.post('/get-by-transport-system', function (req, res, next) {
-  let data = req.body,
-    isValid = getTSReceptionByIdValidator.validate(data);
-
-  if (isValid !== true)
-    return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
-
-  dbAPI.tsReception.getFreeReceptionsByTSId(data)
+router.post('/get-all', function (req, res, next) {
+  dbAPI.user.getAllModerators()
     .then((answer) => {
       return res.send(serverAnswer(null, answer));
     })

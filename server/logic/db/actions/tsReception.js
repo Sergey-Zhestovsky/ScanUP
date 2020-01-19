@@ -31,6 +31,30 @@ async function add(data) {
   return responce;
 }
 
+async function getFreeReceptionsByTSId({ id }) {
+  try {
+    return await schemas.TransportSystemReception.aggregate([{
+      $match: { transportSystemId: new mongoose.Types.ObjectId(id) }
+    }, {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "transportSystemReceptionId",
+        as: "moderator"
+      }
+    }, {
+      $addFields: {
+        moderator: { $size: "$moderator" }
+      }
+    }, {
+      $match: { moderator: 0 }
+    }]);
+  } catch (error) {
+    throw ServerError.customError("getByTSId_tsReception", error);
+  }
+}
+
 module.exports = {
-  add
+  add,
+  getFreeReceptionsByTSId
 };
