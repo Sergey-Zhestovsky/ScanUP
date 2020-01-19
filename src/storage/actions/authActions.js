@@ -59,6 +59,11 @@ export function login(user) {
 
 export function getUserDetail() {
   return (dispatch, getState, { authConnector }) => {
+    let state = getState();
+
+    if (!state.auth.isAuthorized)
+      return;
+
     authConnector.getDetails()
       .then(details => {
         dispatch({

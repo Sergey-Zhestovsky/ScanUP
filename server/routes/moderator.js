@@ -21,6 +21,7 @@ router.post('/add', function (req, res, next) {
 
   dbAPI.user.addModerator(data)
     .then((answer) => {
+      console.log(answer)
       return res.send(serverAnswer(null, answer));
     })
     .catch((error) => {
@@ -28,14 +29,32 @@ router.post('/add', function (req, res, next) {
     });
 });
 
-router.post('/get-all', function (req, res, next) {
-  dbAPI.user.getAllModerators()
-    .then((answer) => {
-      return res.send(serverAnswer(null, answer));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+router.post('/get-all', async function (req, res, next) {
+  let user = req.data.user.getUser();
+
+  try {
+    let privilegeIndex = (await dbAPI.user.getPrivilegeById(user.privilege)).index;
+
+    switch (privilegeIndex) {
+      case "01": return globalAdministratorAction();
+      case "02": return globalModeratorAction();
+      default: return res.send(serverAnswer(serverAnswer.ERRORS.PRIVILEGE__BLOCKED));
+    }
+  } catch (error) {
+    return res.send(serverAnswer(error));
+  }
+
+  function globalModeratorAction() {
+    dbAPI.user.getAllModeratorsByGlobalModerator(user.id)
+      .then(answer => res.send(serverAnswer(null, answer)))
+      .catch(error => res.send(serverAnswer(error)));
+  }
+
+  function globalAdministratorAction() {
+    dbAPI.user.getAllModerators()
+      .then(answer => res.send(serverAnswer(null, answer)))
+      .catch(error => res.send(serverAnswer(error)));
+  }
 });
 
 module.exports = router;

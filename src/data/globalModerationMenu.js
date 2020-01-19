@@ -1,5 +1,6 @@
 import { faConciergeBell, faUsers, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import Receptions from "../components/pages/PersonalAccount/GlobalModerator/Receptions/Receptions";
+import Moderators from "../components/pages/PersonalAccount/GlobalModerator/Moderators/Moderators";
 
 export default [{
   name: "Receptions",
@@ -10,7 +11,7 @@ export default [{
   name: "Moderators",
   link: "/moderators",
   icon: faUsers,
-  Component: () => (2)
+  Component: Moderators
 }, {
   name: "Complaints",
   link: "/complaints",

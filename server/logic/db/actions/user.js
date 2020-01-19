@@ -120,7 +120,7 @@ async function getPublicData(id) {
     user = await schemas.User.aggregate([{
       $match: { _id: new mongoose.Types.ObjectId(id) }
     }, {
-      $project: { _id: 0, id: "$_id", name: 1, email: 1, privilege: "$privilegeId" }
+      $project: { "salt": 0, "userPassword": 0 }
     }]);
 
     if (user.length === 0)
@@ -132,7 +132,7 @@ async function getPublicData(id) {
   return user[0];
 }
 
-async function getModerator(query = {}) {
+async function getModerator(query = {}, filters = []) {
   let result;
 
   try {
@@ -171,7 +171,8 @@ async function getModerator(query = {}) {
         path: "$transportSystem",
         preserveNullAndEmptyArrays: true
       }
-    }]);
+    },
+    ...filters]);
   } catch (error) {
     throw ServerError.customError("getAllModerators_user", error);
   }
@@ -181,6 +182,12 @@ async function getModerator(query = {}) {
 
 async function getAllModerators() {
   return await getModerator();
+}
+
+async function getAllModeratorsByGlobalModerator(id) {
+  return await getModerator({}, [{
+    $match: { "transportSystem.adminId": new mongoose.Types.ObjectId(id) }
+  }]);
 }
 
 async function addModerator(data) {
@@ -211,5 +218,6 @@ module.exports = {
   getPublicData,
   removeGlobalModerator,
   getAllModerators,
+  getAllModeratorsByGlobalModerator,
   addModerator
 };

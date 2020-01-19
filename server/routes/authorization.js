@@ -8,18 +8,6 @@ let express = require("express"),
 
 let authValidator = new Validator(authValidationConfig);
 
-router.all('*', function (req, res, next) {
-  return next();
-});
-
-router.post('/logout', function (req, res, next) {
-  let auth = new Authorization({ request: req, response: res });
-
-  auth.logout();
-
-  return res.send(serverAnswer(null, true));
-});
-
 router.post('/login', function (req, res, next) {
   let user = req.body,
     isValid = authValidator.validate(user);
@@ -31,13 +19,31 @@ router.post('/login', function (req, res, next) {
     .then((user) => {
       let auth = new Authorization({ request: req, response: res });
 
-      auth.login(user);
+      auth.login({
+        id: user._id,
+        privilege: user.privilegeId
+      });
 
       return res.send(serverAnswer(null, user));
     })
     .catch((error) => {
       return res.send(serverAnswer(error));
     });
+});
+
+router.all('*', function (req, res, next) {
+  if (!req.data.user)
+    return res.send(serverAnswer(serverAnswer.ERRORS.PRIVILEGE__BLOCKED));
+
+  return next();
+});
+
+router.post('/logout', function (req, res, next) {
+  let auth = new Authorization({ request: req, response: res });
+
+  auth.logout();
+
+  return res.send(serverAnswer(null, true));
 });
 
 router.post('/user', function (req, res, next) {

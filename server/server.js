@@ -2,6 +2,8 @@ let express = require("express"),
   bodyParser = require("body-parser"),
   path = require("path"),
   cookieParser = require("cookie-parser"),
+  morgan = require("morgan"),
+  colors = require("colors"),
   port = process.env.PORT || 3001;
 
 let entryRouter = require("./routes/entry"),
@@ -14,6 +16,10 @@ let entryRouter = require("./routes/entry"),
   errorRouter = require("./routes/error");
 
 let app = express();
+
+app.use(morgan(":url".cyan + " :res[content-length] - " + ":response-time ms".brightRed, {
+  skip: function (req, res) { return req.method !== "POST" }
+}))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
