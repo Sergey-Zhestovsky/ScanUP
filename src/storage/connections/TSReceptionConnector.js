@@ -8,7 +8,7 @@ export default class TSReception extends Connector {
       root: pathStructure.root = "",
       add: pathStructure.add = "",
       addToTS: pathStructure.addToTS = "",
-      getByTSId: pathStructure.getByTSId = "",
+      getEmpty: pathStructure.getEmpty = "",
       getAll: pathStructure.getAll = ""
     } = pathStructure);
 
@@ -27,10 +27,10 @@ export default class TSReception extends Connector {
     return super.straightRequest(path.root + path.addToTS, data);
   }
 
-  getByTSId(data) {
+  getEmpty(data) {
     let path = this.pathStructure;
 
-    return super.straightRequest(path.root + path.getByTSId, data);
+    return super.straightRequest(path.root + path.getEmpty, data);
   }
 
   getAll() {

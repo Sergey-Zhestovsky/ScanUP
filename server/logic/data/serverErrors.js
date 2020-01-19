@@ -39,4 +39,8 @@ module.exports = {
     "code": "010",
     "name": "Cant remove user due to his privilege"
   },
+  "PRIVILEGE__BLOCKED": {
+    "code": "011",
+    "name": "Not enough privileges"
+  },
 }

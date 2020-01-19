@@ -53,6 +53,14 @@ async function get(data) {
   return user;
 }
 
+async function getPrivilegeById(id) {
+  try {
+    return await schemas.Privilege.findById(id);
+  } catch (error) {
+    throw ServerError.customError("getPrivilegeById_user", error);
+  }
+}
+
 async function isExists({ email, passport }) {
   let counter;
 
@@ -180,14 +188,13 @@ async function addModerator(data) {
 
   try {
     let privilege = await schemas.Privilege.findOne({ index: "03" });
-    let user = new schemas.User({
+    let user = await add({
       name: "Moderator",
       privilegeId: privilege._id,
       ...data
     });
 
-    result = await user.save();
-    result = (await getModerator({ _id: new mongoose.Types.ObjectId(result._id) }))[0];
+    result = (await getModerator({ _id: new mongoose.Types.ObjectId(user._id) }))[0];
   } catch (error) {
     throw ServerError.customError("addModerator_user", error);
   }
@@ -198,6 +205,7 @@ async function addModerator(data) {
 module.exports = {
   add,
   get,
+  getPrivilegeById,
   isExists,
   authorize,
   getPublicData,

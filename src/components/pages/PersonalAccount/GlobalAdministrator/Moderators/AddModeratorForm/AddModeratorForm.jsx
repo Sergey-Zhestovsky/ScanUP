@@ -63,7 +63,7 @@ export default class AddTransportSystemForm extends Component {
     });
 
     if (tsId) {
-      tsReceptionConnector.getByTSId({ id: tsId })
+      tsReceptionConnector.getEmpty({ id: tsId })
         .then(
           answer => this.setState({
             transportSystemReceptions: {

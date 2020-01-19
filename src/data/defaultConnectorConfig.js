@@ -27,7 +27,8 @@ export default {
       root: "/transport-system-reception/",
       add: "add",
       addToTS: "add-to-transport-system",
-      getByTSId: "get-by-transport-system",
+
+      getEmpty: "get-empty",
       getAll: "get-all"
     }
   },
