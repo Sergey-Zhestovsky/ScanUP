@@ -1,65 +1,7 @@
 let mongoose = require("../connect"),
   schemas = require("../models"),
+  privilegeActions = require("./privilege"),
   { ServerError, serverErrors } = require("../../classes/ServerError");
-
-async function add(data) {
-  let user = new schemas.User(data),
-    responce;
-
-  try {
-    let isUserExists = await isExists({ email: data.email, passport: data.passport });
-
-    if (isUserExists.email)
-      throw new ServerError(serverErrors.USER_REGISTRATION__EMAIL_EXISTS);
-    if (data.passport && isUserExists.passport)
-      throw new ServerError(serverErrors.USER_REGISTRATION__PASSPORT_EXISTS);
-
-    responce = await user.save();
-    responce = await getPublicData(responce._id);
-  } catch (error) {
-    throw ServerError.customError("add_user", error);
-  }
-
-  return responce;
-}
-
-async function removeGlobalModerator(id) {
-  let responce;
-
-  try {
-    let privilege = await schemas.Privilege.findOne({ index: "02" });
-    let user = await schemas.User.findOne({ _id: id, privilegeId: privilege._id });
-
-    if (user === null)
-      throw new ServerError(serverErrors.USER_REMOVE__BLOCKED);
-
-    responce = await schemas.User.findByIdAndRemove(id);
-  } catch (error) {
-    throw ServerError.customError("add_user", error);
-  }
-
-  return responce;
-}
-
-async function get(data) {
-  let user;
-
-  try {
-    user = await schemas.User.findOne(data);
-  } catch (error) {
-    throw ServerError.customError("get_user", error);
-  }
-
-  return user;
-}
-
-async function getPrivilegeById(id) {
-  try {
-    return await schemas.Privilege.findById(id);
-  } catch (error) {
-    throw ServerError.customError("getPrivilegeById_user", error);
-  }
-}
 
 async function isExists({ email, passport }) {
   let counter;
@@ -96,7 +38,7 @@ async function authorize({ email, password }) {
   let user;
 
   try {
-    user = await get({ email });
+    user = await getOne({ email });
 
     if (!user)
       throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
@@ -104,7 +46,7 @@ async function authorize({ email, password }) {
     user = new schemas.User(user);
 
     if (user.checkPassword(password))
-      return await getPublicData(user._id);
+      return await getOnePublicDataById(user._id);
 
     throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
   } catch (error) {
@@ -112,40 +54,94 @@ async function authorize({ email, password }) {
   }
 }
 
-async function getPublicData(id) {
-  let user;
+async function add(data) {
+  let user = new schemas.User(data),
+    responce;
 
   try {
+    let isUserExists = await isExists({ email: data.email, passport: data.passport });
 
-    user = await schemas.User.aggregate([{
-      $match: { _id: new mongoose.Types.ObjectId(id) }
-    }, {
-      $project: { "salt": 0, "userPassword": 0 }
-    }]);
+    if (isUserExists.email)
+      throw new ServerError(serverErrors.USER_REGISTRATION__EMAIL_EXISTS);
+    if (data.passport && isUserExists.passport)
+      throw new ServerError(serverErrors.USER_REGISTRATION__PASSPORT_EXISTS);
 
-    if (user.length === 0)
-      throw new ServerError(serverErrors.USER_GET__NO_USER).reject();
+    responce = await user.save();
+    responce = await getOnePublicDataById(responce._id);
   } catch (error) {
-    throw ServerError.customError("getPublicData_user", error).reject();
+    throw ServerError.customError("add_user", error);
   }
 
-  return user[0];
+  return responce;
 }
 
-async function getModerator(query = {}, filters = []) {
-  let result;
+async function addModerator(data) {
+  try {
+    let privilege = await privilegeActions.getPrivilegeByIndex("03");
+    let user = await add({
+      name: "Moderator",
+      privilegeId: privilege._id,
+      ...data
+    });
+
+    return await getModeratorById(user._id);
+  } catch (error) {
+    throw ServerError.customError("addModerator_user", error);
+  }
+}
+
+async function get(query = {}, filter = []) {
+  query = query instanceof Object ? query : {};
+  filter = filter instanceof Array ? filter : [filter];
 
   try {
-    let privilege = await schemas.Privilege.findOne({ index: "03" });
+    return await schemas.User.aggregate([{
+      $match: query
+    },
+    ...filter]);
+  } catch (error) {
+    throw ServerError.customError("get_user", error);
+  }
+}
 
-    result = await schemas.User.aggregate([{
-      $match: {
-        ...query,
-        privilegeId: privilege._id
-      }
-    }, {
-      $project: { "salt": 0, "userPassword": 0 }
-    }, {
+async function getOne(query, filter) {
+  return (await get(query, filter))[0] || null;
+}
+
+async function getPublicData(query, filter = []) {
+  filter = filter instanceof Array ? filter : [filter];
+
+  let publicFilter = {
+    $project: { "salt": 0, "userPassword": 0 }
+  },
+    user = await get(query, [publicFilter, ...filter]);
+
+  if (user.length === 0)
+    throw new ServerError(serverErrors.USER_GET__NO_USER);
+
+  return user;
+}
+
+async function getOnePublicData(query, filter) {
+  return (await getPublicData(query, filter))[0] || null;
+}
+
+async function getOnePublicDataById(id) {
+  return await getOnePublicData({
+    _id: new mongoose.Types.ObjectId(id)
+  });
+}
+
+async function getModerators(query = {}, filter = []) {
+  query = query instanceof Object ? query : {};
+  filter = filter instanceof Array ? filter : [filter];
+
+  let privilege = await privilegeActions.getPrivilegeByIndex("03"),
+    newQuery = {
+      ...query,
+      privilegeId: privilege._id
+    },
+    newFilter = [{
       $lookup: {
         from: "transportsystemreceptions",
         localField: "transportSystemReceptionId",
@@ -171,53 +167,109 @@ async function getModerator(query = {}, filters = []) {
         path: "$transportSystem",
         preserveNullAndEmptyArrays: true
       }
-    },
-    ...filters]);
-  } catch (error) {
-    throw ServerError.customError("getAllModerators_user", error);
-  }
+    }, ...filter];
 
-  return result;
+  return await getPublicData(newQuery, newFilter);
 }
 
-async function getAllModerators() {
-  return await getModerator();
+async function getModerator(query, filter) {
+  return (await getModerators(query, filter))[0] || null;
 }
 
-async function getAllModeratorsByGlobalModerator(id) {
-  return await getModerator({}, [{
+async function getModeratorById(id) {
+  return await getModerator({
+    _id: new mongoose.Types.ObjectId(id)
+  });
+}
+
+async function getModeratorsByGlobalModeratorId(id) {
+  return await getModerators(null, [{
     $match: { "transportSystem.adminId": new mongoose.Types.ObjectId(id) }
   }]);
 }
 
-async function addModerator(data) {
-  let result;
+async function getGlobalModerators(query = {}, filter = []) {
+  query = query instanceof Object ? query : {};
+  filter = filter instanceof Array ? filter : [filter];
+
+  let privilege = await privilegeActions.getPrivilegeByIndex("02"),
+    newQuery = {
+      ...query,
+      privilegeId: privilege._id
+    },
+    newFilter = [{
+      $lookup: {
+        from: "transportsystems",
+        localField: "_id",
+        foreignField: "adminId",
+        as: "transportSystem"
+      }
+    }, {
+      $unwind: {
+        path: "$transportSystem",
+        preserveNullAndEmptyArrays: true
+      }
+    }, ...filter];
+
+  return await getPublicData(newQuery, newFilter);
+}
+
+async function getGlobalModerator(query, filter) {
+  return (await getGlobalModerators(query, filter))[0] || null;
+}
+
+async function getGlobalModeratorById(id) {
+  return await getGlobalModerator({
+    _id: new mongoose.Types.ObjectId(id)
+  });
+}
+
+async function getUserPublicDataByPrivilegeId(userId, privilegeId) {
+  let privilege = (await privilegeActions.getPrivilegeById(privilegeId)) || {};
+
+  switch (privilege.index) {
+    case "02": return await getGlobalModeratorById(userId)
+    case "03": return await getModeratorById(userId)
+    case "04": return await getOnePublicDataById(userId)
+    default: throw new ServerError(serverErrors.PRIVILEGE__BLOCKED);
+  }
+}
+
+async function removeGlobalModerator(id) {
+  let responce;
 
   try {
-    let privilege = await schemas.Privilege.findOne({ index: "03" });
-    let user = await add({
-      name: "Moderator",
-      privilegeId: privilege._id,
-      ...data
-    });
+    let privilege = await privilegeActions.getPrivilegeByIndex("02"),
+      user = await schemas.User.findOne({ _id: id, privilegeId: privilege._id });
 
-    result = (await getModerator({ _id: new mongoose.Types.ObjectId(user._id) }))[0];
+    if (user === null)
+      throw new ServerError(serverErrors.USER_REMOVE__BLOCKED);
+
+    responce = await schemas.User.findByIdAndRemove(id);
   } catch (error) {
-    throw ServerError.customError("addModerator_user", error);
+    throw ServerError.customError("removeGlobalModerator_user", error);
   }
 
-  return result;
+  return responce;
 }
 
 module.exports = {
-  add,
-  get,
-  getPrivilegeById,
   isExists,
   authorize,
+  add,
+  addModerator,
+  get,
+  getOne,
   getPublicData,
+  getOnePublicData,
+  getOnePublicDataById,
+  getModerators,
+  getModerator,
+  getModeratorById,
+  getModeratorsByGlobalModeratorId,
+  getGlobalModerators,
+  getGlobalModerator,
+  getGlobalModeratorById,
+  getUserPublicDataByPrivilegeId,
   removeGlobalModerator,
-  getAllModerators,
-  getAllModeratorsByGlobalModerator,
-  addModerator
 };

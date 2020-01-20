@@ -2,6 +2,7 @@ let express = require("express"),
   router = express.Router(),
   serverAnswer = require("../logic/modules/serverAnswer"),
   dbAPI = require("../logic/db/API"),
+  PrivilegeController = require("../logic/classes/PrivilegeController"),
   Validator = require("../logic/classes/Validator"),
   addTSReceptionVconf = require("../logic/data/validationConfigs/addTSReception"),
   getTSReceptionByIdVconf = require("../logic/data/validationConfigs/getTSReceptionById");
@@ -19,7 +20,7 @@ router.post('/add', async function (req, res, next) {
     user = req.data.user.getUser();
 
   try {
-    let privilegeIndex = (await dbAPI.user.getPrivilegeById(user.privilege)).index;
+    let privilegeIndex = (await dbAPI.privilege.getPrivilegeById(user.privilege)).index;
 
     switch (privilegeIndex) {
       case "01": return globalAdministratorAction(data);
@@ -65,54 +66,38 @@ router.post('/get-empty', async function (req, res, next) {
   let data = req.body,
     user = req.data.user.getUser();
 
-  try {
-    let privilegeIndex = (await dbAPI.user.getPrivilegeById(user.privilege)).index;
-
-    switch (privilegeIndex) {
-      case "01": return globalAdministratorAction(data);
-      case "02": return globalModeratorAction();
-      default: return res.send(serverAnswer(serverAnswer.ERRORS.PRIVILEGE__BLOCKED));
-    }
-  } catch (error) {
-    return res.send(serverAnswer(error));
-  }
+  return PrivilegeController.switch(user.privilege, {
+    "01": globalAdministratorAction,
+    "02": globalModeratorAction
+  }, res)
 
   function globalModeratorAction() {
-    dbAPI.tsReception.getFreeReceptionsByGlobalModeratorId(user.id, true)
-      .then((answer) => {
-        return res.send(serverAnswer(null, answer));
-      })
-      .catch((error) => {
-        return res.send(serverAnswer(error));
-      });
+    return serverAnswer.default(
+      dbAPI.tsReception.getFreeReceptionsByGlobalModeratorId(user.id),
+      res
+    );
   }
 
-  function globalAdministratorAction(data) {
+  function globalAdministratorAction() {
     let isValid = getTSReceptionByIdValidator.validate(data);
 
     if (isValid !== true)
       return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-    dbAPI.tsReception.getFreeReceptionsByTSId(data)
-      .then((answer) => {
-        return res.send(serverAnswer(null, answer));
-      })
-      .catch((error) => {
-        return res.send(serverAnswer(error));
-      });
+    return serverAnswer.default(
+      dbAPI.tsReception.getFreeReceptionsByTSId(data.id),
+      res
+    );
   }
 });
 
 router.post('/get-all', function (req, res, next) {
   let user = req.data.user.getUser();
 
-  dbAPI.tsReception.getFreeReceptionsByGlobalModeratorId(user.id)
-    .then((answer) => {
-      return res.send(serverAnswer(null, answer));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+  return serverAnswer.default(
+    dbAPI.tsReception.getReceptionsByGlobalModeratorId(user.id),
+    res
+  );
 });
 
 module.exports = router;

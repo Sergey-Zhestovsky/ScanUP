@@ -10,7 +10,7 @@ async function add(data) {
     do {
       uKey = keyGenerator();
       scanner = await schemas.Scanner.findOne({ uId: uKey });
-    } while (scanner)
+    } while (scanner);
 
     scanner = new schemas.Scanner({ uId: uKey });
     scanner = await scanner.save();
@@ -75,82 +75,97 @@ async function addByGlobalModeratorId(data, id) {
   }
 }
 
-async function getFreeReceptionsByTSId({ id }) {
+async function get(query = {}, filter = []) {
+  query = query instanceof Object ? query : {};
+  filter = filter instanceof Array ? filter : [filter];
+
   try {
     return await schemas.TransportSystemReception.aggregate([{
-      $match: { transportSystemId: new mongoose.Types.ObjectId(id) }
-    }, {
-      $lookup: {
-        from: "users",
-        localField: "_id",
-        foreignField: "transportSystemReceptionId",
-        as: "moderator"
-      }
-    }, {
-      $addFields: {
-        moderator: { $size: "$moderator" }
-      }
-    }, {
-      $match: { moderator: 0 }
-    }]);
+      $match: query
+    },
+    ...filter]);
   } catch (error) {
-    throw ServerError.customError("getByTSId_tsReception", error);
+    throw ServerError.customError("get_tsReception", error);
   }
 }
 
-async function getFreeReceptionsByGlobalModeratorId(id, withoutModerator = false) {
+async function getOne(query, filter) {
+  return (await get(query, filter))[0] || null;
+}
+
+async function getComplete(query, filter = []) {
+  filter = filter instanceof Array ? filter : [filter];
+
+  let newFilter = [{
+    $lookup: {
+      from: "users",
+      localField: "_id",
+      foreignField: "transportSystemReceptionId",
+      as: "moderator"
+    }
+  }, {
+    $unwind: {
+      path: "$moderator",
+      preserveNullAndEmptyArrays: true
+    }
+  }, {
+    $project: { "moderator.salt": 0, "moderator.userPassword": 0 }
+  }, {
+    $lookup: {
+      from: "scanners",
+      localField: "scannerId",
+      foreignField: "_id",
+      as: "scanner"
+    }
+  }, {
+    $unwind: {
+      path: "$scanner",
+      preserveNullAndEmptyArrays: true
+    }
+  }, ...filter];
+
+  return await get(query, newFilter);
+}
+
+async function getFreeReceptions(query, filter = []) {
+  filter = filter instanceof Array ? filter : [filter];
+
+  let newFilter = [{
+    $match: { moderator: { $exists: false } }
+  }, ...filter];
+
+  return await getComplete(query, newFilter);
+}
+
+async function getFreeReceptionsByTSId(id) {
+  let query = {
+    transportSystemId: new mongoose.Types.ObjectId(id)
+  };
+
+  return await getFreeReceptions(query);
+}
+
+async function getReceptionsByGlobalModeratorId(id) {
   try {
     let transportSystemId = (await schemas.TransportSystem.findOne({
       adminId: id
     }))._id;
 
-    if (!withoutModerator)
-      return await schemas.TransportSystemReception.aggregate([{
-        $match: { transportSystemId }
-      }, {
-        $lookup: {
-          from: "users",
-          localField: "_id",
-          foreignField: "transportSystemReceptionId",
-          as: "moderator"
-        }
-      }, {
-        $unwind: {
-          path: "$moderator",
-          preserveNullAndEmptyArrays: true
-        }
-      }, {
-        $project: { "moderator.salt": 0, "moderator.userPassword": 0 }
-      }, {
-        $lookup: {
-          from: "scanners",
-          localField: "scannerId",
-          foreignField: "_id",
-          as: "scanner"
-        }
-      }, {
-        $unwind: {
-          path: "$scanner",
-          preserveNullAndEmptyArrays: true
-        }
-      }]);
+    return await getComplete({
+      transportSystemId: new mongoose.Types.ObjectId(transportSystemId)
+    });
+  } catch (error) {
+    throw ServerError.customError("getReceptionsByGlobalModeratorId_tsReception", error);
+  }
+}
 
-    return await schemas.TransportSystemReception.aggregate([{
-      $match: { transportSystemId }
-    }, {
-      $lookup: {
-        from: "users",
-        localField: "_id",
-        foreignField: "transportSystemReceptionId",
-        as: "moderator"
-      }
-    }, {
-      $addFields: {
-        moderator: { $size: "$moderator" }
-      }
-    }, {
-      $match: { moderator: 0 }
-    }]);
+async function getFreeReceptionsByGlobalModeratorId(id) {
+  try {
+    let transportSystemId = (await schemas.TransportSystem.findOne({
+      adminId: id
+    }))._id;
+
+    return await getFreeReceptionsByTSId(transportSystemId);
   } catch (error) {
     throw ServerError.customError("getFreeReceptionsByGlobalModeratorId_tsReception", error);
   }
@@ -159,6 +174,11 @@ async function getFreeReceptionsByGlobalModeratorId(id, withoutModerator = false
 module.exports = {
   add,
   addByGlobalModeratorId,
+  get,
+  getOne,
+  getComplete,
+  getFreeReceptions,
   getFreeReceptionsByTSId,
-  getFreeReceptionsByGlobalModeratorId
+  getReceptionsByGlobalModeratorId,
+  getFreeReceptionsByGlobalModeratorId,
 };

@@ -16,6 +16,12 @@ function serverAnswer(error, result) {
   return { error: null, result };
 }
 
+serverAnswer.default = function (promise, response) {
+  promise
+    .then(answer => response.send(serverAnswer(null, answer)))
+    .catch(error => response.send(serverAnswer(error)));
+};
+
 serverAnswer.ERRORS = ERRORS;
 
 module.exports = serverAnswer;

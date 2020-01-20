@@ -49,7 +49,7 @@ router.post('/logout', function (req, res, next) {
 router.post('/user', function (req, res, next) {
   let userId = req.data.user.getUser().id;
 
-  dbAPI.user.getPublicData(userId)
+  dbAPI.user.getOnePublicDataById(userId)
     .then((user) => {
       return res.send(serverAnswer(null, user));
     })
