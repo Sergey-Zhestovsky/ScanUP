@@ -37,13 +37,10 @@ router.post('/add', async function (req, res, next) {
     if (isValid !== true)
       return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-    dbAPI.tsReception.addByGlobalModeratorId(data, user.id)
-      .then((answer) => {
-        return res.send(serverAnswer(null, answer));
-      })
-      .catch((error) => {
-        return res.send(serverAnswer(error));
-      });
+    return serverAnswer.default(
+      dbAPI.tsReception.addByGlobalModeratorId(data, user.id),
+      res
+    );
   }
 
   function globalAdministratorAction(data) {
@@ -52,13 +49,7 @@ router.post('/add', async function (req, res, next) {
     if (isValid !== true)
       return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-    dbAPI.tsReception.add(data)
-      .then((answer) => {
-        return res.send(serverAnswer(null, answer));
-      })
-      .catch((error) => {
-        return res.send(serverAnswer(error));
-      });
+    return serverAnswer.default(dbAPI.tsReception.add(data), res);
   }
 });
 

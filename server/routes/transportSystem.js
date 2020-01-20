@@ -14,13 +14,7 @@ router.all('*', function (req, res, next) {
 });
 
 router.post('/get-all', function (req, res, next) {
-  dbAPI.transportSystem.get()
-    .then((ts) => {
-      return res.send(serverAnswer(null, ts));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+  return serverAnswer.default(dbAPI.transportSystem.get(), res);
 });
 
 router.post('/add', function (req, res, next) {
@@ -34,13 +28,7 @@ router.post('/add', function (req, res, next) {
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.transportSystem.add(data)
-    .then((ts) => {
-      return res.send(serverAnswer(null, ts));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+  return serverAnswer.default(dbAPI.transportSystem.add(data), res);
 });
 
 router.post('/delete', function (req, res, next) {
@@ -50,13 +38,7 @@ router.post('/delete', function (req, res, next) {
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.transportSystem.deleteOne(data.id)
-    .then((answer) => {
-      return res.send(serverAnswer(null, answer));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+  return serverAnswer.default(dbAPI.transportSystem.deleteOne(data.id), res);
 });
 
 module.exports = router;

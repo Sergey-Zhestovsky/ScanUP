@@ -47,15 +47,12 @@ router.post('/logout', function (req, res, next) {
 });
 
 router.post('/user', function (req, res, next) {
-  let userId = req.data.user.getUser().id;
+  let user = req.data.user.getUser();
 
-  dbAPI.user.getOnePublicDataById(userId)
-    .then((user) => {
-      return res.send(serverAnswer(null, user));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+  return serverAnswer.default(
+    dbAPI.user.getUserPublicDataByPrivilegeId(user.id, user.privilege),
+    res
+  );
 });
 
 module.exports = router;

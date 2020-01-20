@@ -8,9 +8,7 @@ router.all('*', function (req, res, next) {
 });
 
 router.post('/get-all', function (req, res, next) {
-  dbAPI.tsType.getAll()
-    .then(types => res.send(serverAnswer(null, types)))
-    .catch(error => res.send(serverAnswer(error)));
+  return serverAnswer.default(dbAPI.tsType.getAll(), res);
 });
 
 module.exports = router;

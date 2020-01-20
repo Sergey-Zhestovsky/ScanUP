@@ -228,6 +228,7 @@ async function getUserPublicDataByPrivilegeId(userId, privilegeId) {
   let privilege = (await privilegeActions.getPrivilegeById(privilegeId)) || {};
 
   switch (privilege.index) {
+    case "01": return await getOnePublicDataById(userId)
     case "02": return await getGlobalModeratorById(userId)
     case "03": return await getModeratorById(userId)
     case "04": return await getOnePublicDataById(userId)
