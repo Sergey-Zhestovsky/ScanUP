@@ -64,12 +64,10 @@ class Moderators extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.moderators)} />
 
-        {
-          this.state.addModeratorForm &&
-          <AddModeratorForm
-            closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
-            onSuccess={this.addModeratorSuccess} />
-        }
+        <AddModeratorForm
+          isActive={this.state.addModeratorForm}
+          closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
+          onSuccess={this.addModeratorSuccess} />
 
       </div>
     );

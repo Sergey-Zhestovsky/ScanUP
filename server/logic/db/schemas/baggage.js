@@ -11,11 +11,11 @@ module.exports = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
-  formerScan: {
+  formerScanId: {
     type: Schema.Types.ObjectId,
     required: true
   },
-  latterScan: {
+  latterScanId: {
     type: Schema.Types.ObjectId,
     default: null
   },
@@ -30,9 +30,5 @@ module.exports = new Schema({
   passport: {
     type: String,
     required: true
-  },
-  time: {
-    type: Number,
-    default: Date.now
   }
 }, { versionKey: false });

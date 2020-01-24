@@ -1,7 +1,9 @@
 let mongoose = require("../connect"),
   schemas = require("../models"),
   privilegeActions = require("./privilege"),
-  { ServerError, serverErrors } = require("../../classes/ServerError");
+  { ServerError, serverErrors } = require("../../classes/ServerError"),
+
+  getModeratorsFilter = require("../../data/dbAggregationSchemas/getModerators_filter");
 
 async function isExists({ email, passport }) {
   let counter;
@@ -41,16 +43,16 @@ async function authorize({ email, password }) {
     user = await getOne({ email });
 
     if (!user)
-      throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
+      throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA);
 
     user = new schemas.User(user);
 
     if (user.checkPassword(password))
-      return await getOnePublicDataById(user._id);
+      return await getUserPublicDataByPrivilegeId(user._id, user.privilegeId);
 
-    throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA).reject();
+    throw new ServerError(serverErrors.USER_AUTHORIZATION__WRONG_DATA);
   } catch (error) {
-    throw ServerError.customError("authorize_user", error).reject();
+    throw ServerError.customError("authorize_user", error);
   }
 }
 
@@ -141,33 +143,7 @@ async function getModerators(query = {}, filter = []) {
       ...query,
       privilegeId: privilege._id
     },
-    newFilter = [{
-      $lookup: {
-        from: "transportsystemreceptions",
-        localField: "transportSystemReceptionId",
-        foreignField: "_id",
-        as: "transportSystemReception"
-      }
-    }, {
-      $unwind: {
-        path: "$transportSystemReception",
-        preserveNullAndEmptyArrays: true
-      }
-    }, {
-      $project: { "transportSystemReceptionId": 0 }
-    }, {
-      $lookup: {
-        from: "transportsystems",
-        localField: "transportSystemReception.transportSystemId",
-        foreignField: "_id",
-        as: "transportSystem"
-      }
-    }, {
-      $unwind: {
-        path: "$transportSystem",
-        preserveNullAndEmptyArrays: true
-      }
-    }, ...filter];
+    newFilter = [...getModeratorsFilter, ...filter];
 
   return await getPublicData(newQuery, newFilter);
 }

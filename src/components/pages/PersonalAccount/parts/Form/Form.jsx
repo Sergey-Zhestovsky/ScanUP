@@ -8,13 +8,19 @@ import FormSubmit from "./FormSubmit/FormSubmit";
 import FormTextField from "./FormTextField/FormTextField";
 import FormCheckBox from "./FormCheckBox/FormCheckBox";
 import FormSelectField from "./FormSelectField/FormSelectField";
+import FormScannerDescribe from "./FormScannerDescribe/FormScannerDescribe";
+import FormLink from "./ForrmLink/FormLink";
+import FormBlockTitle from "./FormBlockTitle/FormBlockTitle";
 
 import styles from "./Form.module.less";
 
 export const FORM_STYLES = {
   SUB_GROUP: styles["sub-group"],
   CENTER_FORM: styles["center-form"],
-  ERROR_MESSAGE: styles["error-message"]
+  FIT: styles["fit"],
+  ERROR_MESSAGE: styles["error-message"],
+  COLUMN: styles["block-col"],
+  TITLE_COMPLETE: styles["title-complete"]
 };
 
 export default function Form(props) {
@@ -42,10 +48,6 @@ export default function Form(props) {
   );
 }
 
-export function FormBlockTitle(props) {
-  return <div className={styles["form-block-title"]}>{props.children}</div>
-}
-
 export function FormGroupTitle(props) {
   return <div className={styles["form-group-title"]}>{props.children}</div>
 }
@@ -57,17 +59,17 @@ export function FormCol(props) {
 export function FormSubGroup(props) {
   let {
     children,
+    forwardedRef,
     ...rest
   } = props;
-
   return (
-    <div {...rest}>
+    <div ref={forwardedRef} {...rest}>
       {children}
     </div>
   );
 }
 
 export {
-  Form, FormBlock, FormGroup, FormTitle, FormSelectField,
-  FormInputField, FormSubmit, FormTextField, FormCheckBox
+  Form, FormBlock, FormGroup, FormTitle, FormSelectField, FormScannerDescribe,
+  FormInputField, FormSubmit, FormTextField, FormCheckBox, FormLink, FormBlockTitle
 };

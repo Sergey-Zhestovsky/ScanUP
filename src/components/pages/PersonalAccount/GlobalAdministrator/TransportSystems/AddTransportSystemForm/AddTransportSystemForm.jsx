@@ -132,7 +132,7 @@ export default class AddTransportSystemForm extends Component {
     let currentTSType = this.getCurrentNamingStandard();
 
     return (
-      <PopUp closeHandler={this.props.closeHandler}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add transport system</PopUpTitle>
         <Form onSubmit={this.onSubmit} disabled={!this.state.ready}>
           <FormBlock>

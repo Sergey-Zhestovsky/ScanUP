@@ -8,7 +8,7 @@ export default function FormTextField(props) {
   return (
     <div className={styles["text-field"]}>
       <div className={styles["text-field-name"]}>{props.name}</div>
-      <div className={styles["text-field-value"]}>{formatOutput(props.value)}</div>
+      <div className={styles["text-field-value"]}>{formatOutput(props.value, props.format)}</div>
     </div>
   );
 }

@@ -14,11 +14,15 @@ export default function Button(props) {
     children,
     onClick,
     style,
+    disabled
   } = props;
+
+  let disabledClass = disabled ? styles["disabled"] : null;
 
   return (
     <button
-      className={concatClasses(styles["button"], style, className)}
-      onClick={onClick}>{children}</button>
+      className={concatClasses(styles["button"], style, disabledClass, className)}
+      onClick={onClick}
+      disabled={disabled}>{children}</button>
   );
 }

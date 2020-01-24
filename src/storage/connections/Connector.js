@@ -5,12 +5,11 @@ export default class Connector {
     this.signRequests = signRequests;
   }
 
-  request(path, object, config, axiosConfig) {
-    let requestObjcet = this.customRequest(path, object, config);
+  * request(path, object, config, axiosConfig) {
+    let requestObjcet = this.customRequest(path, object, config, axiosConfig);
 
-    this.defaultEntry(requestObjcet.request, path, object);
-
-    return requestObjcet;
+    yield requestObjcet.cancel;
+    yield this.defaultEntry(requestObjcet.request, path, object);
   }
 
   straightRequest(path, object, config, axiosConfig) {

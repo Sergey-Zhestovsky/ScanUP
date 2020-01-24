@@ -6,8 +6,9 @@ module.exports = new Schema({
     type: String,
     required: true
   },
-  heshSuffix: {
+  index: {
     type: String,
+    unique: true,
     required: true
   }
 }, { versionKey: false });

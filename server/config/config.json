@@ -17,6 +17,6 @@
     }
   },
   "imageStorage": {
-    "models": "/public/img/models/"
+    "models": "/public/scans/"
   }
 }

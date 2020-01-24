@@ -88,7 +88,7 @@ export default class AddTransportSystemForm extends Component {
     let receptions = this.state.transportSystemReceptions;
 
     return (
-      <PopUp closeHandler={this.props.closeHandler}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add moderator</PopUpTitle>
         <Form onSubmit={this.onSubmit}>
           <FormBlock>

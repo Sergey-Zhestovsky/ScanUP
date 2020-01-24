@@ -14,14 +14,17 @@ export default function FormInputField(props) {
 
     error,
     errorMessage,
-    warning,
+    warningMessage,
 
     disabled,
+    disabledClass,
     ...rest
   } = props;
 
-  let errorClass = warning && styles["warning"] || (error && styles["error"]),
-    disabledClass = disabled ? styles["disabled"] : null;
+  let errorClass = error && styles["error"],
+    warningClass = warningMessage && styles["warning"];
+
+  disabledClass = disabled ? (disabledClass || styles["disabled"]) : null;
 
   let body = render
     ? render()
@@ -36,6 +39,10 @@ export default function FormInputField(props) {
       {
         errorMessage &&
         <div className={`${styles["form-line-message"]} ${errorClass}`}>{errorMessage}</div>
+      }
+      {
+        warningMessage &&
+        <div className={`${styles["form-line-message"]} ${warningClass}`}>{warningMessage}</div>
       }
     </div>
   );

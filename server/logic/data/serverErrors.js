@@ -43,4 +43,8 @@ module.exports = {
     "code": "011",
     "name": "Not enough privileges"
   },
+  "BAGGAGE__WRONG_STATE": {
+    "code": "012",
+    "name": "Wrong transportation state"
+  },
 }

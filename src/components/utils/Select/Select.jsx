@@ -7,13 +7,14 @@ class Select extends Component {
     this.selectRef = React.createRef();
   }
   changeHandler = (event) => {
-    return this.props.onChange(this.props.name, event.target.value);
+    if (this.props.onChange)
+      return this.props.onChange(this.props.name, event.target.value);
   }
 
   render() {
     let {
       values,
-      withDefault,
+      withDefault = true,
       onChange,
       ...rest
     } = this.props;
@@ -22,11 +23,14 @@ class Select extends Component {
       if (!array)
         return null;
 
-      return [<option key={null} value="">Choose one</option>].concat(
-        array.map(
-          ({ key, value }) => <option key={key} value={key}>{value}</option>
-        )
+      let result = array.map(
+        ({ key, value }) => <option key={key} value={key}>{value}</option>
       );
+
+      if (withDefault)
+        return [<option key={null} value="">Choose one</option>, ...result];
+
+      return result;
     }
 
     return (

@@ -1,24 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+
+import Transition, { TRANSITION_STYLES } from "../Transition/Transition";
 
 import styles from "./PopUp.module.less";
 
 export default function PopUp(props) {
+  let [isClosed, setClose] = useState(false);
+
   let {
-    closeHandler: close = () => { }
+    closeHandler: close = () => { },
+    isActive,
+    children,
+    style,
+    animated = true,
+    timeout,
+    ...rest
   } = props;
-  function closeHandler(event) {
+
+  timeout = animated ? timeout : 0;
+
+  function closingHandler(event) {
     if (event.target === event.currentTarget)
-      return close();
+      return setClose(true);
+  }
+
+  function closeHandler(event) {
+    setClose(false);
+    close();
   }
 
   return (
-    <div className={styles["popup-wrapper"]} onClick={closeHandler}>
-      <div className={styles["popup"]}>
-        {props.children}
+    <Transition
+      in={!isClosed && isActive}
+      timeout={timeout}
+      style={style || TRANSITION_STYLES.FADE}
+      unmountOnExit
+      onExited={closeHandler}>
+      <div className={styles["popup-wrapper"]} onClick={closingHandler}>
+
+        <Transition
+          in={!isClosed && isActive}
+          timeout={timeout}
+          style={TRANSITION_STYLES.HOP}
+          appear
+          unmountOnExit>
+          <div className={styles["popup"]}>
+            {children}
+          </div>
+        </Transition>
+
       </div>
-    </div>
+    </Transition>
   );
 }
 

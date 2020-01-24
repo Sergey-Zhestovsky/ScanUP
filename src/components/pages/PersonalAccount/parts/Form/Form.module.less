@@ -8,6 +8,7 @@
     transition: all .125s;
     opacity: 1;
     filter: none;
+    padding: unset;
 
     &:disabled {
         opacity: 0.2;
@@ -47,15 +48,6 @@
 
     &:last-child {
         border-bottom: none;
-    }
-
-    &.form-block-col {
-        display: flex;
-
-        > * {
-            width: 100%;
-            flex-grow: 1;
-        }
     }
 }
 
@@ -122,6 +114,30 @@
     }
 }
 
+.text-field-value {
+    &:empty {
+        background-image: linear-gradient(
+            115deg,
+            transparent 0%,
+            transparent 25px,
+            rgba(140, 144, 146, 0.25) 55px,
+            transparent 80px,
+            transparent 100%
+        );
+        background-size: 500px 50px;
+        background-position: 0%;
+        animation: 1.25s linear infinite;
+        animation-name: empty-back;
+        border-radius: 1em;
+    }
+    
+    &:empty:after {
+        content: "";
+        display: inline-block;
+        width: 100px;
+    }
+}
+
 .form-input-field,
 .form-select-block {
     padding: 5px 0;
@@ -153,6 +169,7 @@
     padding: 4px 10px;
     border: 2px solid #1d9283;
     width: 225px;
+    height: 2em;
 
     &:disabled {
         background: inherit;
@@ -165,10 +182,6 @@
 
 .form-submit-wrapper {
     text-align: center;
-}
-
-.form-col {
-    background-attachment: fixed;
 }
 
 .form-line-message {
@@ -202,6 +215,74 @@
     margin: 0 auto;
 }
 
+.fit {
+    display: inline-block;
+}
+
 .error-message {
     color: #8e0808;
+}
+
+.block-col {
+    display: flex;
+
+    > * {
+        width: 100%;
+        flex-grow: 1;
+    }
+}
+
+.title-complete {
+    background: #1d9283;
+    color: #fdfdfd;
+}
+
+.form-scanner-describe {
+    padding: 5px 0;
+
+    &.empty {
+        display: flex;
+    }
+}
+
+.link-block {
+    padding: 5px 0;
+    color: #1d9283;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        .link-icon {
+            color: #1d9283;
+        }
+
+        .link-arrow {
+            margin: 0 0 0 10px;
+        }
+    }
+}
+
+.link-arrow {
+    margin: 0 5px 0 5px;
+    font-size: 0.75em;
+    transition: all .125s;
+}
+
+.link-icon {
+    width: 2em !important;
+    color: #343e42;
+    transition: all .125s;
+}
+
+@keyframes empty-back {
+    from {
+        background-position: 40%;
+    }
+
+    to {
+        background-position: -100%;
+    }
 }

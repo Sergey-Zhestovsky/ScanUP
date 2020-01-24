@@ -12,6 +12,7 @@
 /build
 /public/fonts
 /public/images
+/public/scans
 
 # misc
 .DS_Store

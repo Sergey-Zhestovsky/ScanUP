@@ -1,6 +1,6 @@
 import Connector from "./Connector";
 
-export default class ModeratorConnector extends Connector {
+export default class Moderator extends Connector {
   constructor({ pathStructure, signRequests = false } = {}) {
     super({ signRequests });
 

@@ -35,13 +35,4 @@ export default function DataTable(props) {
   );
 }
 
-{/* <tr>
-  <td>1</td>
-  <td>wer1-g4gd-bhwr</td>
-  <td>delivering</td>
-  <td>Zhest S.S.</td>
-  <td>23.05.2019 12:50</td>
-  <td><Link to={"/QWER-1234-HJKL"} /></td>
-</tr> */}
-
-export { ButtonsGroup, Button };
+export { ButtonsGroup, Button, Link };

@@ -2,12 +2,18 @@ let user = require("./user"),
   transportSystem = require("./transportSystem"),
   tsType = require("./tsType"),
   privilege = require("./privilege"),
-  tsReception = require("./tsReception");
+  tsReception = require("./tsReception"),
+  baggage = require("./baggage"),
+  baggageTransportationState = require("./baggageTransportationState"),
+  scan = require("./scan");
 
 module.exports = {
   user,
   tsType,
   transportSystem,
   tsReception,
-  privilege
+  privilege,
+  scan,
+  baggage,
+  baggageTransportationState
 }

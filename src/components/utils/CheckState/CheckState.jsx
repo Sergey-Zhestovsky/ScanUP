@@ -8,15 +8,16 @@ import styles from "./checkState.module.less";
 
 export default function CheckState(props) {
   let {
-    checked = false
+    checked = false,
+    className
   } = props;
 
   if (checked)
     return <FontAwesomeIcon
-      className={concatClasses(styles["check-icon"], styles["check"])}
+      className={concatClasses(styles["check-icon"], styles["check"], className)}
       icon={faCheckCircle} />;
 
   return <FontAwesomeIcon
-    className={concatClasses(styles["check-icon"], styles["times"])}
+    className={concatClasses(styles["check-icon"], styles["times"], className)}
     icon={faTimesCircle} />;
 }

@@ -1,0 +1,8 @@
+{
+  "models": [
+    "bag1/scene.gltf",
+    "bag2/scene.gltf",
+    "bag3/scene.gltf",
+    "car/scene.gltf"
+  ]
+}

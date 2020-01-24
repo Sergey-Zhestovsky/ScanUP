@@ -63,7 +63,7 @@ export default class AddTransportSystemForm extends Component {
 
   render() {
     return (
-      <PopUp closeHandler={this.props.closeHandler}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add receprion</PopUpTitle>
         <Form onSubmit={this.onSubmit}>
           <FormBlock>

@@ -91,29 +91,25 @@ class TransportSystems extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.transportSystems)} />
 
-        {
-          this.state.addTSForm &&
-          <AddTransportSystemForm
-            closeHandler={this.closeHandler.bind(null, "addTSForm")}
-            onSuccess={this.addTSSuccess} />
-        }
+        <AddTransportSystemForm
+          isActive={this.state.addTSForm}
+          closeHandler={this.closeHandler.bind(null, "addTSForm")}
+          onSuccess={this.addTSSuccess} />
 
-        {
-          this.state.addReceptionForm &&
-          <AddReceptionForm
-            closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
-            onSuccess={this.addReceptionSuccess}
-            transportSystems={this.state.transportSystems} />
-        }
+        <AddReceptionForm
+          isActive={this.state.addReceptionForm}
+          closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
+          onSuccess={this.addReceptionSuccess}
+          transportSystems={this.state.transportSystems} />
 
-        {
-          this.state.viewForm &&
-          <ViewForm
-            closeHandler={this.closeHandler.bind(null, "viewForm")}
-            transportSystem={
-              this.transportSystems.findById(this.state.viewForm)[0]
-            } />
-        }
+
+        <ViewForm
+          isActive={!!this.state.viewForm}
+          closeHandler={this.closeHandler.bind(null, "viewForm")}
+          transportSystem={
+            this.state.viewForm &&
+            this.transportSystems.findById(this.state.viewForm)[0]
+          } />
 
       </div>
     );

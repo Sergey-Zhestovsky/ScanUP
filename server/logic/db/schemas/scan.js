@@ -7,7 +7,7 @@ module.exports = new Schema({
     required: true
   },
   descriptionHesh: {
-    type: [Schema.Types.ObjectId]
+    type: [String]
   },
   summary: {
     type: Number,

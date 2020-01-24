@@ -55,7 +55,7 @@ class Moderators extends Component {
         return <DataTableRow key={mod._id} index={i + 1} object={mod} />
       });
     };
-    
+
     return (
       <div>
         <Title style={titleStyle.CAPITAL}>Moderators</Title>
@@ -64,12 +64,10 @@ class Moderators extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.moderators)} />
 
-        {
-          this.state.addModeratorForm &&
-          <AddModeratorForm
-            closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
-            onSuccess={this.addModeratorSuccess} />
-        }
+        <AddModeratorForm
+          isActive={this.state.addModeratorForm}
+          closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
+          onSuccess={this.addModeratorSuccess} />
 
       </div>
     );

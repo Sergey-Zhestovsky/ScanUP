@@ -39,4 +39,27 @@ export default {
       getAll: "get-all"
     }
   },
+  scannerConnector: {
+    pathStructure: {
+      root: "/scanner/",
+      scan: "scan",
+      verifyScan: "verify-scan"
+    }
+  },
+  baggageConnector: {
+    pathStructure: {
+      root: "/baggage/",
+      add: "add",
+      get: "get",
+      getAll: "get-all",
+      updateState: "update-state",
+      updateLatterScan: "update-latter-scan"
+    }
+  },
+  baggageStateConnector: {
+    pathStructure: {
+      root: "/baggage-transportation-state/",
+      getList: "get-list"
+    }
+  }
 }

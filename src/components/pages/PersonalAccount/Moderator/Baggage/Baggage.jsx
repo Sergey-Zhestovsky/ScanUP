@@ -14,7 +14,8 @@ class Baggage extends Component { // /exact /add /1234-1234-1234
       <Switch>
         <Route path={`${relPath}`} exact component={DataTable} />
         <Route path={`${relPath}/add`} component={AddForm} />
-        <Route path={`${relPath}`} component={InfoPage} />
+        <Route path={`${relPath}/tikets`} render={() => 123} />
+        <Route path={`${relPath}/:uId`} component={InfoPage} />
       </Switch>
     );
   }

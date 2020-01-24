@@ -6,7 +6,8 @@ export const ACTIONS = {
   LOGIN_SUCCES: "AUTHORISATION::LOGIN_SUCCES",
   LOGIN_LOADING: "AUTHORISATION::LOGIN_LOADING",
   LOGIN_ERROR: "AUTHORISATION::LOGIN_ERROR",
-  DETAILS_SUCCES: "AUTHORISATION::DETAILS_SUCCES"
+  DETAILS_SUCCES: "AUTHORISATION::DETAILS_SUCCES",
+  DETAILS_LOADING: "AUTHORISATION::DETAILS_LOADING"
 };
 
 let user = Cookies.getAuthrizationFromCookie();
@@ -15,15 +16,18 @@ let initialState = {
   isAuthorized: user ? true : false,
   user: user,
   details: {
-    name: null
+    name: null,
+    transportSystemReception: null,
+    transportSystem: null
   },
-  loading: {
-    logout: false,
-    login: false
+  loaded: {
+    login: null,
+    details: null
   },
   errors: {
     logout: null,
-    login: null
+    login: null,
+    details: null
   }
 };
 
@@ -35,7 +39,9 @@ export default function authReducer(state = initialState, action) {
         isAuthorized: false,
         user: null,
         details: {
-          name: null
+          name: null,
+          transportSystemReception: null,
+          transportSystem: null
         },
         error: {
           ...state.errors,
@@ -56,11 +62,14 @@ export default function authReducer(state = initialState, action) {
         isAuthorized: true,
         user: action.user,
         details: {
-          name: action.details.name
+          name: action.details.name,
+          transportSystemReception: action.details.transportSystemReception || null,
+          transportSystem: action.details.transportSystem || null
         },
-        loading: {
-          ...state.loading,
-          login: false
+        loaded: {
+          ...state.loaded,
+          login: true,
+          details: true
         },
         error: {
           ...state.errors,
@@ -70,9 +79,9 @@ export default function authReducer(state = initialState, action) {
     case ACTIONS.LOGIN_LOADING:
       return {
         ...state,
-        loading: {
-          ...state.loading,
-          login: true
+        loaded: {
+          ...state.loaded,
+          login: false
         },
         errors: {
           ...state.errors,
@@ -82,9 +91,9 @@ export default function authReducer(state = initialState, action) {
     case ACTIONS.LOGIN_ERROR:
       return {
         ...state,
-        loading: {
-          ...state.loading,
-          login: false
+        loaded: {
+          ...state.loaded,
+          login: true
         },
         error: {
           ...state.errors,
@@ -95,7 +104,21 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         details: {
-          name: action.details.name
+          name: action.details.name,
+          transportSystemReception: action.details.transportSystemReception || null,
+          transportSystem: action.details.transportSystem || null
+        },
+        loaded: {
+          ...state.loaded,
+          details: true
+        }
+      };
+    case ACTIONS.DETAILS_LOADING:
+      return {
+        ...state,
+        loaded: {
+          ...state.loaded,
+          details: false
         }
       };
     default:

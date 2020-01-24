@@ -15,6 +15,7 @@ export default class SearchForm extends Component {
         key: ""
       }
     };
+    this.timeout = 200;
   }
 
   changeHandler = (name, value) => {
@@ -28,18 +29,19 @@ export default class SearchForm extends Component {
 
   render() {
     return (
-      <PopUp closeHandler={this.props.closeHandler}>
+      <PopUp closeHandler={this.props.closeHandler} timeout={this.timeout} isActive={this.props.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Find baggage</PopUpTitle>
         <Form>
           <FormBlock>
             <FormGroup>
               <FormInputField
                 className={styles["key-input"]}
-                warning="No side API detected. Check third-party API settings."
+                warningMessage="No side API detected. Check third-party API settings."
                 render={() =>
                   <KeyInput
                     focus
                     onChange={this.changeHandler.bind(this, "key")}
+                    readyTimeout={this.timeout}
                     value={this.state.form.key} />}>
                 Baggage id
               </FormInputField>

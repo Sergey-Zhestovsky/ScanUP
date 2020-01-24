@@ -80,7 +80,11 @@ class KeyInput extends Component {
   }
 
   componentDidMount() {
-    this.inputRefs[0].current.focus();
+    if (this.props.readyTimeout)
+      return setTimeout(
+        () => this.inputRefs[0].current.focus(),
+        this.props.readyTimeout
+      );
   }
 
   render() {

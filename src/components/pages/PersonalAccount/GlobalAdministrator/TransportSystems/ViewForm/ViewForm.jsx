@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import PopUp, { PopUpTitle } from "../../../../../utils/PopUp/PopUp";
 import Form, { FormBlock, FormGroup, FormTextField, FormGroupTitle } from "../../../parts/Form/Form";
@@ -6,9 +6,12 @@ import formatOutput from "../../../../../../modules/formatOutput";
 
 export default function AddTransportSystemForm(props) {
   let ts = props.transportSystem;
-  console.log(ts)
+
+  if (!ts)
+    return null;
+
   return (
-    <PopUp closeHandler={props.closeHandler}>
+    <PopUp closeHandler={props.closeHandler} isActive={props.isActive}>
       <PopUpTitle closeHandler={props.closeHandler} >Transport system</PopUpTitle>
       <Form>
         <FormBlock>

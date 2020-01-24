@@ -9,7 +9,7 @@ import withAuthentication from "../../../hoc/withAuthentication";
 import getPrivilege from "../../../modules/getPrivilege";
 import accounts from "../../../data/accounts";
 
-import styles from "./PersonalAccount.module.less";
+import styles from "./personalAccount.module.less";
 
 export const pageConfig = {
   headerClass: HEADER_STYLE.account,

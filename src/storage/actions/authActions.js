@@ -64,6 +64,8 @@ export function getUserDetail() {
     if (!state.auth.isAuthorized)
       return;
 
+    dispatch({ type: ACTIONS.DETAILS_LOADING });
+
     authConnector.getDetails()
       .then(details => {
         dispatch({

@@ -12,7 +12,6 @@ module.exports = new Schema({
     required: true
   },
   describe: {
-    type: String,
-    required: true
+    type: String
   }
 }, { versionKey: false });

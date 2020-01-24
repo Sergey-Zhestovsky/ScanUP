@@ -1,6 +1,6 @@
 import Connector from "./Connector";
 
-export default class AuthorisationConnector extends Connector {
+export default class Authorisation extends Connector {
   constructor({ pathStructure, signRequests = false } = {}) {
     super({ signRequests });
 

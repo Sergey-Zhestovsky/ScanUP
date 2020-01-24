@@ -13,6 +13,9 @@ let entryRouter = require("./routes/entry"),
   transportSystemRouter = require("./routes/transportSystem"),
   tsReceptionRouter = require("./routes/tsReception"),
   moderatorRouter = require("./routes/moderator"),
+  scannerRouter = require("./routes/scanner"),
+  baggageRouter = require("./routes/baggage"),
+  baggageTransportationStateRouter = require("./routes/baggageTransportationState"),
   errorRouter = require("./routes/error");
 
 let app = express();
@@ -34,6 +37,9 @@ app.use("/transport-system-type", tsTypesRouter);
 app.use("/transport-system", transportSystemRouter);
 app.use("/transport-system-reception", tsReceptionRouter);
 app.use("/moderator", moderatorRouter);
+app.use("/scanner", scannerRouter);
+app.use("/baggage", baggageRouter);
+app.use("/baggage-transportation-state", baggageTransportationStateRouter);
 app.use("/", indexRouter);
 
 app.use(errorRouter.error);
