@@ -1,5 +1,6 @@
 import { faSuitcase, faHistory, faChartBar } from "@fortawesome/free-solid-svg-icons";
 import Baggage from "../components/pages/PersonalAccount/Moderator/Baggage/Baggage";
+import History from "../components/pages/PersonalAccount/Moderator/History/History";
 
 export default [{
   name: "Baggage",
@@ -10,7 +11,7 @@ export default [{
   name: "History",
   link: "/history",
   icon: faHistory,
-  Component: () => (2)
+  Component: History
 }, {
   name: "Statistics",
   link: "/statistics",

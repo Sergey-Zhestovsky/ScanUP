@@ -9,6 +9,7 @@ export default class Baggage extends Connector {
       add: pathStructure.add = "",
       get: pathStructure.get = "",
       getAll: pathStructure.getAll = "",
+      getHistory: pathStructure.getHistory = "",
       updateState: pathStructure.updateState = "",
       updateLatterScan: pathStructure.updateLatterScan = ""
     } = pathStructure);
@@ -32,6 +33,12 @@ export default class Baggage extends Connector {
     let path = this.pathStructure;
 
     return super.straightRequest(path.root + path.getAll);
+  }
+
+  getHistory() {
+    let path = this.pathStructure;
+
+    return super.straightRequest(path.root + path.getHistory);
   }
 
   updateState(data) {

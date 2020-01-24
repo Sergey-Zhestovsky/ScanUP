@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Route, Switch } from "react-router-dom";
 
-import DataTable from "./BaggageDataTable/BaggageDataTable";
-import AddForm from "./AddForm/AddForm";
-import InfoPage from "./InfoPage/InfoPage";
+import DataTable from "./DataTable/DataTable";
+import InfoPage from "../Baggage/InfoPage/InfoPage";
 
 class Baggage extends Component {
   render() {
@@ -13,8 +12,6 @@ class Baggage extends Component {
     return (
       <Switch>
         <Route path={`${relPath}`} exact component={DataTable} />
-        <Route path={`${relPath}/add`} component={AddForm} />
-        <Route path={`${relPath}/tikets`} render={() => 123} />
         <Route path={`${relPath}/:uId`} component={InfoPage} />
       </Switch>
     );

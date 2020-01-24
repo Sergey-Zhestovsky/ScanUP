@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 import ScanBlock from "../../../../parts/Form/templates/ScanBlock";
 import ButtonBlock from "../../../../parts/Form/templates/ButtonBlock";
@@ -94,7 +95,7 @@ class ScanForm extends Component {
         ...this.state.form
       })
         .then(answer => {
-          document.location.reload();
+          this.props.history.push(`/account/history/${answer.uId}`);
         })
         .catch(error => this.setState({
           serverError: error,
@@ -147,4 +148,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(ScanForm);
+export default connect(mapStateToProps)(withRouter(ScanForm));

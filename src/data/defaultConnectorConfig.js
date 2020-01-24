@@ -52,6 +52,7 @@ export default {
       add: "add",
       get: "get",
       getAll: "get-all",
+      getHistory: "get-history",
       updateState: "update-state",
       updateLatterScan: "update-latter-scan"
     }

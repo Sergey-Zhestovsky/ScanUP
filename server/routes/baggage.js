@@ -65,6 +65,13 @@ router.post('/get-all', function (req, res, next) {
   );
 });
 
+router.post('/get-history', function (req, res, next) {
+  return serverAnswer.default(
+    dbAPI.baggage.getAllHistory(),
+    res
+  );
+});
+
 router.post('/update-state', function (req, res, next) {
   let data = req.body,
     isValid = updateBaggageStateValidator.validate(data);
