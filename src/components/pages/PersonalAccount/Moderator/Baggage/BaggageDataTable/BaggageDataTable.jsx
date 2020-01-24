@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import If from "../../../../../parts/Condition/Condition";
 import BaggageToolbar from "./BaggageToolbar";
 import DataTableHeader from "./DataTableHeader/DataTableHeader";
 import DataTableRow from "./DataTableRow/DataTableRow";
@@ -27,14 +28,12 @@ class BaggageDataTable extends Component {
   }
 
   openSearchBar = (event) => {
-    console.log(this.state.searchBar)
     this.setState({
       searchBar: true
     });
   }
 
   closeSearchBar = (event) => {
-    console.log(this.state.searchBar)
     this.setState({
       searchBar: false
     });
@@ -55,10 +54,9 @@ class BaggageDataTable extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.baggages)} />
 
-        <SearchForm
-          isActive={this.state.searchBar}
-          closeHandler={this.closeSearchBar} />
-
+        <If mounted={this.state.searchBar}>
+          <SearchForm closeHandler={this.closeSearchBar} />
+        </If>
       </div>
     );
   }

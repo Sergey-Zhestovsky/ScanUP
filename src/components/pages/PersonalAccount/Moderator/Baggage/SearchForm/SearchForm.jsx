@@ -1,21 +1,27 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import PopUp, { PopUpTitle } from "../../../../../utils/PopUp/PopUp";
 import { Form, FormBlock, FormGroup, FormInputField, FormSubmit } from "../../../parts/Form/Form";
 import KeyInput from "../../../../../utils/KeyInput/KeyInput";
+import Validator from "../../../../../../classes/Validator";
 
 import styles from "./SearchForm.module.less";
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       form: {
         key: ""
-      }
+      },
+      errors: {}
     };
     this.timeout = 200;
+    this.validator = new Validator({
+      key: ["required", ["test", /^.{4}-.{4}-.{4}$/]]
+    })
   }
 
   changeHandler = (name, value) => {
@@ -27,9 +33,29 @@ export default class SearchForm extends Component {
     }));
   }
 
+  submitHandler = () => {
+    let data = this.state.form,
+      errors = this.validator.validate(data);
+
+    this.clearErrors();
+
+    if (errors === true)
+      return this.props.history.push("/account/baggage/" + data.key);
+    else
+      return this.setState({
+        errors
+      })
+  }
+
+  clearErrors() {
+    this.setState({
+      errors: {}
+    })
+  }
+
   render() {
     return (
-      <PopUp closeHandler={this.props.closeHandler} timeout={this.timeout} isActive={this.props.isActive}>
+      <PopUp closeHandler={this.props.closeHandler} timeout={this.timeout}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Find baggage</PopUpTitle>
         <Form>
           <FormBlock>
@@ -42,12 +68,13 @@ export default class SearchForm extends Component {
                     focus
                     onChange={this.changeHandler.bind(this, "key")}
                     readyTimeout={this.timeout}
-                    value={this.state.form.key} />}>
+                    value={this.state.form.key}
+                    error={this.state.errors.key} />}>
                 Baggage id
               </FormInputField>
             </FormGroup>
             <FormGroup>
-              <FormSubmit>Find</FormSubmit>
+              <FormSubmit onClick={this.submitHandler}>Find</FormSubmit>
             </FormGroup>
           </FormBlock>
         </Form>
@@ -55,3 +82,5 @@ export default class SearchForm extends Component {
     );
   }
 }
+
+export default withRouter(SearchForm);

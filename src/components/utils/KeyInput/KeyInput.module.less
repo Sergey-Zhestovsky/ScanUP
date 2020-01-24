@@ -2,6 +2,12 @@
     display: inline-flex;
     align-items: center;
     color: #242f33;
+
+    &.error {
+        .input {
+            border-color: #8e0808;
+        }
+    }
 }
 
 .input {
@@ -10,6 +16,7 @@
     letter-spacing: 0.05em;
     padding: 4px 0px;
     border: 2px solid #1d9283;
+    transition: all .125s;
 }
 
 .separator {

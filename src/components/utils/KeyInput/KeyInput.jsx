@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 
 import Input from "../Input/Input";
+import concatClasses from "../../../modules/concatClasses";
 
 import styles from "./KeyInput.module.less";
 
 const KEY_CHUNK_LENGTH = 4;
 const KEY_CHUNKS_AMOUNT = 3;
+const AVAILABLE_SYMBOLS = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890";
 
 class KeyInput extends Component {
   constructor(props) {
@@ -20,12 +22,16 @@ class KeyInput extends Component {
 
   changeHandler = (id, name, value) => {
     let handler = this.props.onChange,
-      currentValue = [...this.state.value];
+      currentValue = [...this.state.value],
+      shift = id;
 
-    currentValue[id] = value.toUpperCase();
+    if (value.length <= KEY_CHUNK_LENGTH)
+      currentValue[id] = value;
+    else
+      [currentValue, shift] = this.multiSymbolsHandler(currentValue, id, value);
 
-    if (value.length === KEY_CHUNK_LENGTH)
-      this.inputOverloadHandler(id);
+    if (value.length >= KEY_CHUNK_LENGTH)
+      this.inputOverloadHandler(shift);
 
     if (handler)
       handler(this.getValue(currentValue));
@@ -35,20 +41,49 @@ class KeyInput extends Component {
     });
   }
 
+  multiSymbolsHandler(currentValue, cvCursor, value) {
+    currentValue[cvCursor++] = value.substr(0, KEY_CHUNK_LENGTH);
+    value = value.substring(KEY_CHUNK_LENGTH);
+
+    while (cvCursor < currentValue.length) {
+      let resultInChunk = value.concat(currentValue[cvCursor]);
+      let restInChunk = resultInChunk.substring(KEY_CHUNK_LENGTH);
+
+      currentValue[cvCursor] = resultInChunk.substr(0, KEY_CHUNK_LENGTH);
+      value = restInChunk;
+
+      cvCursor++;
+
+      if (value === "")
+        break;
+    }
+
+    cvCursor -= 1;
+
+    if (
+      currentValue[cvCursor].length !== KEY_CHUNK_LENGTH
+      || cvCursor + 1 === KEY_CHUNKS_AMOUNT
+    )
+      cvCursor -= 1;
+
+    return [currentValue, cvCursor];
+  }
+
   getValue(value = this.state.value) {
-    return value.join("");
+    return value.join("-");
   }
 
   inputOverloadHandler(id) {
     let newTarget = this.inputRefs[id + 1];
 
-    if (newTarget && this.state.value[id + 1] === "")
+    if (newTarget)
       return newTarget.current.focus();
   }
 
   generateInputs() {
     let inputs = [],
-      placeholder = new Array(KEY_CHUNK_LENGTH).fill(0).join("");
+      placeholder = new Array(KEY_CHUNK_LENGTH).fill(0).join(""),
+      filterRegex = new RegExp(`[^${AVAILABLE_SYMBOLS}]`, "ig");
 
     for (let i = 0; i < KEY_CHUNKS_AMOUNT; i++) {
       this.inputRefs[i] = React.createRef();
@@ -60,7 +95,11 @@ class KeyInput extends Component {
           onChange={this.changeHandler.bind(this, i)}
           ref={this.inputRefs[i]}
           placeholder={placeholder}
-          validate={value => value.length <= KEY_CHUNK_LENGTH} />
+          filter={[
+            value => value.replace(filterRegex, ""),
+            value => value.toUpperCase()
+          ]}
+        />
       );
     }
 
@@ -89,10 +128,11 @@ class KeyInput extends Component {
 
   render() {
     let inputs = this.generateInputs(),
-      body = this.separateInputs(inputs);
+      body = this.separateInputs(inputs),
+      errorClass = this.props.error ? styles["error"] : null;
 
     return (
-      <div className={styles["key-input"]}>
+      <div className={concatClasses(styles["key-input"], errorClass)}>
         {body}
       </div>
     );

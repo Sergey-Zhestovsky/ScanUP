@@ -8,11 +8,24 @@ class Input extends Component {
       value = event.target.value,
       validationResult = null;
 
+    value = this.filter(value);
     validationResult = this.validation(value);
     validationResult = this.validationHandler(validationResult);
 
     if (validationResult && this.props.onChange)
       return this.props.onChange(name, value);
+  }
+
+  pasteHandler = (event) => {
+    if (!this.props.onPaste)
+      return;
+
+    let name = event.target.name,
+      value = event.clipboardData.getData("Text");
+
+    value = this.filter(value);
+
+    return this.props.onPaste(name, value);
   }
 
   focus = () => {
@@ -69,6 +82,22 @@ class Input extends Component {
     return result;
   }
 
+  filter(value) {
+    let filter = this.props.filter;
+
+    if (!filter)
+      return value;
+
+    if (filter instanceof Array)
+      for (let one of filter)
+        value = one(value);
+
+    if (filter instanceof Function)
+      value = filter(value);
+
+    return value;
+  }
+
   render() {
     return (
       <input
@@ -78,8 +107,10 @@ class Input extends Component {
         type={this.props.type || "text"}
         value={this.props.value}
         onChange={this.changeHandler}
+        onPaste={this.pasteHandler}
         placeholder={this.props.placeholder}
-        disabled={this.props.disabled} />
+        disabled={this.props.disabled}
+      />
     );
   }
 }

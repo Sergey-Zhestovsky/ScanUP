@@ -11,7 +11,7 @@ export default function PopUp(props) {
 
   let {
     closeHandler: close = () => { },
-    isActive,
+    isActive = true,
     children,
     style,
     animated = true,
@@ -37,7 +37,8 @@ export default function PopUp(props) {
       timeout={timeout}
       style={style || TRANSITION_STYLES.FADE}
       unmountOnExit
-      onExited={closeHandler}>
+      onExited={closeHandler}
+      appear>
       <div className={styles["popup-wrapper"]} onClick={closingHandler}>
 
         <Transition
