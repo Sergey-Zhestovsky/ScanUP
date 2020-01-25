@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import DataTable from "./BaggageDataTable/BaggageDataTable";
 import AddForm from "./AddForm/AddForm";
 import InfoPage from "./InfoPage/InfoPage";
+import Tickets from "./Tickets/Tickets";
 
 class Baggage extends Component {
   render() {
@@ -14,7 +15,7 @@ class Baggage extends Component {
       <Switch>
         <Route path={`${relPath}`} exact component={DataTable} />
         <Route path={`${relPath}/add`} component={AddForm} />
-        <Route path={`${relPath}/tikets`} render={() => 123} />
+        <Route path={`${relPath}/tickets/:type/:uId`} component={Tickets} />
         <Route path={`${relPath}/:uId`} component={InfoPage} />
       </Switch>
     );

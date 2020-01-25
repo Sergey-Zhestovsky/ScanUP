@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Route, Switch, Redirect } from "react-router-dom";
 
+import MenuContext from "../../../contexts/MenuContext";
 import Menu from "./parts/Menu/Menu";
 import { HEADER_STYLE } from "../../parts/Header/Header";
 import withAuthentication from "../../../hoc/withAuthentication";
@@ -32,16 +33,28 @@ function PersonalAccount(props) {
   let routes = account.menu.map((el, i) => <Route key={i}
     path={`${match.path}${el.link}`} component={el.Component} />);
 
-  return (
-    <React.Fragment>
-      <Menu list={account.menu} />
-      <div className={styles["main-wrapper"]}>
-        <Switch>
-          {routes}
-        </Switch>
-      </div>
-    </React.Fragment>
+  let body = (
+    <Switch>
+      {routes}
+    </Switch>
   );
+
+  return (
+    <MenuContext.Consumer>
+      {({ menu }) => menu ? wrapBody(body) : body}
+    </MenuContext.Consumer>
+  );
+
+  function wrapBody(body) {
+    return (
+      <React.Fragment>
+        <Menu list={account.menu} />
+        <div className={styles["main-wrapper"]}>
+          {body}
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 function mapStateToProps(state) {

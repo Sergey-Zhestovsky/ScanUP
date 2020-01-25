@@ -69,9 +69,9 @@ class InfoPage extends PureComponent {
         <FormBlock>
           <FormGroup>
             <FormGroupTitle>Baggage tickets</FormGroupTitle>
-            <FormLink icon={faUserTag} to={"/account/baggage/tikets/user/" + baggageUId}>User verify ticket</FormLink>
-            <FormLink icon={faTag} to={"/account/baggage/tikets/baggage/" + baggageUId}>Baggage ticket</FormLink>
-            <FormLink icon={faInfinity} to={"/account/baggage/tikets/all/" + baggageUId}>All tickets</FormLink>
+            <FormLink icon={faUserTag} to={"/account/baggage/tickets/user/" + baggageUId} target="_blank">User verify ticket</FormLink>
+            <FormLink icon={faTag} to={"/account/baggage/tickets/baggage/" + baggageUId} target="_blank">Baggage ticket</FormLink>
+            <FormLink icon={faInfinity} to={"/account/baggage/tickets/all/" + baggageUId} target="_blank">All tickets</FormLink>
           </FormGroup>
         </FormBlock>
 

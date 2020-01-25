@@ -1,0 +1,138 @@
+.ticket {
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ticket-sing {
+    position: absolute;
+    top: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    height: 35px;
+    padding: 7px 12px;
+    background: linear-gradient(45deg, #188476, #1d9283);
+    color: whitesmoke;
+    font-size: 1.05em;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+}
+
+.ticket-sing-group {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.sing-logo {
+    height: 100%;
+    margin-right: 10px;
+}
+
+.sing-logo-img {
+    height: 100%;
+}
+
+.sing-context {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.ticket-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 35px;
+    width: 600px;
+    height: 300px;
+    background: #f9f9f9;
+    padding: 30px 75px 30px 30px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 50px;
+    color: #343e42;
+    text-transform: uppercase;
+}
+
+.header-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    &:first-child {
+        justify-content: center;
+    }
+
+    &:last-child {
+        text-align: right;
+    }
+}
+
+.header-ts {
+    font-size: 3em;
+    font-weight: 600;
+    
+}
+
+.header-uid {
+    font-size: 2em;
+    font-weight: 600;
+    background: linear-gradient(45deg, #124a43, #187d70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-body {
+    font-size: .9em;
+}
+
+.description-line {
+    display: flex;
+    padding: 10px 0;
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+.description-block {
+    width: 33%;
+    flex-shrink: 0;
+    padding-right: 10px;
+}
+
+.description-block-name {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    color: #8c9092;
+}
+
+.description-block-context {
+    font-size: 1.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ticket-qr {
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translate(50%, -50%) rotate(-45deg);
+    outline: 10px solid #343e42;
+    border: 10px solid transparent;
+}

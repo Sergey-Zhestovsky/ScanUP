@@ -9,11 +9,12 @@ export default function FormLink(props) {
   let {
     children,
     to,
-    icon
+    icon,
+    ...rest
   } = props;
   return (
     <div className={styles["link-block"]}>
-      <Link to={to} className={styles["link"]}>
+      <Link to={to} className={styles["link"]} {...rest}>
         {
           icon &&
           <FontAwesomeIcon className={styles["link-icon"]} icon={icon} />

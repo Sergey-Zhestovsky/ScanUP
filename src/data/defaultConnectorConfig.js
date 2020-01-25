@@ -62,5 +62,11 @@ export default {
       root: "/baggage-transportation-state/",
       getList: "get-list"
     }
-  }
+  },
+  qrCodeConnector: {
+    pathStructure: {
+      root: "https://qrcode-monkey.p.rapidapi.com/",
+      get: "qr/custom"
+    }
+  },
 }
