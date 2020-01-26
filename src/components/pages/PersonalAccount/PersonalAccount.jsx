@@ -13,7 +13,7 @@ import accounts from "../../../data/accounts";
 import styles from "./personalAccount.module.less";
 
 export const pageConfig = {
-  headerClass: HEADER_STYLE.account,
+  headerClass: HEADER_STYLE.ACCOUNT,
   mainBodyClass: styles.main,
   footer: false
 };

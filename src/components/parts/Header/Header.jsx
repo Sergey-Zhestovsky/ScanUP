@@ -5,23 +5,23 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo/Logo";
 import UserMenu from "./UserMenu/UserMenu";
 import concatClasses from "../../../modules/concatClasses";
+import HEADER_STYLE from "../../../data/styles/headerStyles";
 
 import styles from "./Header.module.less";
 
-export const HEADER_STYLE = {
-  default: Symbol("default"),
-  account: Symbol("account")
+export { HEADER_STYLE };
+
+const headerClasses = {
+  [HEADER_STYLE.default]: styles["default"],
+  [HEADER_STYLE.ACCOUNT]: styles["account"],
+  [HEADER_STYLE.MAIN_PAGE]: styles["main-page"]
 }
 
-const styleClass = {
-  [HEADER_STYLE.account]: styles["account"]
-};
-
 function Header(props) {
-  let style = styleClass[props.styleClass];
+  let headerClass = headerClasses[props.style];
 
   return (
-    <header className={concatClasses(style, styles.header)}>
+    <header className={concatClasses(headerClass, styles.header)}>
       <div className={styles["logo-block"]}>
         <Logo />
       </div>
@@ -33,7 +33,7 @@ function Header(props) {
         </nav>
         {
           props.isAuthorized
-            ? <UserMenu />
+            ? <UserMenu style={props.style} />
             : <Link className={styles["button"]} to="/login">Log in</Link>
         }
       </div>

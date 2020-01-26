@@ -82,7 +82,9 @@ class KeyInput extends Component {
 
   generateInputs() {
     let inputs = [],
-      placeholder = new Array(KEY_CHUNK_LENGTH).fill(0).join(""),
+      placeholder = this.props.placeholder
+        ? this.props.placeholder
+        : new Array(KEY_CHUNK_LENGTH).fill(0).join(""),
       filterRegex = new RegExp(`[^${AVAILABLE_SYMBOLS}]`, "ig");
 
     for (let i = 0; i < KEY_CHUNKS_AMOUNT; i++) {
@@ -90,7 +92,7 @@ class KeyInput extends Component {
 
       inputs.push(
         <Input key={i}
-          className={styles["input"]}
+          className={concatClasses(styles["input"], this.props.inputClassName)}
           value={this.state.value[i]}
           onChange={this.changeHandler.bind(this, i)}
           ref={this.inputRefs[i]}

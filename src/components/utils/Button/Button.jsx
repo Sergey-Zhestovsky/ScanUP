@@ -14,10 +14,11 @@ export default function Button(props) {
     children,
     onClick,
     style,
-    disabled
+    disabled,
+    disabledClassName = styles["disabled"]
   } = props;
 
-  let disabledClass = disabled ? styles["disabled"] : null;
+  let disabledClass = disabled ? disabledClassName : null;
 
   return (
     <button

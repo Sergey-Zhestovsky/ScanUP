@@ -16,7 +16,7 @@ export default function Frame(props) {
     <React.Fragment>
       {
         header
-          ? <Header styleClass={headerClass} />
+          ? <Header style={headerClass} />
           : null
       }
       <main className={mainBodyClass}>
@@ -24,7 +24,7 @@ export default function Frame(props) {
       </main>
       {
         footer
-          ? <Footer styleClass={footerClass} />
+          ? <Footer style={footerClass} />
           : null
       }
     </React.Fragment>

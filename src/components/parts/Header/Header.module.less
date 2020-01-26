@@ -3,6 +3,19 @@
     font-size: 1.25em;
     background: #fdfdfd;
     height: 64px;
+
+    &.main-page {
+        position: fixed;
+        width: 100%;
+        background: none;
+        z-index: 50;
+
+        .menu-elements {
+            &:hover {
+                background: rgba(249, 249, 249, 0.5);
+            }
+        }
+    }
 }
 
 .logo-block {
