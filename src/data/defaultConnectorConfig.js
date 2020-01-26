@@ -5,7 +5,8 @@ export default {
       signup: "signup",
       logout: "logout",
       login: "login",
-      getDetails: "user"
+      getDetails: "user",
+      isRegistered: "is-registered"
     }
   },
   tsTypesConnector: {

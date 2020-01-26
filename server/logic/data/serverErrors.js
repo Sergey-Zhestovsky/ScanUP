@@ -47,4 +47,8 @@ module.exports = {
     "code": "012",
     "name": "Wrong transportation state"
   },
+  "BAGGAGE__NOT_FOUND": {
+    "code": "013",
+    "name": "Baggage not found"
+  },
 }

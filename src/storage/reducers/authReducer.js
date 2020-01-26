@@ -7,7 +7,10 @@ export const ACTIONS = {
   LOGIN_LOADING: "AUTHORISATION::LOGIN_LOADING",
   LOGIN_ERROR: "AUTHORISATION::LOGIN_ERROR",
   DETAILS_SUCCES: "AUTHORISATION::DETAILS_SUCCES",
-  DETAILS_LOADING: "AUTHORISATION::DETAILS_LOADING"
+  DETAILS_LOADING: "AUTHORISATION::DETAILS_LOADING",
+  SIGNUP_SUCCES: "AUTHORISATION::SIGNUP_SUCCES",
+  SIGNUP_ERROR: "AUTHORISATION::SIGNUP_ERROR",
+  SIGNUP_LOADING: "AUTHORISATION::SIGNUP_LOADING",
 };
 
 let user = Cookies.getAuthrizationFromCookie();
@@ -22,11 +25,13 @@ let initialState = {
   },
   loaded: {
     login: null,
+    signup: null,
     details: null
   },
   errors: {
     logout: null,
     login: null,
+    signup: null,
     details: null
   }
 };
@@ -119,6 +124,50 @@ export default function authReducer(state = initialState, action) {
         loaded: {
           ...state.loaded,
           details: false
+        }
+      };
+    case ACTIONS.SIGNUP_SUCCES:
+      return {
+        ...state,
+        isAuthorized: true,
+        user: action.user,
+        details: {
+          name: action.details.name,
+          transportSystemReception: action.details.transportSystemReception || null,
+          transportSystem: action.details.transportSystem || null
+        },
+        loaded: {
+          ...state.loaded,
+          signup: true,
+          details: true
+        },
+        error: {
+          ...state.errors,
+          signup: null
+        }
+      };
+    case ACTIONS.SIGNUP_LOADING:
+      return {
+        ...state,
+        loaded: {
+          ...state.loaded,
+          signup: false
+        },
+        errors: {
+          ...state.errors,
+          signup: null
+        }
+      };
+    case ACTIONS.SIGNUP_ERROR:
+      return {
+        ...state,
+        loaded: {
+          ...state.loaded,
+          signup: true
+        },
+        error: {
+          ...state.errors,
+          signup: action.error
         }
       };
     default:

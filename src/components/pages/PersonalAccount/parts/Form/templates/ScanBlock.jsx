@@ -9,6 +9,8 @@ import { BUTTON_STYLE } from "../../../../../utils/Button/Button";
 import ButtonBlock from "./ButtonBlock";
 import Scanner from "../../Scanner/Scanner";
 
+import styles from "../Form.module.less";
+
 class ScanBlock extends PureComponent {
   state = {
     scannerWidth: null,
@@ -53,7 +55,8 @@ class ScanBlock extends PureComponent {
       scanSing = "",
       onScanHandler,
       onCancelScanHandler,
-      scanning
+      scanning,
+      withConclusion = false
     } = this.props,
       scanned = !!scan;
 
@@ -68,7 +71,7 @@ class ScanBlock extends PureComponent {
                 manager &&
                 <FormGroup>
                   <FormGroupTitle>{title}</FormGroupTitle>
-                  <FormTextField name="T.S." value={manager.transportSystem.fullName} />
+                  <FormTextField name="Transport system" value={manager.transportSystem.fullName} />
                   <FormTextField name="Reception" value={manager.transportSystemReception.name} />
                   <FormTextField name="Moderator" value={manager.name} />
                   <FormTextField name="Scanner" value={manager.transportSystemReception.scanner.uId} />
@@ -81,7 +84,10 @@ class ScanBlock extends PureComponent {
                     !manager && <FormGroupTitle>{title}</FormGroupTitle>
                   }
                   <FormTextField name="Weight" value={scan.weight} format={{ suffix: " kg.", loading: true }} />
-                  <FormTextField name="State(Summary)" value={scan.summary} format={{ suffix: "%", loading: true }} />
+                  {
+                    !withConclusion &&
+                    <FormTextField name="Summary (state)" value={scan.summary} format={{ suffix: "%", loading: true }} />
+                  }
                   <FormScannerDescribe name="More" value={scan.description} />
                   <FormTextField name="Time" value={scan.time} format={{ as: "time", loading: true }} />
                 </FormGroup>
@@ -108,6 +114,12 @@ class ScanBlock extends PureComponent {
             <ButtonBlock
               style={BUTTON_STYLE.WARNING}
               onClick={onCancelScanHandler}>cancel</ButtonBlock>
+          }
+          {
+            withConclusion &&
+            <div className={styles["scaner-block-conclusion"]}>
+              <div className={styles["conclusion-summary"]}>{scan.summary}</div>
+            </div>
           }
         </FormBlock>
       </React.Fragment>

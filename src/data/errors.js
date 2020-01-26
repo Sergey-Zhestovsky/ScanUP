@@ -9,6 +9,6 @@ export default {
   },
   password: {
     index: Symbol("password"),
-    message: ""
+    message: "Passwords not match."
   }
 }

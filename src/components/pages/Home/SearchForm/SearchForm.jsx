@@ -47,8 +47,7 @@ class SearchForm extends Component {
     baggageConnector.get({ uId: this.state.form.key })
       .then(answer => {
         if (answer !== null) {
-          return;
-          //this.props.history.push()
+          return this.props.history.push("/baggage", { baggage: answer });
         }
       })
       .catch(error => this.setState({

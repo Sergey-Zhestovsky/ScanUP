@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 
 import Home, { pageConfig as homePageConfig } from "../pages/Home/Home";
 import Login, { pageConfig as loginPageConfig } from "../pages/Login/Login";
+import Signup, { pageConfig as SignupPageConfig } from "../pages/Signup/Signup";
 import PersonalAccount, { pageConfig as accountPageConfig } from "../pages/PersonalAccount/PersonalAccount";
+import BaggagePreview, { pageConfig as baggagePageConfig } from "../pages/BaggagePreview/BaggagePreview";
+
 import PageRoute from "../utils/PageRoute/PageRoute";
 import { getUserDetail } from "../../storage/actions/authActions";
 
@@ -22,7 +25,9 @@ class App extends Component {
           <Switch>
             <PageRoute path="/" exact component={Home} {...homePageConfig} />
             <PageRoute path="/login" component={Login} {...loginPageConfig} />
+            <PageRoute path="/signup" component={Signup} {...SignupPageConfig} />
             <PageRoute path="/account" component={PersonalAccount} {...accountPageConfig} />
+            <PageRoute path="/baggage" exact component={BaggagePreview} {...baggagePageConfig} />
           </Switch>
         </BrowserRouter>
       </div>

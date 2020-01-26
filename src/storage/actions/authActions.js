@@ -1,23 +1,26 @@
 import { ACTIONS } from "../reducers/authReducer";
 import Cookies from "../../classes/Cookies";
 
-// export function signUp(user) {
-//   return (dispatch, getState, { userConnector }) => {
-//     userConnector.setUser(user)
-//       .then(user => {
-//         dispatch({
-//           type: "SIGNUP_SUCCES",
-//           user
-//         });
-//       })
-//       .catch(error => {
-//         dispatch({
-//           type: "SIGNUP_ERROR",
-//           error
-//         });
-//       });
-//   }
-// }
+export function signUp(user) {
+  return (dispatch, getState, { authConnector }) => {
+    dispatch({ type: ACTIONS.SIGNUP_LOADING });
+
+    authConnector.signup(user)
+      .then(details => {
+        dispatch({
+          type: ACTIONS.SIGNUP_SUCCES,
+          user: Cookies.getAuthrizationFromCookie(),
+          details
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: ACTIONS.SIGNUP_ERROR,
+          error
+        });
+      });
+  }
+}
 
 export function logout() {
   return (dispatch, getState, { authConnector }) => {

@@ -39,6 +39,9 @@ router.post('/get', async function (req, res, next) {
   try {
     let baggage = await dbAPI.baggage.getOnePublicByUId(data.uId);
 
+    if (baggage === null)
+      return res.send(serverAnswer(serverAnswer.ERRORS.BAGGAGE__NOT_FOUND));
+
     if (baggage.formerScanId)
       baggage.formerScan = {
         ...baggage.formerScan,

@@ -1,0 +1,41 @@
+.registration-alert-wrapper {
+    position: absolute;
+    width: 100%;
+    background: rgba(224, 224, 224, 0.5);
+}
+
+.registration-alert {
+    max-width: 1225px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message {
+    font-size: 1.25em;
+}
+
+.button {
+    border: 2px solid #343e42;
+    padding: 8px 18px;
+    background: transparent;
+}
+
+.appear {
+    opacity: 0;
+    transform: translate(0, -10%);
+    transition: all .2s;
+}
+
+.appearActive {
+    opacity: 1;
+    transform: translate(0, 0%);
+}
+
+.appearDone {
+    opacity: 1;
+    transform: translate(0, 0%);
+}
+

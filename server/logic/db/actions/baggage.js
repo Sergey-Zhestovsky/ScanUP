@@ -93,7 +93,8 @@ async function getPublic(query, filter = []) {
       let: { id: "$formerScan.managerId" },
       pipeline: [
         { $match: { $expr: { $eq: ["$_id", "$$id"] } } },
-        ...getModeratorsFilter
+        ...getModeratorsFilter,
+        { $project: { "salt": 0, "userPassword": 0 } }
       ],
       as: "formerScan.manager"
     }
@@ -124,7 +125,8 @@ async function getPublic(query, filter = []) {
       let: { id: "$latterScan.managerId" },
       pipeline: [
         { $match: { $expr: { $eq: ["$_id", "$$id"] } } },
-        ...getModeratorsFilter
+        ...getModeratorsFilter,
+        { $project: { "salt": 0, "userPassword": 0 } }
       ],
       as: "latterScan.manager"
     }

@@ -57,9 +57,6 @@ async function authorize({ email, password }) {
 }
 
 async function add(data) {
-  let user = new schemas.User(data),
-    responce;
-
   try {
     let isUserExists = await isExists({ email: data.email, passport: data.passport });
 
@@ -68,13 +65,16 @@ async function add(data) {
     if (data.passport && isUserExists.passport)
       throw new ServerError(serverErrors.USER_REGISTRATION__PASSPORT_EXISTS);
 
-    responce = await user.save();
-    responce = await getOnePublicDataById(responce._id);
+    if (!data.privilegeId)
+      data.privilegeId = (await privilegeActions.getPrivilegeByIndex("04"))._id;
+
+    let user = new schemas.User(data);
+    let responce = await user.save();
+
+    return await getOnePublicDataById(responce._id);
   } catch (error) {
     throw ServerError.customError("add_user", error);
   }
-
-  return responce;
 }
 
 async function addModerator(data) {

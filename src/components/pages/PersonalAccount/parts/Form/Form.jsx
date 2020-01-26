@@ -11,6 +11,7 @@ import FormSelectField from "./FormSelectField/FormSelectField";
 import FormScannerDescribe from "./FormScannerDescribe/FormScannerDescribe";
 import FormLink from "./ForrmLink/FormLink";
 import FormBlockTitle from "./FormBlockTitle/FormBlockTitle";
+import FormBlockTitileWithQR from "./FormBlockTitileWithQR/FormBlockTitileWithQR";
 
 import styles from "./Form.module.less";
 
@@ -69,7 +70,16 @@ export function FormSubGroup(props) {
   );
 }
 
+export function FormTransportationState(props) {
+  return (
+    <div className={styles["form-transportation-state"]}>
+      {props.value}
+    </div>
+  );
+}
+
 export {
   Form, FormBlock, FormGroup, FormTitle, FormSelectField, FormScannerDescribe,
-  FormInputField, FormSubmit, FormTextField, FormCheckBox, FormLink, FormBlockTitle
+  FormInputField, FormSubmit, FormTextField, FormCheckBox, FormLink, FormBlockTitle,
+  FormBlockTitileWithQR
 };
