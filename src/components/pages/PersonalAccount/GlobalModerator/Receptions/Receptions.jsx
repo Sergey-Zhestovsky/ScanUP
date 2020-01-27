@@ -6,6 +6,7 @@ import Toolbar from "./Toolbar/Toolbar";
 import DataTableRow from "./DataTableRow/DataTableRow";
 import DataTableHeader from "./DataTableHeader/DataTableHeader";
 import AddReceptionForm from "./AddReceptionForm/AddReceptionForm";
+import If from "../../../../parts/Condition/Condition";
 import { tsReceptionConnector } from "../../../../../storage/connections/rootConnector";
 
 class Moderators extends Component {
@@ -44,7 +45,6 @@ class Moderators extends Component {
 
   addReceptionSuccess = (reception) => {
     return this.setState(state => ({
-      addReceptionForm: false,
       receptions: [...state.receptions, reception]
     }));
   }
@@ -64,11 +64,11 @@ class Moderators extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.receptions)} />
 
-        <AddReceptionForm
-          isActive={this.state.addReceptionForm}
-          closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
-          onSuccess={this.addReceptionSuccess} />
-
+        <If mounted={this.state.addReceptionForm}>
+          <AddReceptionForm
+            closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
+            onSuccess={this.addReceptionSuccess} />
+        </If>
       </div>
     );
   }

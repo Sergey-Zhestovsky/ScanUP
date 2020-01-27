@@ -9,6 +9,7 @@ import AddTransportSystemForm from "./AddTransportSystemForm/AddTransportSystemF
 import AddReceptionForm from "./AddReceptionForm/AddReceptionForm";
 import ViewForm from "./ViewForm/ViewForm";
 import TransportSystemsController from "../../../../../classes/TransportSystems";
+import If from "../../../../parts/Condition/Condition";
 
 class TransportSystems extends Component {
   constructor(props) {
@@ -38,7 +39,6 @@ class TransportSystems extends Component {
 
   addTSSuccess = (ts) => {
     return this.setState({
-      addTSForm: false,
       transportSystems: this.transportSystems.add(ts)
     });
   }
@@ -91,25 +91,29 @@ class TransportSystems extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.transportSystems)} />
 
-        <AddTransportSystemForm
-          isActive={this.state.addTSForm}
-          closeHandler={this.closeHandler.bind(null, "addTSForm")}
-          onSuccess={this.addTSSuccess} />
-
-        <AddReceptionForm
-          isActive={this.state.addReceptionForm}
-          closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
-          onSuccess={this.addReceptionSuccess}
-          transportSystems={this.state.transportSystems} />
+        <If mounted={this.state.addTSForm}>
+          <AddTransportSystemForm
+            closeHandler={this.closeHandler.bind(null, "addTSForm")}
+            onSuccess={this.addTSSuccess} />
+        </If>
 
 
-        <ViewForm
-          isActive={!!this.state.viewForm}
-          closeHandler={this.closeHandler.bind(null, "viewForm")}
-          transportSystem={
-            this.state.viewForm &&
-            this.transportSystems.findById(this.state.viewForm)[0]
-          } />
+        <If mounted={this.state.addReceptionForm}>
+          <AddReceptionForm
+            closeHandler={this.closeHandler.bind(null, "addReceptionForm")}
+            onSuccess={this.addReceptionSuccess}
+            transportSystems={this.state.transportSystems} />
+        </If>
+
+
+        <If mounted={!!this.state.viewForm}>
+          <ViewForm
+            closeHandler={this.closeHandler.bind(null, "viewForm")}
+            transportSystem={
+              this.state.viewForm &&
+              this.transportSystems.findById(this.state.viewForm)[0]
+            } />
+        </If>
 
       </div>
     );

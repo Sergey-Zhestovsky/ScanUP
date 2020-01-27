@@ -19,7 +19,8 @@ export default class AddTransportSystemForm extends Component {
         transportSystemId: ""
       },
       errors: {},
-      serverError: null
+      serverError: null,
+      isActive: true
     };
     this.validator = new Validator({
       name: ["required", ["maxLength", 100]],
@@ -44,12 +45,13 @@ export default class AddTransportSystemForm extends Component {
     if (errors === true) {
       this.clearErrors();
       tsReceptionConnector.add(this.state.form)
-        .then(
-          answer => this.props.onSuccess(answer),
-          error => this.setState({
-            serverError: error
-          })
-        );
+        .then(answer => {
+          this.props.onSuccess(answer);
+          this.setState({ isActive: false });
+        })
+        .catch(error => this.setState({
+          serverError: error
+        }));
     } else {
       return this.setState({
         errors: errorHandler(errors, false)
@@ -66,7 +68,7 @@ export default class AddTransportSystemForm extends Component {
 
   render() {
     return (
-      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.state.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add receprion</PopUpTitle>
         <Form onSubmit={this.onSubmit}>
           <FormBlock>

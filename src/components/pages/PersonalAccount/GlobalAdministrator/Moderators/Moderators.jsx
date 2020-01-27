@@ -6,6 +6,7 @@ import Toolbar from "./Toolbar/Toolbar";
 import DataTableRow from "./DataTableRow/DataTableRow";
 import DataTableHeader from "./DataTableHeader/DataTableHeader";
 import AddModeratorForm from "./AddModeratorForm/AddModeratorForm";
+import If from "../../../../parts/Condition/Condition";
 import { moderatorConnector } from "../../../../../storage/connections/rootConnector";
 
 class Moderators extends Component {
@@ -18,14 +19,12 @@ class Moderators extends Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     moderatorConnector.getAll()
-      .then(
-        answer => this.setState({
-          moderators: answer
-        }),
-        error => console.error(error)
-      )
+      .then(answer => this.setState({
+        moderators: answer
+      }))
+      .catch(console.error);
   }
 
   openFormHandler = (formName) => {
@@ -64,11 +63,11 @@ class Moderators extends Component {
           header={<DataTableHeader />}
           body={createTableBody(this.state.moderators)} />
 
-        <AddModeratorForm
-          isActive={this.state.addModeratorForm}
-          closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
-          onSuccess={this.addModeratorSuccess} />
-
+        <If mounted={this.state.addModeratorForm}>
+          <AddModeratorForm
+            closeHandler={this.closeHandler.bind(null, "addModeratorForm")}
+            onSuccess={this.addModeratorSuccess} />
+        </If>
       </div>
     );
   }

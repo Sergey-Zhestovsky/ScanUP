@@ -16,6 +16,7 @@ export default class AddTransportSystemForm extends Component {
 
     this.transportSystems = new TransportSystemsController();
     this.formValidator = new Validator({
+      name: ["required", ["maxLength", 100]],
       email: ["required", ["maxLength", 100]],
       password: ["required", ["maxLength", 100]],
       transportSystemReceptionId: ["required"]
@@ -23,6 +24,7 @@ export default class AddTransportSystemForm extends Component {
 
     this.state = {
       form: {
+        name: "",
         email: "",
         password: "",
         transportSystemReceptionId: ""
@@ -30,7 +32,8 @@ export default class AddTransportSystemForm extends Component {
       errors: {},
       serverError: null,
       ready: false,
-      transportSystemReceptions: null
+      transportSystemReceptions: null,
+      isActive: true
     };
   }
 
@@ -64,12 +67,13 @@ export default class AddTransportSystemForm extends Component {
     if (errors === true) {
       this.clearErrors();
       moderatorConnector.add(data)
-        .then(
-          answer => this.props.onSuccess(answer),
-          error => this.setState({
-            serverError: error
-          })
-        );
+        .then(answer => {
+          this.props.onSuccess(answer);
+          this.setState({ isActive: false })
+        })
+        .catch(error => this.setState({
+          serverError: error
+        }));
     } else {
       return this.setState({
         errors: errorHandler(errors, false)
@@ -88,13 +92,18 @@ export default class AddTransportSystemForm extends Component {
     let receptions = this.state.transportSystemReceptions;
 
     return (
-      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.state.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add moderator</PopUpTitle>
         <Form onSubmit={this.onSubmit}>
           <FormBlock>
             <FormGroup withNestedGroup>
               <FormSubGroup className={FORM_STYLES.CENTER_FORM}>
                 <FormGroup>
+                  <FormInputField
+                    name="name"
+                    onChange={this.changeHandler}
+                    error={this.state.errors.name}
+                    value={this.state.form.name}>Full name</FormInputField>
                   <FormInputField
                     name="email"
                     onChange={this.changeHandler}

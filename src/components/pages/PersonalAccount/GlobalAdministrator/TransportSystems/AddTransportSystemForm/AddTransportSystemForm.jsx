@@ -26,7 +26,8 @@ export default class AddTransportSystemForm extends Component {
       errors: {},
       serverError: null,
       ready: false,
-      transportSystemTypes: []
+      transportSystemTypes: [],
+      isActive: true
     };
   }
 
@@ -80,14 +81,13 @@ export default class AddTransportSystemForm extends Component {
       this.clearErrors();
 
       tsConnector.add(this.state.form)
-        .then(
-          answer => this.props.onSuccess(answer),
-          error => {
-            this.setState({
-              serverError: error
-            });
-          }
-        );
+        .then(answer => {
+          this.props.onSuccess(answer);
+          this.setState({isActive: false})
+        })
+        .catch(error => this.setState({
+          serverError: error
+        }));
     } else {
       return this.setState({
         errors: errorHandler(errors, false)
@@ -132,7 +132,7 @@ export default class AddTransportSystemForm extends Component {
     let currentTSType = this.getCurrentNamingStandard();
 
     return (
-      <PopUp closeHandler={this.props.closeHandler} isActive={this.props.isActive}>
+      <PopUp closeHandler={this.props.closeHandler} isActive={this.state.isActive}>
         <PopUpTitle closeHandler={this.props.closeHandler} >Add transport system</PopUpTitle>
         <Form onSubmit={this.onSubmit} disabled={!this.state.ready}>
           <FormBlock>
