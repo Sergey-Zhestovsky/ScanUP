@@ -10,5 +10,9 @@ export default {
   MODERATOR: {
     index: Symbol("moderator"),
     token: "5e177525cfc86604a08b2157"
+  },
+  AUTHORIZED_USER: {
+    index: Symbol("authorized_user"),
+    token: "5e1775b860d6ee1a54129b76"
   }
 };

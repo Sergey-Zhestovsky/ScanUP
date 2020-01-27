@@ -20,6 +20,7 @@ let initialState = {
   user: user,
   details: {
     name: null,
+    passport: null,
     transportSystemReception: null,
     transportSystem: null
   },
@@ -45,6 +46,7 @@ export default function authReducer(state = initialState, action) {
         user: null,
         details: {
           name: null,
+          passport: null,
           transportSystemReception: null,
           transportSystem: null
         },
@@ -68,6 +70,7 @@ export default function authReducer(state = initialState, action) {
         user: action.user,
         details: {
           name: action.details.name,
+          passport: action.details.passport,
           transportSystemReception: action.details.transportSystemReception || null,
           transportSystem: action.details.transportSystem || null
         },
@@ -110,6 +113,7 @@ export default function authReducer(state = initialState, action) {
         ...state,
         details: {
           name: action.details.name,
+          passport: action.details.passport,
           transportSystemReception: action.details.transportSystemReception || null,
           transportSystem: action.details.transportSystem || null
         },
@@ -133,6 +137,7 @@ export default function authReducer(state = initialState, action) {
         user: action.user,
         details: {
           name: action.details.name,
+          passport: action.details.passport,
           transportSystemReception: action.details.transportSystemReception || null,
           transportSystem: action.details.transportSystem || null
         },

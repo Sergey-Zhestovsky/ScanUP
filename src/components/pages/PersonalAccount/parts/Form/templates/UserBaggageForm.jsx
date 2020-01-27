@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import {
   Form, FormBlock, FormGroup, FormGroupTitle, FormTextField,
@@ -6,8 +7,12 @@ import {
 } from "../Form";
 import ScanBlock from "./ScanBlock";
 
-export default function UserBaggageForm(props) {
-  let baggage = props.baggage;
+function UserBaggageForm(props) {
+  let {
+    baggage,
+    complaintHandler = () => {}
+  } = props,
+    userConfirmed = props.userPassport === baggage.passport;
 
   if (!baggage)
     return null;
@@ -26,7 +31,9 @@ export default function UserBaggageForm(props) {
           title="Former scan"
           manager={baggage.formerScan.manager}
           scan={baggage.formerScan}
-          withConclusion />
+          withConclusion
+          withComplaints={userConfirmed}
+          complaintHandler={complaintHandler.bind(null, baggage.formerScanId)} />
       }
       {
         baggage.latterScanId &&
@@ -34,7 +41,9 @@ export default function UserBaggageForm(props) {
           title="Latter scan"
           manager={baggage.latterScan.manager}
           scan={baggage.latterScan}
-          withConclusion />
+          withConclusion
+          withComplaints={userConfirmed}
+          complaintHandler={complaintHandler.bind(null, baggage.latterScanId)} />
       }
       {
         baggage.comparisonId &&
@@ -50,3 +59,12 @@ export default function UserBaggageForm(props) {
     </Form>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    userPassport: state.auth.details.passport
+  };
+}
+
+export default connect(mapStateToProps)(UserBaggageForm);
+

@@ -194,6 +194,23 @@ async function getAllActive() {
   }
 }
 
+async function getAllActiveByUserId(id) {
+  try {
+    let baggageStateId = (await schemas.BaggageTransportationState.findOne({
+      index: 4
+    }))._id;
+
+    let passport = (await schemas.User.findOne({ _id: id })).passport;
+
+    return await getPublic({
+      passport,
+      transportationStateId: { $ne: new mongoose.Types.ObjectId(baggageStateId) }
+    })
+  } catch (error) {
+    throw ServerError.customError("getAllActiveByUserId_baggage", error);
+  }
+}
+
 async function getAllHistory() {
   try {
     let baggageStateId = (await schemas.BaggageTransportationState.findOne({
@@ -205,6 +222,23 @@ async function getAllHistory() {
     });
   } catch (error) {
     throw ServerError.customError("getAllHistory_baggage", error);
+  }
+}
+
+async function getAllHistoryByUserId(id) {
+  try {
+    let baggageStateId = (await schemas.BaggageTransportationState.findOne({
+      index: 4
+    }))._id;
+
+    let passport = (await schemas.User.findOne({ _id: id })).passport;
+
+    return await getPublic({
+      passport,
+      transportationStateId: new mongoose.Types.ObjectId(baggageStateId)
+    });
+  } catch (error) {
+    throw ServerError.customError("getAllHistoryByUserId_baggage", error);
   }
 }
 
@@ -265,9 +299,11 @@ module.exports = {
   getPublic,
   getOnePublic,
   getAllActive,
+  getAllActiveByUserId,
   getOnePublicByUId,
   getFormerScanById,
   getAllHistory,
+  getAllHistoryByUserId,
   updateStateById,
   latterScanById
 };

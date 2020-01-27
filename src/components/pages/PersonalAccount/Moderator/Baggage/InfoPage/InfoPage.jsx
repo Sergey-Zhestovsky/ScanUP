@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 
 import StateController from "./StateController/StateController";
 import LatterScanForm from "./LatterScanForm/LatterScanForm";
-import EmptyResponce from "./EmptyResponce/EmptyResponce";
+//import EmptyResponce from "./EmptyResponce/EmptyResponce";
 
 import Title, { TitleBackLink } from "../../../parts/Title/Title";
 import {
   Form, FORM_STYLES, FormBlock, FormGroup, FormGroupTitle, FormTextField,
   FormBlockTitle, FormSubGroup, FormLink
 } from "../../../parts/Form/Form";
+import BaggageNotFound from "../../../../../parts/errorPages/BaggageNotFound/BaggageNotFound";
 import BodySpinner from "../../../parts/BodySpinner/BodySpinner";
 import ScanBlock from "../../../parts/Form/templates/ScanBlock";
 import { baggageConnector } from "../../../../../../storage/connections/rootConnector";
@@ -47,7 +48,7 @@ class InfoPage extends PureComponent {
       return withWrapper(<BodySpinner />);
 
     if (!this.state.baggage)
-      return withWrapper(<EmptyResponce uId={baggageUId} />);
+      return withWrapper(<BaggageNotFound uId={baggageUId} />);
 
     return withWrapper(
       <Form>
@@ -91,7 +92,9 @@ class InfoPage extends PureComponent {
               manager={baggage.latterScan.manager}
               scan={baggage.latterScan}
               scanSing={baggage.latterScan.manager.transportSystemReception.scanner.uId} />
-            : <LatterScanForm baggageId={this.state.baggage._id} />
+            : <LatterScanForm
+              baggageId={this.state.baggage._id}
+              baggageUId={baggageUId} />
         }
 
         {

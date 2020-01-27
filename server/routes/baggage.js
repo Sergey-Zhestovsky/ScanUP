@@ -3,7 +3,7 @@ let express = require("express"),
   serverAnswer = require("../logic/modules/serverAnswer"),
   dbAPI = require("../logic/db/API"),
   Scan = require("../logic/classes/Scan"),
-  ScanDescription = require("../logic/classes/ScanDescription"),
+  PrivilegeController = require("../logic/classes/PrivilegeController"),
   Validator = require("../logic/classes/Validator"),
   addBaggageVConfig = require("../logic/data/validationConfigs/addBaggage"),
   getBaggageVConfig = require("../logic/data/validationConfigs/getBaggage"),
@@ -60,19 +60,50 @@ router.post('/get', async function (req, res, next) {
   }
 });
 
-
 router.post('/get-all', function (req, res, next) {
-  return serverAnswer.default(
-    dbAPI.baggage.getAllActive(),
-    res
-  );
+  let user = req.data.user.getUser();
+
+  return PrivilegeController.switch(user.privilege, {
+    "03": moderatorAction,
+    "04": userAction
+  }, res);
+
+  function moderatorAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllActive(),
+      res
+    );
+  }
+
+  function userAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllActiveByUserId(user.id),
+      res
+    );
+  }
 });
 
 router.post('/get-history', function (req, res, next) {
-  return serverAnswer.default(
-    dbAPI.baggage.getAllHistory(),
-    res
-  );
+  let user = req.data.user.getUser();
+
+  return PrivilegeController.switch(user.privilege, {
+    "03": moderatorAction,
+    "04": userAction
+  }, res);
+
+  function moderatorAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllHistory(),
+      res
+    );
+  }
+
+  function userAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllHistoryByUserId(user.id),
+      res
+    );
+  }
 });
 
 router.post('/update-state', function (req, res, next) {

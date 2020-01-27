@@ -64,10 +64,11 @@ export default {
       getList: "get-list"
     }
   },
-  qrCodeConnector: {
+  complaintConnector: {
     pathStructure: {
-      root: "https://qrcode-monkey.p.rapidapi.com/",
-      get: "qr/custom"
+      root: "/complaint/",
+      add: "add",
+      getAll: "get-all"
     }
   },
 }

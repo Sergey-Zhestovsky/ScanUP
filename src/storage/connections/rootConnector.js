@@ -6,7 +6,7 @@ import ModeratorConnector from "./ModeratorConnector";
 import ScannerConnector from "./ScannerConnector";
 import BaggageConnector from "./BaggageConnector";
 import BaggageStateConnector from "./BaggageStateConnector";
-import QrCodeConnector from "./QrCodeConnector";
+import ComplaintConnector from "./ComplaintConnector";
 
 import config from "../../data/defaultConnectorConfig";
 
@@ -18,7 +18,7 @@ export const moderatorConnector = new ModeratorConnector(config.moderatorConnect
 export const scannerConnector = new ScannerConnector(config.scannerConnector);
 export const baggageConnector = new BaggageConnector(config.baggageConnector);
 export const baggageStateConnector = new BaggageStateConnector(config.baggageStateConnector);
-export const qrCodeConnector = new QrCodeConnector(config.qrCodeConnector);
+export const complaintConnector = new ComplaintConnector(config.complaintConnector);
 
 export default {
   authConnector,
@@ -28,5 +28,6 @@ export default {
   moderatorConnector,
   scannerConnector,
   baggageConnector,
-  baggageStateConnector
+  baggageStateConnector,
+  complaintConnector
 };

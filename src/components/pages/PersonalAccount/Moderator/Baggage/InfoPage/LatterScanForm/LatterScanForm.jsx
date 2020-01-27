@@ -95,7 +95,7 @@ class ScanForm extends Component {
         ...this.state.form
       })
         .then(answer => {
-          this.props.history.push(`/account/history/${answer.uId}`);
+          this.props.history.push(`/account/history/${this.props.baggageUId}`);
         })
         .catch(error => this.setState({
           serverError: error,

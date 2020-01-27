@@ -11,6 +11,7 @@ export default function FormInputField(props) {
     render,
     className,
     inputClassName,
+    wrapperClassName,
 
     error,
     errorMessage,
@@ -32,7 +33,7 @@ export default function FormInputField(props) {
 
   return (
     <div className={concatClasses(styles["form-input-field"], disabledClass, className)}>
-      <div className={concatClasses(styles["form-line-wrapper"])}>
+      <div className={concatClasses(styles["form-line-wrapper"], wrapperClassName)}>
         <div className={styles["form-input-field-name"]}>{children}</div>
         {body}
       </div>

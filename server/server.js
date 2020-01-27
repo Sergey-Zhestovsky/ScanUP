@@ -16,6 +16,7 @@ let entryRouter = require("./routes/entry"),
   scannerRouter = require("./routes/scanner"),
   baggageRouter = require("./routes/baggage"),
   baggageTransportationStateRouter = require("./routes/baggageTransportationState"),
+  complaintRouter = require("./routes/complaint"),
   errorRouter = require("./routes/error");
 
 let app = express();
@@ -40,6 +41,7 @@ app.use("/moderator", moderatorRouter);
 app.use("/scanner", scannerRouter);
 app.use("/baggage", baggageRouter);
 app.use("/baggage-transportation-state", baggageTransportationStateRouter);
+app.use("/complaint", complaintRouter);
 app.use("/", indexRouter);
 
 app.use(errorRouter.error);

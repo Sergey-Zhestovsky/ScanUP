@@ -99,19 +99,23 @@ class Input extends Component {
   }
 
   render() {
-    return (
-      <input
-        ref={this.inputRef}
-        name={this.props.name}
-        className={this.props.className}
-        type={this.props.type || "text"}
-        value={this.props.value}
-        onChange={this.changeHandler}
-        onPaste={this.pasteHandler}
-        placeholder={this.props.placeholder}
-        disabled={this.props.disabled}
-      />
-    );
+    let currentProps = {
+      name: this.props.name,
+      className: this.props.className,
+      value: this.props.value,
+      placeholder: this.props.placeholder,
+      disabled: this.props.disabled,
+      ref: this.inputRef,
+      onChange: this.changeHandler,
+      onPaste: this.pasteHandler,
+    };
+
+    currentProps.value = currentProps.value === null ? "" : currentProps.value;
+
+    if (this.props.textarea)
+      return <textarea {...currentProps}></textarea>;
+
+    return <input {...currentProps} />;
   }
 }
 

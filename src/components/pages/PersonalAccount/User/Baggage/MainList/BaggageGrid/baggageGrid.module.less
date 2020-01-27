@@ -1,0 +1,98 @@
+.link {
+    display: inline-flex;
+    margin-right: 55px;
+    margin-bottom: 55px;
+
+    &:last-child {
+        margin-bottom: unset;
+    }
+}
+
+.grid-element {
+    display: inline-block;
+    width: 250px;
+    overflow: hidden;
+    background: #f9f9f9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    transition: all .125s;
+
+    &:hover {
+        box-shadow: 0 0 12px rgba(29, 145, 129, 0.75);
+    }
+}
+
+.baggage-image {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #343e42;
+    border-radius: 5px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.baggage-image-cover {
+    font-size: 150px;
+    color: rgba(245, 245, 245, 0.5);
+}
+
+.baggage-data-group {
+    padding-top: 5px;
+    color: #343e42;
+    font-weight: 600;
+}
+
+.baggage-data-line {
+    margin: 0 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #dedede;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.baggage-ts {
+    font-weight: 900;
+    font-size: 1.25em;
+}
+
+.baggage-time {
+    font-weight: 100;
+    color: #1d9283;
+    font-size: .9em;
+    text-align: right;
+}
+
+.baggage-skeleton {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    width: 250px;
+    height: 374px;
+    border: 5px dashed;
+    color: #b9b9b9;
+    font-size: 2em;
+    border-radius: 25px;
+}
+
+.skeleton-accent {
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #929292;
+}
+
+.skeleton-ending {
+    position: absolute;
+    width: 100%;
+    padding: 0 15px;
+    left: 0;
+    text-align: right;
+    font-size: .75em;
+}

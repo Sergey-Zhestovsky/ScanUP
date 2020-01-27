@@ -51,4 +51,8 @@ module.exports = {
     "code": "013",
     "name": "Baggage not found"
   },
+  "COMPLAINT__SCAN_NOT_FOUND": {
+    "code": "015",
+    "name": "Scan not found"
+  },
 }

@@ -5,7 +5,7 @@ import {
   Form, FORM_STYLES, FormBlock, FormGroup, FormInputField, FormSelectField, FormGroupTitle,
   FormCol, FormSubmit, FormTextField, FormBlockTitle, FormSubGroup, FormScannerDescribe
 } from "../Form";
-import { BUTTON_STYLE } from "../../../../../utils/Button/Button";
+import Button, { BUTTON_STYLE } from "../../../../../utils/Button/Button";
 import ButtonBlock from "./ButtonBlock";
 import Scanner from "../../Scanner/Scanner";
 
@@ -56,7 +56,9 @@ class ScanBlock extends PureComponent {
       onScanHandler,
       onCancelScanHandler,
       scanning,
-      withConclusion = false
+      withConclusion = false,
+      withComplaints = false,
+      complaintHandler = () => { }
     } = this.props,
       scanned = !!scan;
 
@@ -119,6 +121,12 @@ class ScanBlock extends PureComponent {
             withConclusion &&
             <div className={styles["scaner-block-conclusion"]}>
               <div className={styles["conclusion-summary"]}>{scan.summary}</div>
+              {
+                withComplaints &&
+                <Button
+                  className={styles["conclusion-complaint"]}
+                  onClick={complaintHandler}>Complaint</Button>
+              }
             </div>
           }
         </FormBlock>

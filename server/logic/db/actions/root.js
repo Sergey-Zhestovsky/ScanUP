@@ -5,6 +5,7 @@ let user = require("./user"),
   tsReception = require("./tsReception"),
   baggage = require("./baggage"),
   baggageTransportationState = require("./baggageTransportationState"),
+  complaint = require("./complaint"),
   scan = require("./scan");
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
   privilege,
   scan,
   baggage,
-  baggageTransportationState
+  baggageTransportationState,
+  complaint
 }
