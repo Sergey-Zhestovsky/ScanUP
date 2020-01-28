@@ -13,10 +13,10 @@ export default class Scanner extends Connector {
     this.pathStructure = pathStructure;
   }
 
-  scan() {
+  scan(data) {
     let path = this.pathStructure;
 
-    return super.request(path.root + path.scan);
+    return super.request(path.root + path.scan, data);
   }
 
   verifyScan(data) {

@@ -32,7 +32,10 @@ class ScanForm extends Component {
   }
 
   latterScanHandler = () => {
-    let scan = scannerConnector.verifyScan({ id: this.props.baggageId }),
+    let scan = scannerConnector.verifyScan({
+      id: this.props.baggageId,
+      uId: this.props.moderator.details.transportSystemReception.scanner.uId
+    }),
       cancelToken = scan.next().value;
 
     this.setState(state => ({
@@ -89,7 +92,6 @@ class ScanForm extends Component {
       this.setState({
         formRequesting: true
       });
-
       baggageConnector.updateLatterScan({
         id: this.props.baggageId,
         ...this.state.form

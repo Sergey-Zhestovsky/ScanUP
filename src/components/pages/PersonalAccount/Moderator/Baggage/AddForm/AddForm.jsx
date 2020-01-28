@@ -51,7 +51,9 @@ class AddForm extends Component {
   }
 
   formerScanHandler = () => {
-    let scan = scannerConnector.scan();
+    let scan = scannerConnector.scan({
+      uId: this.props.moderator.details.transportSystemReception.scanner.uId
+    });
 
     this.setState({
       formerScan: true,
