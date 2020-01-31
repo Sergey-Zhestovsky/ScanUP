@@ -25,7 +25,7 @@ function typeFormat(string, type, isLoading) {
       if (string === undefined || !moment(string).isValid())
         return defaultOutput(string, isLoading);
 
-      return moment(string).format("MM.DD.YY, HH:mm:ss");
+      return moment(string).format("MM.DD.YYYY, HH:mm:ss");
     default: return string;
   }
 }

@@ -105,6 +105,7 @@ class Input extends Component {
       value: this.props.value,
       placeholder: this.props.placeholder,
       disabled: this.props.disabled,
+      type: this.props.type || "text",
       ref: this.inputRef,
       onChange: this.changeHandler,
       onPaste: this.pasteHandler,

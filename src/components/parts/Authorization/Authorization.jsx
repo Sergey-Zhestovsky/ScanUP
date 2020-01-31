@@ -19,11 +19,13 @@ export default function Authorization(props) {
   } = props;
 
   let body = (
-    <div className={styles["auth-form-block"]}>
-      <form onSubmit={onSubmit} className={styles["auth-form"]} {...rest}>
-        {children}
-      </form>
-      <div className={styles["auth-form-right-col"]}></div>
+    <div className={styles["auth-form-main-col"]}>
+      <div className={styles["auth-form-block"]}>
+        <form onSubmit={onSubmit} className={styles["auth-form"]} {...rest}>
+          {children}
+        </form>
+        <div className={styles["auth-form-right-col"]}></div>
+      </div>
     </div>
   );
 

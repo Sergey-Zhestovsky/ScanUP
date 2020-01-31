@@ -1,7 +1,11 @@
 .canvas-wrapper {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 
     &:after {
         content: "";
@@ -19,15 +23,21 @@
         background-position: 0% 0%;
         opacity: 0.55;
     }
+
+    .canvas {
+        position: absolute;
+    }
 }
 
-.search-form-wrapper {
-    position: absolute;
-    top: 50vh;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.search-form-container {
+    padding: 80px 0;
+    margin: auto;
+    z-index: 1;
 }
 
+.search-form-col {
+    margin: auto;
+}
 
 @keyframes noiseAnimation {
     0% {

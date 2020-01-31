@@ -37,10 +37,12 @@ class Home extends Component {
     return (
       <React.Fragment>
         <div ref={this.wrapperRef} className={styles["canvas-wrapper"]}>
+          <div className={styles["search-form-container"]}>
+            <div className={styles["search-form-col"]}>
+              <SearchForm />
+            </div>
+          </div>
           <canvas ref={this.canvasRef} className={styles["canvas"]}></canvas>
-        </div>
-        <div className={styles["search-form-wrapper"]}>
-          <SearchForm />
         </div>
       </React.Fragment>
     );

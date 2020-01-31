@@ -53,7 +53,7 @@ class BaggagePreview extends Component {
 
   render() {
     let baggage = this.baggage;
-
+console.log(baggage)
     if (!baggage)
       return <Redirect to="/" />;
 
