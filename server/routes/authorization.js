@@ -76,6 +76,29 @@ router.post('/login', function (req, res, next) {
     });
 });
 
+router.post('/mobile-login', function (req, res, next) {
+  let user = req.body,
+    isValid = authValidator.validate(user);
+
+  if (isValid !== true)
+    return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
+
+  dbAPI.user.authorize(user)
+    .then((user) => {
+      let auth = new Authorization({ request: req, response: res });
+
+      let token = auth.login({
+        id: user._id,
+        privilege: user.privilegeId
+      }).token;
+
+      return res.send(serverAnswer(null, { token, details: user }));
+    })
+    .catch((error) => {
+      return res.send(serverAnswer(error));
+    });
+});
+
 router.all('*', function (req, res, next) {
   if (!req.data.user)
     return res.send(serverAnswer(serverAnswer.ERRORS.PRIVILEGE__BLOCKED));

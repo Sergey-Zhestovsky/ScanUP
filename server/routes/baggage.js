@@ -3,17 +3,20 @@ let express = require("express"),
   serverAnswer = require("../logic/modules/serverAnswer"),
   dbAPI = require("../logic/db/API"),
   Scan = require("../logic/classes/Scan"),
+  User = require("../logic/classes/User"),
   PrivilegeController = require("../logic/classes/PrivilegeController"),
   Validator = require("../logic/classes/Validator"),
   addBaggageVConfig = require("../logic/data/validationConfigs/addBaggage"),
   getBaggageVConfig = require("../logic/data/validationConfigs/getBaggage"),
   updateBaggageStateVconf = require("../logic/data/validationConfigs/updateBaggageState"),
+  mobileGetBaggageVconf = require("../logic/data/validationConfigs/mobileGetBaggage"),
   updateBaggageLatterScanVconf = require("../logic/data/validationConfigs/updateBaggageLatterScan");
 
 let updateBaggageStateValidator = new Validator(updateBaggageStateVconf);
 let addBaggageValidator = new Validator(addBaggageVConfig);
 let getBaggageValidator = new Validator(getBaggageVConfig);
 let updateBaggageLatterScanValidator = new Validator(updateBaggageLatterScanVconf);
+let mobileGetBaggageValidator = new Validator(mobileGetBaggageVconf);
 
 router.post('/add', function (req, res, next) {
   let data = req.body,
@@ -62,6 +65,38 @@ router.post('/get', async function (req, res, next) {
 
 router.post('/get-all', function (req, res, next) {
   let user = req.data.user.getUser();
+
+  return PrivilegeController.switch(user.privilege, {
+    "03": moderatorAction,
+    "04": userAction
+  }, res);
+
+  function moderatorAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllActive(),
+      res
+    );
+  }
+
+  function userAction() {
+    return serverAnswer.default(
+      dbAPI.baggage.getAllActiveByUserId(user.id),
+      res
+    );
+  }
+});
+
+router.post('/mobile-get-all', function (req, res, next) {
+  let data = req.body,
+    isValid = mobileGetBaggageValidator.validate(data);
+
+  if (isValid !== true)
+    return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
+
+  let user = new User({
+    token: data.token
+  });
+  user.verifyToken();
 
   return PrivilegeController.switch(user.privilege, {
     "03": moderatorAction,

@@ -33,7 +33,7 @@ class BaggageDataTable extends Component {
 
     return (
       <div>
-        <Title style={titleStyle.CAPITAL}>Baggage</Title>
+        <Title style={titleStyle.CAPITAL}>History</Title>
         <Toolbar />
         <DataTable
           header={<DataTableHeader />}

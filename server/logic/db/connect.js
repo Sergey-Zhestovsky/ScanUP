@@ -1,26 +1,25 @@
 let mongoose = require("mongoose"),
   models = require("./models"),
-  config = require("../../config");
+  config = require("../../config"),
+  controller = require("./controls");
 
-mongoose.connect(config.mongoDB_connect.url, {
+let connect = mongoose.connect(config.mongoDB_connect.url, {
   ...config.mongoDB_connect.options
-})
-  .then(setCollections,
-    error => {
-      console.error(error);
-    }
-  );
+});
 
-async function setCollections() {
-  try {
-    for (let model in models) {
-      await models[model].createCollection();
-    }
-  } catch (error) {
-    return Promise.reject(error);
-  }
+connect.then(({ connection, models }) => {
+  connection.db.stats(async (err, stats) => {
+    if (stats.collections !== 0)
+      return;
 
-  return;
-}
+    await controller.setCollections(models);
+  });
+});
+
+connect.catch(error => {
+  console.error(error);
+});
+
+
 
 module.exports = mongoose;

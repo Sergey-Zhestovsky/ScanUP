@@ -1,10 +1,10 @@
 let express = require("express"),
   bodyParser = require("body-parser"),
-  path = require("path"),
+  config = require("./config"),
   cookieParser = require("cookie-parser"),
   morgan = require("morgan"),
   colors = require("colors"),
-  port = process.env.PORT || 3001;
+  port = process.env.PORT || config.port || 3001;
 
 let entryRouter = require("./routes/entry"),
   indexRouter = require("./routes/index"),
