@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import AuthForm, { AuthField, AuthTitle, AuthSubmit } from "../../parts/Authorization/Authorization";
 import Validator from "../../../classes/Validator";
 import errorHandler from "../../../modules/errorHandler";
-import { login } from "../../../storage/actions/authActions";
+import { authActions } from "../../../storage/actions";
 import withAuthentication from "../../../hoc/withAuthentication";
 
 export const pageConfig = {
@@ -91,7 +91,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: (user) => dispatch(login(user))
+    login: (user) => dispatch(authActions.login(user))
   };
 }
 

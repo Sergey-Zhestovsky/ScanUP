@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUserAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { logout } from "../../../../storage/actions/authActions";
+import { authActions } from "../../../../storage/actions";
 import { CSSTransition } from "react-transition-group";
 import concatClasses from "../../../../modules/concatClasses";
 import MenuLink from "./MenuLink/MenuLink";
@@ -100,7 +100,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(authActions.logout())
   };
 }
 

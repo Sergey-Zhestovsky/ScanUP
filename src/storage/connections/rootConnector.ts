@@ -1,4 +1,5 @@
-import AuthorizationConnector from "./AuthorizationConnector";
+import AuthorizationConnector from "../schemas/auth/connector";
+
 import TSTypesConnector from "./TSTypesConnector";
 import TSConnector from "./TSConnector";
 import TSReceptionConnector from "./TSReceptionConnector";
@@ -20,7 +21,7 @@ export const baggageConnector = new BaggageConnector(config.baggageConnector);
 export const baggageStateConnector = new BaggageStateConnector(config.baggageStateConnector);
 export const complaintConnector = new ComplaintConnector(config.complaintConnector);
 
-export default {
+const rootConnector = {
   authConnector,
   tsTypesConnector,
   tsConnector,
@@ -31,3 +32,6 @@ export default {
   baggageStateConnector,
   complaintConnector
 };
+
+export default rootConnector;
+export type RootConnector = typeof rootConnector;

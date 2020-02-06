@@ -10,7 +10,7 @@ import rootReducer from "./storage/reducers/rootReducer";
 import rootConnector from "./storage/connections/rootConnector";
 
 import "./index.less";
-import "normalize.css";
+import "normalize.css"; 
 
 let store = createStore(
   rootReducer,

@@ -3,7 +3,7 @@
   "encode_server_key": "ZQ26e-0sxNw-d0fdz-rYqql-BzotU-0woTc",
   "mongoDB_connect": {
     "name": "ScanUP",
-    "url": "mongodb://localhost/ScanUPs",
+    "url": "mongodb://localhost/ScanUP",
     "options": {
       "useNewUrlParser": "true",
       "useCreateIndex": "true",

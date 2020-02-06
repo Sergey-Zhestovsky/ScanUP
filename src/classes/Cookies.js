@@ -4,8 +4,8 @@ import CookiesAPI from "js-cookie";
 import COOKIE_NAME from "../data/cookies";
 
 export default class Cookies {
-  static getAuthrizationFromCookie() {
-    let token = CookiesAPI.get(COOKIE_NAME.SESION);
+  static getAuthorizationFromCookie() {
+    let token = CookiesAPI.get(COOKIE_NAME.SESSION);
 
     if (!token)
       return null;

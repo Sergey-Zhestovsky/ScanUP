@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import AuthForm, { AuthField, AuthTitle, AuthSubmit } from "../../parts/Authorization/Authorization";
 import Validator from "../../../classes/Validator";
 import errorHandler from "../../../modules/errorHandler";
-import { signUp } from "../../../storage/actions/authActions";
+import { authActions } from "../../../storage/actions";
 import withAuthentication from "../../../hoc/withAuthentication";
 
 export const pageConfig = {
@@ -136,7 +136,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signUp: (user) => dispatch(signUp(user))
+    signUp: (user) => dispatch(authActions.signUp(user))
   };
 }
 

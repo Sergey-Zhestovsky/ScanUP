@@ -1,3 +1,3 @@
-export default function econcatClasses(...classes) {
+export default function concatClasses(...classes) {
   return classes.join(" ").trim();
 }

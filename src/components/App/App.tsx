@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { BrowserRouter, Switch } from "react-router-dom";
+import { connect, ConnectedProps } from "react-redux";
 
 import Home, { pageConfig as homePageConfig } from "../pages/Home/Home";
 import Login, { pageConfig as loginPageConfig } from "../pages/Login/Login";
 import Signup, { pageConfig as SignupPageConfig } from "../pages/Signup/Signup";
 import PersonalAccount, { pageConfig as accountPageConfig } from "../pages/PersonalAccount/PersonalAccount";
 import BaggagePreview, { pageConfig as baggagePageConfig } from "../pages/BaggagePreview/BaggagePreview";
-
 import PageRoute from "../utils/PageRoute/PageRoute";
-import { getUserDetail } from "../../storage/actions/authActions";
+import { authActions } from "../../storage/actions";
+import { ThunkDispatch } from "../../storage/types/redux-actions";
 
 import styles from './App.module.less';
 
-class App extends Component {
+class App extends Component<AppProp> {
   componentDidMount() {
     this.props.getUserDetail();
   }
@@ -35,10 +35,15 @@ class App extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: ThunkDispatch) {
   return {
-    getUserDetail: () => dispatch(getUserDetail())
+    getUserDetail: () => dispatch(authActions.getUserDetail())
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+let connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type AppProp = PropsFromRedux;
+
+export default connector(App);

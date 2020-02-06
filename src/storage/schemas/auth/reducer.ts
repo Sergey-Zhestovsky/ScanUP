@@ -1,21 +1,22 @@
-import Cookies from "../../classes/Cookies";
+import Cookies from "../../../classes/Cookies";
+import { AuthState, DispatchUserObject, DispatchObject, DispatchErrorObject } from "./types";
 
-export const ACTIONS = {
-  LOGOUT_SUCCES: "AUTHORISATION::LOGOUT_SUCCES",
-  LOGOUT_ERROR: "AUTHORISATION::LOGOUT_ERROR",
-  LOGIN_SUCCES: "AUTHORISATION::LOGIN_SUCCES",
-  LOGIN_LOADING: "AUTHORISATION::LOGIN_LOADING",
-  LOGIN_ERROR: "AUTHORISATION::LOGIN_ERROR",
-  DETAILS_SUCCES: "AUTHORISATION::DETAILS_SUCCES",
-  DETAILS_LOADING: "AUTHORISATION::DETAILS_LOADING",
-  SIGNUP_SUCCES: "AUTHORISATION::SIGNUP_SUCCES",
-  SIGNUP_ERROR: "AUTHORISATION::SIGNUP_ERROR",
-  SIGNUP_LOADING: "AUTHORISATION::SIGNUP_LOADING",
+export enum ACTIONS {
+  LOGOUT_SUCCESS = "AUTHORIZATION::LOGOUT_SUCCESS",
+  LOGOUT_ERROR = "AUTHORIZATION::LOGOUT_ERROR",
+  LOGIN_SUCCESS = "AUTHORIZATION::LOGIN_SUCCESS",
+  LOGIN_LOADING = "AUTHORIZATION::LOGIN_LOADING",
+  LOGIN_ERROR = "AUTHORIZATION::LOGIN_ERROR",
+  DETAILS_SUCCESS = "AUTHORIZATION::DETAILS_SUCCESS",
+  DETAILS_LOADING = "AUTHORIZATION::DETAILS_LOADING",
+  SIGN_UP_SUCCESS = "AUTHORIZATION::SIGN_UP_SUCCESS",
+  SIGN_UP_ERROR = "AUTHORIZATION::SIGN_UP_ERROR",
+  SIGN_UP_LOADING = "AUTHORIZATION::SIGN_UP_LOADING",
 };
 
-let user = Cookies.getAuthrizationFromCookie();
+let user = Cookies.getAuthorizationFromCookie();
 
-let initialState = {
+let initialState: AuthState = {
   isAuthorized: user ? true : false,
   user: user,
   details: {
@@ -37,9 +38,12 @@ let initialState = {
   }
 };
 
-export default function authReducer(state = initialState, action) {
+export default function authReducer(state = initialState, action: DispatchObject): AuthState {
+  let userAction = action as DispatchUserObject,
+    errorAction = action as DispatchErrorObject;
+
   switch (action.type) {
-    case ACTIONS.LOGOUT_SUCCES:
+    case ACTIONS.LOGOUT_SUCCESS:
       return {
         ...state,
         isAuthorized: false,
@@ -50,7 +54,7 @@ export default function authReducer(state = initialState, action) {
           transportSystemReception: null,
           transportSystem: null
         },
-        error: {
+        errors: {
           ...state.errors,
           logout: null
         }
@@ -58,28 +62,28 @@ export default function authReducer(state = initialState, action) {
     case ACTIONS.LOGOUT_ERROR:
       return {
         ...state,
-        error: {
+        errors: {
           ...state.errors,
-          logout: action.error
+          logout: errorAction.error
         }
       };
-    case ACTIONS.LOGIN_SUCCES:
+    case ACTIONS.LOGIN_SUCCESS:
       return {
         ...state,
         isAuthorized: true,
-        user: action.user,
+        user: userAction.user,
         details: {
-          name: action.details.name,
-          passport: action.details.passport,
-          transportSystemReception: action.details.transportSystemReception || null,
-          transportSystem: action.details.transportSystem || null
+          name: userAction.details.name,
+          passport: userAction.details.passport || null,
+          transportSystemReception: userAction.details.transportSystemReception || null,
+          transportSystem: userAction.details.transportSystem || null
         },
         loaded: {
           ...state.loaded,
           login: true,
           details: true
         },
-        error: {
+        errors: {
           ...state.errors,
           login: null
         }
@@ -103,19 +107,21 @@ export default function authReducer(state = initialState, action) {
           ...state.loaded,
           login: true
         },
-        error: {
+        errors: {
           ...state.errors,
-          login: action.error
+          login: errorAction.error
         }
       };
-    case ACTIONS.DETAILS_SUCCES:
+    case ACTIONS.DETAILS_SUCCESS:
+      console.log(action)
+      action = action as DispatchUserObject;
       return {
         ...state,
         details: {
-          name: action.details.name,
-          passport: action.details.passport,
-          transportSystemReception: action.details.transportSystemReception || null,
-          transportSystem: action.details.transportSystem || null
+          name: userAction.details.name,
+          passport: userAction.details.passport || null,
+          transportSystemReception: userAction.details.transportSystemReception || null,
+          transportSystem: userAction.details.transportSystem || null
         },
         loaded: {
           ...state.loaded,
@@ -130,28 +136,29 @@ export default function authReducer(state = initialState, action) {
           details: false
         }
       };
-    case ACTIONS.SIGNUP_SUCCES:
+    case ACTIONS.SIGN_UP_SUCCESS:
+      action = action as DispatchUserObject;
       return {
         ...state,
         isAuthorized: true,
-        user: action.user,
+        user: userAction.user,
         details: {
-          name: action.details.name,
-          passport: action.details.passport,
-          transportSystemReception: action.details.transportSystemReception || null,
-          transportSystem: action.details.transportSystem || null
+          name: userAction.details.name,
+          passport: userAction.details.passport || null,
+          transportSystemReception: userAction.details.transportSystemReception || null,
+          transportSystem: userAction.details.transportSystem || null
         },
         loaded: {
           ...state.loaded,
           signup: true,
           details: true
         },
-        error: {
+        errors: {
           ...state.errors,
           signup: null
         }
       };
-    case ACTIONS.SIGNUP_LOADING:
+    case ACTIONS.SIGN_UP_LOADING:
       return {
         ...state,
         loaded: {
@@ -163,16 +170,17 @@ export default function authReducer(state = initialState, action) {
           signup: null
         }
       };
-    case ACTIONS.SIGNUP_ERROR:
+    case ACTIONS.SIGN_UP_ERROR:
+      action = action as DispatchErrorObject;
       return {
         ...state,
         loaded: {
           ...state.loaded,
           signup: true
         },
-        error: {
+        errors: {
           ...state.errors,
-          signup: action.error
+          signup: errorAction.error
         }
       };
     default:
