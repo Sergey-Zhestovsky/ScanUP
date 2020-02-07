@@ -13,7 +13,7 @@ import { ThunkDispatch } from "../../storage/types/redux-actions";
 
 import styles from './App.module.less';
 
-class App extends Component<AppProp> {
+class App extends Component<AppProps> {
   componentDidMount() {
     this.props.getUserDetail();
   }
@@ -44,6 +44,6 @@ function mapDispatchToProps(dispatch: ThunkDispatch) {
 let connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type AppProp = PropsFromRedux;
+type AppProps = PropsFromRedux;
 
 export default connector(App);
