@@ -10,27 +10,40 @@ import BaggagePreview, { pageConfig as baggagePageConfig } from "../pages/Baggag
 import PageRoute from "../utils/PageRoute/PageRoute";
 import { authActions } from "../../storage/actions";
 import { ThunkDispatch } from "../../storage/types/redux-actions";
+import Transition from "../utils/Transition/Transition";
 
 import styles from './App.module.less';
 
 class App extends Component<AppProps> {
-  componentDidMount() {
+
+  public state = {
+    mounted: false
+  };
+
+  constructor(props: AppProps) {
+    super(props);
     this.props.getUserDetail();
+  }
+
+  componentDidMount() {
+    this.setState({ mounted: true });
   }
 
   render() {
     return (
-      <div className={styles.App}>
-        <BrowserRouter>
-          <Switch>
-            <PageRoute path="/" exact component={Home} {...homePageConfig} />
-            <PageRoute path="/login" component={Login} {...loginPageConfig} />
-            <PageRoute path="/signup" component={Signup} {...SignupPageConfig} />
-            <PageRoute path="/account" component={PersonalAccount} {...accountPageConfig} />
-            <PageRoute path="/baggage" exact component={BaggagePreview} {...baggagePageConfig} />
-          </Switch>
-        </BrowserRouter>
-      </div>
+      <Transition in={true} style={styles} unmountOnExit appear>
+        <div className={styles.App}>
+          <BrowserRouter>
+            <Switch>
+              <PageRoute path="/" exact component={Home} {...homePageConfig} />
+              <PageRoute path="/login" component={Login} {...loginPageConfig} />
+              <PageRoute path="/signup" component={Signup} {...SignupPageConfig} />
+              <PageRoute path="/account" component={PersonalAccount} {...accountPageConfig} />
+              <PageRoute path="/baggage" exact component={BaggagePreview} {...baggagePageConfig} />
+            </Switch>
+          </BrowserRouter>
+        </div>
+      </Transition>
     );
   }
 }
