@@ -113,7 +113,6 @@ export default function authReducer(state = initialState, action: DispatchObject
         }
       };
     case ACTIONS.DETAILS_SUCCESS:
-      console.log(action)
       action = action as DispatchUserObject;
       return {
         ...state,

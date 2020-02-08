@@ -7,12 +7,12 @@ interface RecursiveConfig<EndPoint> {
 
 export type Config = RecursiveConfig<OriginConfigProperty>;
 type OriginConfigProperty = Rules | OriginConfigOption[];
-type OriginConfigOption = Rules | [Rules, string?, string?];
+type OriginConfigOption = Rules | [Rules, any?, string?];
 
 type ValidationConfig = RecursiveConfig<Rule[]>;
 
 export type DataObject = RecursiveConfig<OriginValidationData>;
-type OriginValidationData = string | [string, string];
+type OriginValidationData = string | [string, any?];
 
 type ErrorObject = RecursiveConfig<ValidationError[]>;
 
@@ -91,6 +91,25 @@ export default class Validator {
     this.config = this.init(config);
   }
 
+  static showError(errors: ErrorObject, withValid: boolean = false) {
+    return walkThroughErrors(errors);
+
+    function walkThroughErrors(errors: ErrorObject, output: any = {}) {
+      for (let errorName in errors) {
+        let errorField = errors[errorName];
+
+        if (isObject(errorField))
+          output[errorName] = walkThroughErrors(errorField as ErrorObject);
+        else if (errorField.length)
+          output[errorName] = (errorField as ValidationError[])[0].Message;
+        else if (withValid)
+          output[errorName] = null;
+      }
+
+      return output;
+    }
+  }
+
   init(config: Config): ValidationConfig {
     return walkThroughConfig(config, {});
 
@@ -139,8 +158,9 @@ export default class Validator {
           if (!isObject(dataConfig))
             throw new Error("Validation data object don't match to config object");
 
-          isValid = isValid && walkThroughConfig(fieldConfig as ValidationConfig,
-            errors[fieldName] = {}, dataConfig as DataObject);
+          isValid = walkThroughConfig(fieldConfig as ValidationConfig,
+            errors[fieldName] = {}, dataConfig as DataObject) && isValid;
+
         } else {
           let temp = validationByRules(dataConfig as OriginValidationData,
             fieldConfig as Rule[]);

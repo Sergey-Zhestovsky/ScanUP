@@ -14,14 +14,6 @@ declare interface DispatchThunkWrapper
   (arg: WrapperObject): ThunkAction<Return, State, ExtraArgs, A>;
 }
 
-declare interface ServerErrorObject {
-  id: string;
-  code: string;
-  name: string;
-  date: number | string;
-  source?: Object;
-}
-
 declare type ServerError = ServerErrorObject | object | string;
 
 declare type ThunkDispatch = ThunkDispatch<RootState, RootConnector, Action>;

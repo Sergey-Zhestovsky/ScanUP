@@ -1,10 +1,16 @@
-import axios, { Method, AxiosRequestConfig, CancelTokenSource, Canceler } from "axios";
+import axios, { Method, AxiosRequestConfig, CancelTokenSource, Canceler, AxiosResponse } from "axios";
+import ServerError, { ServerErrorCodes as ErrorCodes } from "../../classes/ServerError";
 
 interface Config {
   method?: Method
 }
 
-interface AxiosResponse {
+interface ServerResponse {
+  error: object,
+  result?: object
+}
+
+interface Response {
   cancel: Canceler;
   request: any;
 }
@@ -34,19 +40,25 @@ export default class Connector {
     );
   }
 
-  private async responseDestructor(promise: Promise<AxiosResponse>,
+  private async responseDestructor(promise: Promise<AxiosResponse<ServerResponse>>,
     path: string, requestBody: any): Promise<any> {
     try {
-      return await promise;
-    } catch ({ error, result }) {
-      return this.ErrorHandler(path, requestBody, error, result);
+      let { data } = await promise;
+
+      if (data.error) // connection is ok, error in body
+        return this.ErrorHandler(path, requestBody, data.error, data.result);
+
+      return data.result;
+    } catch (error) {
+      if (axios.isCancel(error))
+        error.code = ErrorCodes.AXIOS__REQUEST_CANCELED;
+
+      return this.ErrorHandler(path, requestBody, error);
     }
   }
 
   private requestBuilder(path: string, requestBody: any,
-    config: Config, axiosConfig: AxiosRequestConfig = {}): AxiosResponse {
-    //if (this.signRequests ) TODO
-
+    config: Config, axiosConfig: AxiosRequestConfig = {}): Response {
     let source: CancelTokenSource = axios.CancelToken.source();
 
     axiosConfig = {
@@ -57,20 +69,7 @@ export default class Connector {
       cancelToken: source.token
     };
 
-    let request = axios.request(axiosConfig)
-      .then(
-        ({ data }) => {
-          if (data.error)
-            Promise.reject(data);
-
-          return data.result;
-        }, (error) => {
-          if (axios.isCancel(error))
-            Promise.reject({ error: 'Request canceled' });
-
-          Promise.reject({ error });
-        }
-      );
+    let request = axios.request(axiosConfig);
 
     return {
       cancel: source.cancel,
@@ -78,13 +77,13 @@ export default class Connector {
     };
   }
 
-  private ErrorHandler(path: string, requestBody: any, error: any, result: any) {
+  private ErrorHandler(path: string, requestBody: any, error: any, result?: any) {
     if (!error.code)
       return Promise.reject(error);
 
     switch (error.code) {
-      default:
-        return Promise.reject(error);
+      case ErrorCodes.AXIOS__REQUEST_CANCELED: return Promise.reject(error);
+      default: return Promise.reject(ServerError.create(error));
     }
   }
 }
