@@ -7,7 +7,7 @@ import Button from "../../../../../utils/Button/Button";
 
 import styles from "../Form.module.less";
 
-export default function FormBlockTitileWithQR(props) {
+export default function FormBlockTitleWithQR(props) {
   return (
     <div className={concatClasses(styles["form-block-title"], props.className)}>
       {props.children}

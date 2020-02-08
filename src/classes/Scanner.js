@@ -3,8 +3,6 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Error } from "mongoose";
-import { relativeTimeRounding } from "moment";
 
 export default class Scanner {
   constructor({ contsinerWidth, containerHeight }) {

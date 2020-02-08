@@ -2,8 +2,8 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 
 import {
-  Form, FORM_STYLES, FormBlock, FormGroup, FormInputField, FormSelectField, FormGroupTitle,
-  FormCol, FormSubmit, FormTextField, FormBlockTitle, FormSubGroup, FormScannerDescribe
+  FORM_STYLES, FormBlock, FormGroup, FormGroupTitle, FormCol, FormTextField,
+  FormSubGroup, FormScannerDescribe
 } from "../Form";
 import Button, { BUTTON_STYLE } from "../../../../../utils/Button/Button";
 import ButtonBlock from "./ButtonBlock";
@@ -38,7 +38,7 @@ class ScanBlock extends PureComponent {
   }
 
   getScannerWidth() {
-    if (!this.props.scanning && !this.props.scan || !this.scannerBlockRef.current)
+    if (!this.props.scanning && (!this.props.scan || !this.scannerBlockRef.current))
       return;
 
     return this.setState({

@@ -25,7 +25,7 @@ class Moderators extends Component {
         answer => this.setState({
           receptions: answer
         }),
-        error => console.error(error)
+        console.error
       )
   }
 

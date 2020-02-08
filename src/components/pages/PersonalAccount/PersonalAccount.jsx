@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -59,7 +59,7 @@ function PersonalAccount(props) {
 
 function mapStateToProps(state) {
   return {
-    privilege: state.auth.user && state.auth.user.privilege || null
+    privilege: state.auth.user ? state.auth.user.privilege : null
   }
 }
 

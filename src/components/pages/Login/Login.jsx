@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import AuthForm, { AuthField, AuthTitle, AuthSubmit } from "../../parts/Authorization/Authorization";
-import Validator from "../../../classes/Validator";
-import errorHandler from "../../../modules/errorHandler";
+import AuthForm, { AuthField, AuthTitle, AuthError, AuthSubmit } from "../../parts/Authorization/Authorization";
+import Validator, { Rules } from "../../../classes/Validator";
 import { authActions } from "../../../storage/actions";
 import withAuthentication from "../../../hoc/withAuthentication";
 
@@ -23,12 +22,13 @@ class Login extends Component {
       errors: {
         email: null,
         password: null
-      }
+      },
+      serverError: null
     };
 
     this.validator = new Validator({
-      email: ["required", ["maxLength", 100]],
-      password: ["required", ["maxLength", 100]]
+      email: [Rules.required, [Rules.maxLength, 100]],
+      password: [Rules.required, [Rules.maxLength, 100]]
     });
   }
 
@@ -48,18 +48,32 @@ class Login extends Component {
     let errors = this.validator.validate(this.state.form);
 
     if (errors === true) {
-      return this.props.login(this.state.form);
+      this.clearErrors();
+      this.props.login(this.state.form)
+        .catch(serverError => this.setState({ serverError }));
     } else {
-      return this.setState({
+      this.setState({
         ...this.state,
-        errors: errorHandler(errors)
+        errors: Validator.showError(errors)
       });
     }
   }
 
+  clearErrors() {
+    this.setState({
+      errors: {
+        email: null,
+        password: null
+      },
+      serverError: null
+    });
+  }
+
   render() {
+    let responseError = this.state.serverError && this.state.serverError.Message;
+
     return (
-      <AuthForm withWrapper onSubmit={this.submitHandler}>
+      <AuthForm withWrapper withErrorHighlight={responseError} onSubmit={this.submitHandler}>
         <AuthTitle>Login</AuthTitle>
         <AuthField
           name="email"
@@ -77,7 +91,8 @@ class Login extends Component {
           value={this.state.form.password}
           onChange={this.changeHandler}
         >Password</AuthField>
-        <AuthSubmit>Login</AuthSubmit>
+        <AuthSubmit disabled={this.props.auth.loaded === false}>Login</AuthSubmit>
+        <AuthError>{responseError}</AuthError>
       </AuthForm>
     );
   }
@@ -85,7 +100,9 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    auth: {
+      loaded: state.auth.loaded.login
+    }
   }
 }
 

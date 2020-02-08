@@ -11,7 +11,7 @@ import ScanBlock from "../../../parts/Form/templates/ScanBlock";
 import BodySpinner from "../../../parts/BodySpinner/BodySpinner";
 import ButtonBlock from "../../../parts/Form/templates/ButtonBlock";
 import { scannerConnector, baggageConnector } from "../../../../../../storage/connections/rootConnector";
-import Validator from "../../../../../../classes/Validator";
+import Validator, { Rules } from "../../../../../../classes/Validator";
 
 class AddForm extends Component {
   constructor(props) {
@@ -31,12 +31,12 @@ class AddForm extends Component {
       cancelToken: null
     };
     this.validator = new Validator({
-      passport: ["required", ["maxLength", 9]],
-      weight: ["required"],
-      model: ["required"],
-      summary: ["required"],
-      descriptionHesh: ["required"],
-      time: ["required"]
+      passport: [Rules.required, [Rules.maxLength, 9]],
+      weight: Rules.required,
+      model: Rules.required,
+      summary: Rules.required,
+      descriptionHesh: Rules.required,
+      time: Rules.required
     });
   }
 

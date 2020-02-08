@@ -5,8 +5,7 @@ import Form, {
   FORM_STYLES, FormBlock, FormGroup, FormInputField,
   FormSubmit, FormSubGroup, FormTextarea
 } from "../../../../parts/Form/Form";
-import Validator from "../../../../../../../classes/Validator";
-import errorHandler from "../../../../../../../modules/errorHandler";
+import Validator, { Rules } from "../../../../../../../classes/Validator";
 import { complaintConnector } from "../../../../../../../storage/connections/rootConnector";
 
 import styles from "./complaintForm.module.less";
@@ -26,8 +25,8 @@ export default class ComplaintForm extends Component {
     };
 
     this.formValidator = new Validator({
-      message: ["required", ["maxLength", 300]],
-      title: [["maxLength", 50]]
+      title: [[Rules.maxLength, 50]],
+      message: [Rules.required, [Rules.maxLength, 300]]
     });
   }
 
@@ -54,7 +53,7 @@ export default class ComplaintForm extends Component {
         .catch(error => this.setState({ serverError: error }));
     } else {
       return this.setState({
-        errors: errorHandler(errors, false)
+        errors: Validator.showError(errors)
       });
     }
   }

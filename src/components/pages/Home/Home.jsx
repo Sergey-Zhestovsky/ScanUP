@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import GlowingNodes, { Node } from "../../../classes/GlowingNodes";
+import GlowingNodes from "../../../classes/GlowingNodes";
 import { HEADER_STYLE } from "../../parts/Header/Header";
 import SearchForm from "./SearchForm/SearchForm";
 

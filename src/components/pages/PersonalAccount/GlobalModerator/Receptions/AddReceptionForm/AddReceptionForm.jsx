@@ -4,8 +4,7 @@ import PopUp, { PopUpTitle } from "../../../../../utils/PopUp/PopUp";
 import Form, {
   FORM_STYLES, FormBlock, FormGroup, FormInputField, FormSubmit, FormSubGroup
 } from "../../../parts/Form/Form";
-import Validator from "../../../../../../classes/Validator";
-import errorHandler from "../../../../../../modules/errorHandler";
+import Validator, { Rules } from "../../../../../../classes/Validator";
 import { tsReceptionConnector } from "../../../../../../storage/connections/rootConnector";
 
 export default class AddTransportSystemForm extends Component {
@@ -21,7 +20,7 @@ export default class AddTransportSystemForm extends Component {
       isActive: true
     };
     this.validator = new Validator({
-      name: ["required", ["maxLength", 100]]
+      name: [Rules.required, [Rules.maxLength, 100]]
     });
   }
 
@@ -51,7 +50,7 @@ export default class AddTransportSystemForm extends Component {
         }));
     } else {
       return this.setState({
-        errors: errorHandler(errors, false)
+        errors: Validator.showError(errors)
       });
     }
   }

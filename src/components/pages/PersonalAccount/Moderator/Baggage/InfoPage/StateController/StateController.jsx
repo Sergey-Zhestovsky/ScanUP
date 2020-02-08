@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { FORM_STYLES, FormTextField, FormInputField, FormSelectField } from "../../../../parts/Form/Form";
+import { FormTextField, FormInputField, FormSelectField } from "../../../../parts/Form/Form";
 import { baggageConnector, baggageStateConnector } from "../../../../../../../storage/connections/rootConnector";
 import CheckState from "../../../../../../utils/CheckState/CheckState";
 

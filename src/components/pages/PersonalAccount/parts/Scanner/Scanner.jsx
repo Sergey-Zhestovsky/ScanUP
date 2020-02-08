@@ -14,11 +14,11 @@ class Scanner extends PureComponent {
       loadingError: false,
       loaded: false,
     };
-    this.scaner = null;
+    this.scanner = null;
   }
 
   componentDidMount() {
-    this.scaner = this.initScanner();
+    this.scanner = this.initScanner();
     this.loadScanner();
   }
 
@@ -40,7 +40,7 @@ class Scanner extends PureComponent {
 
   loadScanner() {
     if (this.props.href)
-      this.scaner.load(
+      this.scanner.load(
         this.props.href,
         () => this.setState({
           loadingError: true
@@ -55,17 +55,17 @@ class Scanner extends PureComponent {
     let container = this.containerRef.current;
 
     return {
-      contsinerWidth: this.props.width ? this.props.width : container.clientWidth,
+      containerWidth: this.props.width ? this.props.width : container.clientWidth,
       containerHeight: this.props.height ? this.props.height : container.clientHeight
     };
   }
 
   resizeHandler() {
-    if (!this.scaner)
+    if (!this.scanner)
       return;
 
     let newSize = this.getContainerSize();
-    this.scaner.updateSize(newSize.contsinerWidth, newSize.containerHeight);
+    this.scanner.updateSize(newSize.containerWidth, newSize.containerHeight);
   }
 
   render() {
@@ -74,7 +74,7 @@ class Scanner extends PureComponent {
         {
           this.state.loadingError &&
           <div className={styles["scanner-hover"]}>
-            <div className={styles["scanner-error"]}>Error occured</div>
+            <div className={styles["scanner-error"]}>Error occurred</div>
           </div>
         }
         {

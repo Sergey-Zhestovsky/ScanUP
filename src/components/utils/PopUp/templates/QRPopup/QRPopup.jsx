@@ -11,7 +11,6 @@ export default function QRPopup(props) {
     closeHandler,
     value,
     size = 250,
-    color,
     bgColor = "#f9f9f9"
   } = props;
 

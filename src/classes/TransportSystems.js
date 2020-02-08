@@ -9,7 +9,7 @@ export default class TransportSystems {
     return [...this.ts];
   }
 
-  async syncronize() {
+  async synchronize() {
     let answer;
 
     try {

@@ -3,9 +3,8 @@ import { withRouter } from "react-router";
 
 import KeyInput from "../../../utils/KeyInput/KeyInput";
 import Button from "../../../utils/Button/Button";
-import concatClasses from "../../../../modules/concatClasses";
 import { baggageConnector } from "../../../../storage/connections/rootConnector";
-import Validator from "../../../../classes/Validator";
+import Validator, { Rules } from "../../../../classes/Validator";
 
 import styles from "./searchForm.module.less";
 
@@ -24,7 +23,7 @@ class SearchForm extends Component {
       serverError: null
     };
     this.validator = new Validator({
-      key: ["required", ["test", /^.{4}-.{4}-.{4}$/]]
+      key: [Rules.required, [Rules.test, /^.{4}-.{4}-.{4}$/]]
     });
   }
 

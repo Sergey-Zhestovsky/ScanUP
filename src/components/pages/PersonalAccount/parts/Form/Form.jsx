@@ -9,9 +9,9 @@ import FormTextField from "./FormTextField/FormTextField";
 import FormCheckBox from "./FormCheckBox/FormCheckBox";
 import FormSelectField from "./FormSelectField/FormSelectField";
 import FormScannerDescribe from "./FormScannerDescribe/FormScannerDescribe";
-import FormLink from "./ForrmLink/FormLink";
+import FormLink from "./FormLink/FormLink";
 import FormBlockTitle from "./FormBlockTitle/FormBlockTitle";
-import FormBlockTitileWithQR from "./FormBlockTitileWithQR/FormBlockTitileWithQR";
+import FormBlockTitleWithQR from "./FormBlockTitleWithQR/FormBlockTitleWithQR";
 import FormTextarea from "./FormTextarea/FormTextarea";
 
 import styles from "./Form.module.less";
@@ -82,5 +82,5 @@ export function FormTransportationState(props) {
 export {
   Form, FormBlock, FormGroup, FormTitle, FormSelectField, FormScannerDescribe,
   FormInputField, FormSubmit, FormTextField, FormCheckBox, FormLink, FormBlockTitle,
-  FormBlockTitileWithQR, FormTextarea
+  FormBlockTitleWithQR, FormTextarea
 };

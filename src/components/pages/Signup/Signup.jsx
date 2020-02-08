@@ -4,8 +4,7 @@ import { withRouter } from "react-router";
 import { Redirect } from "react-router-dom";
 
 import AuthForm, { AuthField, AuthTitle, AuthSubmit } from "../../parts/Authorization/Authorization";
-import Validator from "../../../classes/Validator";
-import errorHandler from "../../../modules/errorHandler";
+import Validator, { Rules } from "../../../classes/Validator";
 import { authActions } from "../../../storage/actions";
 import withAuthentication from "../../../hoc/withAuthentication";
 
@@ -52,10 +51,10 @@ class Signup extends Component {
     this.clearErrors();
 
     let validator = new Validator({
-      name: ["required", ["maxLength", 100]],
-      email: ["required", "email", ["maxLength", 100]],
-      password: ["required", ["maxLength", 100], ["password", this.state.form.rePassword]],
-      rePassword: ["required", ["maxLength", 100]]
+      name: [Rules.required, [Rules.maxLength, 100]],
+      email: [Rules.required, Rules.email, [Rules.maxLength, 100]],
+      password: [Rules.required, [Rules.maxLength, 100], [Rules.password, this.state.form.rePassword]],
+      rePassword: [Rules.required, [Rules.maxLength, 100]]
     });
 
     let data = this.state.form,
@@ -66,7 +65,7 @@ class Signup extends Component {
     } else {
       return this.setState({
         ...this.state,
-        errors: errorHandler(errors)
+        errors: Validator.showError(errors)
       });
     }
   }

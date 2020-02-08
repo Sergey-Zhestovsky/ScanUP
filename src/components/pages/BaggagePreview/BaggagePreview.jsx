@@ -12,7 +12,6 @@ import RegistrationAlert from "./RegistrationAlert/RegistrationAlert";
 import styles from "./baggagePreview.module.less";
 
 export const pageConfig = {
-  //headerClass: HEADER_STYLE.MAIN_PAGE,
   mainBodyClass: styles["main-body"],
   footer: false
 };
@@ -53,7 +52,7 @@ class BaggagePreview extends Component {
 
   render() {
     let baggage = this.baggage;
-console.log(baggage)
+
     if (!baggage)
       return <Redirect to="/" />;
 

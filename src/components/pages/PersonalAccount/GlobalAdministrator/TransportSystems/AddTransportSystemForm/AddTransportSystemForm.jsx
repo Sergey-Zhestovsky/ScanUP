@@ -6,8 +6,7 @@ import Form, {
   FormSelectField, FormCheckBox, FormSubGroup
 } from "../../../parts/Form/Form";
 import { tsTypesConnector } from "../../../../../../storage/connections/rootConnector";
-import Validator from "../../../../../../classes/Validator";
-import errorHandler from "../../../../../../modules/errorHandler";
+import Validator, { Rules } from "../../../../../../classes/Validator";
 import { tsConnector } from "../../../../../../storage/connections/rootConnector";
 
 export default class AddTransportSystemForm extends Component {
@@ -57,8 +56,8 @@ export default class AddTransportSystemForm extends Component {
     e.preventDefault();
 
     let validationConfig = {
-      fullName: ["required", ["maxLength", 100]],
-      typeId: ["required"]
+      fullName: [Rules.required, [Rules.maxLength, 100]],
+      typeId: Rules.required
     };
 
     if (this.state.form.typeId) {
@@ -69,8 +68,8 @@ export default class AddTransportSystemForm extends Component {
 
     if (this.state.form.selfControl) {
       Object.assign(validationConfig, {
-        login: ["required", ["maxLength", 100]],
-        password: ["required", ["maxLength", 100]]
+        login: [Rules.required, [Rules.maxLength, 100]],
+        password: [Rules.required, [Rules.maxLength, 100]]
       });
     }
 
@@ -83,14 +82,14 @@ export default class AddTransportSystemForm extends Component {
       tsConnector.add(this.state.form)
         .then(answer => {
           this.props.onSuccess(answer);
-          this.setState({isActive: false})
+          this.setState({ isActive: false })
         })
         .catch(error => this.setState({
           serverError: error
         }));
     } else {
       return this.setState({
-        errors: errorHandler(errors, false)
+        errors: Validator.showError(errors)
       });
     }
   }

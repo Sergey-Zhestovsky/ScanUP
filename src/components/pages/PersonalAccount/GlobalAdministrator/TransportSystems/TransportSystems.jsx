@@ -27,7 +27,7 @@ class TransportSystems extends Component {
 
   async componentDidMount() {
     return this.setState(({
-      transportSystems: await this.transportSystems.syncronize()
+      transportSystems: await this.transportSystems.synchronize()
     }));
   }
 

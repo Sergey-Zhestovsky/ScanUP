@@ -1,11 +1,8 @@
 import React, { PureComponent } from "react";
 import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
 
 import StateController from "./StateController/StateController";
 import LatterScanForm from "./LatterScanForm/LatterScanForm";
-//import EmptyResponce from "./EmptyResponce/EmptyResponce";
-
 import Title, { TitleBackLink } from "../../../parts/Title/Title";
 import {
   Form, FORM_STYLES, FormBlock, FormGroup, FormGroupTitle, FormTextField,

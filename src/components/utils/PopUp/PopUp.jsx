@@ -15,8 +15,7 @@ export default function PopUp(props) {
     children,
     style,
     animated = true,
-    timeout,
-    ...rest
+    timeout
   } = props;
 
   timeout = animated ? timeout : 0;

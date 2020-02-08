@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import {
   Form, FormBlock, FormGroup, FormGroupTitle, FormTextField,
-  FormBlockTitileWithQR, FormTransportationState
+  FormBlockTitleWithQR, FormTransportationState
 } from "../Form";
 import ScanBlock from "./ScanBlock";
 
@@ -20,9 +20,9 @@ function UserBaggageForm(props) {
   return (
     <Form>
       <FormBlock>
-        <FormBlockTitileWithQR qrClickHandler={props.qrClickHandler}>
+        <FormBlockTitleWithQR qrClickHandler={props.qrClickHandler}>
           No {baggage.uId}
-        </FormBlockTitileWithQR>
+        </FormBlockTitleWithQR>
         <FormTransportationState value={baggage.transportationState.state} />
       </FormBlock>
       {

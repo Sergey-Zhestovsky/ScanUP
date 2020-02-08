@@ -5,8 +5,7 @@ import Form, {
   FORM_STYLES, FormBlock, FormGroup, FormInputField, FormSubmit,
   FormSelectField, FormSubGroup
 } from "../../../parts/Form/Form";
-import Validator from "../../../../../../classes/Validator";
-import errorHandler from "../../../../../../modules/errorHandler";
+import Validator, { Rules } from "../../../../../../classes/Validator";
 import { tsReceptionConnector, moderatorConnector } from "../../../../../../storage/connections/rootConnector";
 import TransportSystemsController from "../../../../../../classes/TransportSystems";
 
@@ -16,10 +15,10 @@ export default class AddTransportSystemForm extends Component {
 
     this.transportSystems = new TransportSystemsController();
     this.formValidator = new Validator({
-      name: ["required", ["maxLength", 100]],
-      email: ["required", ["maxLength", 100]],
-      password: ["required", ["maxLength", 100]],
-      transportSystemReceptionId: ["required"]
+      name: [Rules.required, [Rules.maxLength, 100]],
+      email: [Rules.required, [Rules.maxLength, 100]],
+      password: [Rules.required, [Rules.maxLength, 100]],
+      transportSystemReceptionId: Rules.required
     });
 
     this.state = {
@@ -44,7 +43,7 @@ export default class AddTransportSystemForm extends Component {
 
   async componentDidMount() {
     return this.setState(({
-      transportSystems: await this.transportSystems.syncronize(),
+      transportSystems: await this.transportSystems.synchronize(),
       ready: true
     }));
   }
@@ -54,10 +53,10 @@ export default class AddTransportSystemForm extends Component {
       receptions = this.state.transportSystemReceptions;
 
     if (tsId !== receptions.tsId)
-      return this.syncronizeReceptions(tsId);
+      return this.synchronizeReceptions(tsId);
   }
 
-  async syncronizeReceptions(tsId) {
+  async synchronizeReceptions(tsId) {
     this.setState({
       transportSystemReceptions: {
         tsId,
@@ -109,7 +108,7 @@ export default class AddTransportSystemForm extends Component {
         }));
     } else {
       return this.setState({
-        errors: errorHandler(errors, false)
+        errors: Validator.showError(errors)
       });
     }
   }

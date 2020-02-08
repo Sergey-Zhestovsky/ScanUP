@@ -3,13 +3,13 @@ export default class GlowingNodes {
     wrapper,
     canvas,
     nodeConnectionDistance: sensitivity = 100,
-    sublingLimit: siblingsLimit = 10,
+    siblingLimit: siblingsLimit = 10,
     nodeMargin: density = 65,
     nodeMaxSpread: anchorLength = 50,
-    visionRadious: mouseRadius = 300,
+    visionRadius: mouseRadius = 300,
     nodeSpeed: speed = 550,
-    colorScheme: colorScheme = { node: `16, 99, 88`, connection: `29, 146, 131` },
-    initialPosition: initialPosition = {}
+    colorScheme = { node: `16, 99, 88`, connection: `29, 146, 131` },
+    initialPosition = {}
   }) {
     this.wrapper = wrapper;
     this.canvas = canvas;
@@ -179,7 +179,7 @@ export default class GlowingNodes {
     let lastScrolled = 0;
 
     return () => {
-      if (lastScrolled != 0 && lastScrolled != window.scrollY) {
+      if (lastScrolled !== 0 && lastScrolled !== window.scrollY) {
         this.mouse.y += window.scrollY - lastScrolled;
       }
 

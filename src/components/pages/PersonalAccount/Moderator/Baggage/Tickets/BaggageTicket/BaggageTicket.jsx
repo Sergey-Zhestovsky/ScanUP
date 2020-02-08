@@ -14,8 +14,8 @@ export default function BaggageTicket(props) {
     ts = scan.manager.transportSystem,
     reception = scan.manager.transportSystemReception,
     date = moment(scan.time).format("DD MMMM"),
-    time = moment(scan.time).format("hh:mm:ss a"),
-    scanner = reception.scanner.uId.slice(0, 14);
+    time = moment(scan.time).format("hh:mm:ss a");
+  //scanner = reception.scanner.uId.slice(0, 14);
 
   return (
     <div className={styles["ticket"]}>

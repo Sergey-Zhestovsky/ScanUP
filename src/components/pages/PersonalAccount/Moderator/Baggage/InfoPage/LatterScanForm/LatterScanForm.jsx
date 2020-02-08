@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 
 import ScanBlock from "../../../../parts/Form/templates/ScanBlock";
 import ButtonBlock from "../../../../parts/Form/templates/ButtonBlock";
-import Validator from "../../../../../../../classes/Validator";
+import Validator, { Rules } from "../../../../../../../classes/Validator";
 import { scannerConnector, baggageConnector } from "../../../../../../../storage/connections/rootConnector";
 
 class ScanForm extends Component {
@@ -23,11 +23,11 @@ class ScanForm extends Component {
       formRequesting: false,
     };
     this.validator = new Validator({
-      weight: ["required"],
-      model: ["required"],
-      summary: ["required"],
-      descriptionHesh: ["required"],
-      time: ["required"]
+      weight: Rules.required,
+      model: Rules.required,
+      summary: Rules.required,
+      descriptionHesh: Rules.required,
+      time: Rules.required
     });
   }
 

@@ -14,17 +14,22 @@ export default function Authorization(props) {
   let {
     onSubmit = defaultSubmit,
     withWrapper,
+    withErrorHighlight,
     children,
     ...rest
   } = props;
+
+  let errorClass = withErrorHighlight ? styles["error-highlight"] : null;
 
   let body = (
     <div className={styles["auth-form-main-col"]}>
       <div className={styles["auth-form-block"]}>
         <form onSubmit={onSubmit} className={styles["auth-form"]} {...rest}>
-          {children}
+          <div className={styles["auth-form-main-container"]}>
+            {children}
+          </div>
         </form>
-        <div className={styles["auth-form-right-col"]}></div>
+        <div className={concatClasses(styles["auth-form-right-col"], errorClass)}></div>
       </div>
     </div>
   );
@@ -67,6 +72,14 @@ export function AuthField(props) {
         <Input className={inputClass} {...rest} />
       </div>
       <div className={styles["auth-error-message"]}>{error}</div>
+    </div>
+  );
+}
+
+export function AuthError(props) {
+  return (
+    <div className={styles["auth-error"]}>
+      {props.children}
     </div>
   );
 }
