@@ -8,6 +8,7 @@ export default class GlowingNodes {
     nodeMaxSpread: anchorLength = 50,
     visionRadius: mouseRadius = 300,
     nodeSpeed: speed = 550,
+    appearTime = 200,
     colorScheme = { node: `16, 99, 88`, connection: `29, 146, 131` },
     initialPosition = {}
   }) {
@@ -30,6 +31,10 @@ export default class GlowingNodes {
       y: initialPosition.y || undefined
     };
 
+    this.appearTime = appearTime;
+    this.appearStart = null;
+    this.appeared = false;
+
     this.NODES_QTY = 0;
     this.running = true;
     this.resizeTimeout = null;
@@ -50,13 +55,13 @@ export default class GlowingNodes {
 
   initHandlers() {
     window.addEventListener("resize", this.resizeWindow, false);
-    document.addEventListener("mousemove", this.mousemoveHandler, false);
+    document.addEventListener("mousemove", this.firstMousemoveHandler, false);
     document.addEventListener("scroll", (e) => this.mouseScrollHandler, true);
   }
 
   removeHandlers() {
     document.removeEventListener("resize", this.resizeWindow, false);
-    this.wrapper.removeEventListener("mousemove", this.mousemoveHandler, false);
+    document.removeEventListener("mousemove", this.mousemoveHandler, false);
     document.removeEventListener("scroll", (e) => this.mouseScrollHandler, true);
   }
 
@@ -114,24 +119,24 @@ export default class GlowingNodes {
   }
 
   redrawScene = () => {
+    if (this.appearStart)
+      this.drawFrame();
+
+    requestAnimationFrame(this.frameHandler);
+  }
+
+  drawFrame() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.findSiblings();
+    this.appeared = this.appeared || Date.now() - this.appearStart >= this.appearTime;
 
-    let node, distance;
+    let node;
 
     for (let i = 0; i < this.NODES_QTY; i++) {
       node = this.nodes[i];
 
-      distance = node.calcDistance({
-        x: this.mouse.x,
-        y: this.mouse.y
-      });
-
-      if (distance < this.mouseRadius) {
-        node.brightness = 1 - distance / this.mouseRadius;
-      } else {
-        node.brightness = 0;
-      }
+      node.setBrightness(this.mouse, this.mouseRadius, this.appeared,
+        this.appearStart, this.appearTime);
     }
 
     for (let i = 0; i < this.NODES_QTY; i++) {
@@ -144,15 +149,12 @@ export default class GlowingNodes {
 
       node.moveNode(this.anchorLength, this.speed);
     }
-
-    requestAnimationFrame(this.frameHandler);
   }
 
   frameHandler = () => {
     if (this.running)
       return this.redrawScene();
   }
-
 
   resizeWindow = () => {
     let resize = () => {
@@ -168,6 +170,13 @@ export default class GlowingNodes {
   setCanvasSize() {
     this.canvas.width = this.wrapper.clientWidth;
     this.canvas.height = this.wrapper.clientHeight;
+  }
+
+  firstMousemoveHandler = (e) => {
+    document.removeEventListener("mousemove", this.firstMousemoveHandler, false);
+    this.appearStart = Date.now();
+    this.mousemoveHandler(e);
+    document.addEventListener("mousemove", this.mousemoveHandler, false);
   }
 
   mousemoveHandler = (e) => {
@@ -254,5 +263,17 @@ export class Node {
 
   calcDistance(node) {
     return Math.sqrt(Math.pow(this.x - node.x, 2) + (Math.pow(this.y - node.y, 2)));
+  }
+
+  setBrightness(mouse, mouseRadius, isAppeared, appearStart, appearTime) {
+    let distance = this.calcDistance(mouse);
+
+    if (distance < mouseRadius) {
+      this.brightness = 1 - distance / mouseRadius;
+
+      if (!isAppeared)
+        return this.brightness = this.brightness * (Date.now() - appearStart) / appearTime;
+    } else
+      this.brightness = 0;
   }
 }
