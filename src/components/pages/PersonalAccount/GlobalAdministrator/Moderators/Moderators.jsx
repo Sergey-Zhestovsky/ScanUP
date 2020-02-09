@@ -43,7 +43,6 @@ class Moderators extends Component {
 
   addModeratorSuccess = (moderator) => {
     return this.setState(state => ({
-      addModeratorForm: false,
       moderators: [...state.moderators, moderator]
     }));
   }

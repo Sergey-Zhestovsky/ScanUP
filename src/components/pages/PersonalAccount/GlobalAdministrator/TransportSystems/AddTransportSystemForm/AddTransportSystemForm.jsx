@@ -110,19 +110,19 @@ export default class AddTransportSystemForm extends Component {
 
   prepareTestsForShortName() {
     let config = this.getCurrentNamingStandard(),
-      result = ["required"];
+      result = [Rules.required];
 
     if (typeof config.length === typeof 1)
-      result.push(["length", config.length]);
+      result.push([Rules.length, config.length]);
 
     if (config.isAlphabet === false)
-      result.push(["backTest", /\p{L}/u])
+      result.push([Rules.backTest, /\p{L}/u])
 
     if (config.isNumber === false)
-      result.push(["backTest", /[0-9]/])
+      result.push([Rules.backTest, /[0-9]/])
 
     if (config.isSymbol === false)
-      result.push(["backTest", /\W|_/])
+      result.push([Rules.backTest, /\W|_/])
 
     return result;
   }

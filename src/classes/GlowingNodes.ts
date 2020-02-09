@@ -171,20 +171,21 @@ export default class GlowingNodes {
   }
 
   redrawScene = () => {
-    if (this.appearStart && !this.mouse.isUndefined() && this.canvas.Context)
-      this.drawFrame();
-
+    this.drawFrame();
     requestAnimationFrame(this.frameHandler);
   }
 
   drawFrame() {
+    if (!this.appearStart || this.mouse.isUndefined() || !this.canvas.Context)
+      return;
+
     this.canvas.clear();
     this.nodes.establishSiblings();
-    this.appeared = this.appeared || Date.now() - (this.appearStart as number) >= this.appearTime;
+    this.appeared = this.appeared || Date.now() - this.appearStart >= this.appearTime;
     this.nodes.drawNodes(
       this.mouse,
       this.canvas.Context as CanvasRenderingContext2D,
-      !this.appeared ? (Date.now() - (this.appearStart as number)) / this.appearTime : undefined
+      !this.appeared ? (Date.now() - this.appearStart) / this.appearTime : undefined
     );
   }
 

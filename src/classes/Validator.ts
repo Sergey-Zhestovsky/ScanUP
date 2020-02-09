@@ -213,6 +213,9 @@ export default class Validator {
       [Rules.backTest]: backTest
     };
 
+    if (!ruleFunctions[rule.rule])
+      return true;
+
     return ruleFunctions[rule.rule](data.value, rule.value, data.additional);
 
     function required(value: string) {

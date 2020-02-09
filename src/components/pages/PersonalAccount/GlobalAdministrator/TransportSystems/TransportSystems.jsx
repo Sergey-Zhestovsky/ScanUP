@@ -45,7 +45,6 @@ class TransportSystems extends Component {
 
   addReceptionSuccess = (reception) => {
     return this.setState({
-      addReceptionForm: false,
       transportSystems: this.transportSystems.updateById(
         reception.transportSystemId,
         {
