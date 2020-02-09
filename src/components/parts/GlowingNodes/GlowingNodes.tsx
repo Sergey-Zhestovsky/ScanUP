@@ -26,7 +26,7 @@ class GlowingNodesComponent extends Component<GlowingNodesProps> {
   }
 
   createNodes() {
-    if (this.glowingNodes || !this.props.wrapperRef.current)
+    if (this.glowingNodes || !this.props.wrapperRef.current || !this.canvasRef.current)
       return;
 
     this.glowingNodes = new GlowingNodes({
