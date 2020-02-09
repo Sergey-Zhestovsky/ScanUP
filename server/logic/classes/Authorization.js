@@ -46,6 +46,7 @@ class Authorization {
     });
 
     this.request.data.user = user;
+    return user;
   }
 }
 
