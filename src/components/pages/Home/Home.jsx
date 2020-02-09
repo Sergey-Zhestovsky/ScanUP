@@ -18,6 +18,10 @@ class Home extends Component {
     this.wrapperRef = React.createRef();
   }
 
+  componentDidMount() {
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <React.Fragment>
