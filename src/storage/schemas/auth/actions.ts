@@ -7,26 +7,30 @@ import { RootState } from "../../reducers/rootReducer";
 import { RootConnector } from "../../connections/rootConnector";
 import { DispatchObject, DetailsObject, SignUpActionObject, LoginActionObject } from "./types";
 
-let signUp: DispatchThunkWrapper<SignUpActionObject, void, RootState, RootConnector, DispatchObject>;
+let signUp: DispatchThunkWrapper<SignUpActionObject, Promise<ServerError | void>, RootState, RootConnector, DispatchObject>;
 
 signUp = function signUp(user) {
-  return (dispatch, getState, { authConnector }) => {
+  return async (dispatch, getState, { authConnector }) => {
     dispatch({ type: ACTIONS.SIGN_UP_LOADING });
 
-    authConnector.signup(user)
-      .then((details: DetailsObject) => {
-        dispatch({
-          type: ACTIONS.SIGN_UP_SUCCESS,
-          user: Cookies.getAuthorizationFromCookie(),
-          details
-        });
-      })
-      .catch((error: ServerError) => {
-        dispatch({
-          type: ACTIONS.SIGN_UP_ERROR,
-          error
-        });
+    try {
+      let details: DetailsObject = await authConnector.signup(user);
+
+      dispatch({
+        type: ACTIONS.SIGN_UP_SUCCESS,
+        user: Cookies.getAuthorizationFromCookie(),
+        details
       });
+
+      return;
+    } catch (error) {
+      dispatch({
+        type: ACTIONS.SIGN_UP_ERROR,
+        error
+      });
+
+      throw error;
+    }
   }
 }
 

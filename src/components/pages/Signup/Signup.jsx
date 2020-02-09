@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Redirect } from "react-router-dom";
 
-import AuthForm, { AuthField, AuthTitle, AuthSubmit } from "../../parts/Authorization/Authorization";
+import AuthForm, { AuthField, AuthTitle, AuthError, AuthSubmit } from "../../parts/Authorization/Authorization";
 import Validator, { Rules } from "../../../classes/Validator";
 import { authActions } from "../../../storage/actions";
 import withAuthentication from "../../../hoc/withAuthentication";
@@ -28,7 +28,8 @@ class Signup extends Component {
         email: null,
         password: null,
         rePassword: null
-      }
+      },
+      serverError: null
     };
 
     this.passport = this.props.location.state
@@ -61,7 +62,10 @@ class Signup extends Component {
       errors = validator.validate(data);
 
     if (errors === true) {
-      return this.props.signUp({ passport: this.passport, ...data });
+      this.clearErrors();
+      this.props.signUp({ passport: this.passport, ...data })
+        .catch(serverError => this.setState({ serverError }));
+      //return this.props.signUp({ passport: this.passport, ...data });
     } else {
       return this.setState({
         ...this.state,
@@ -71,23 +75,25 @@ class Signup extends Component {
   }
 
   clearErrors() {
-    this.setState(state => ({
+    this.setState({
       errors: {
-        ...state.errors,
         name: null,
         email: null,
         password: null,
         rePassword: null
-      }
-    }));
+      },
+      serverError: null
+    });
   }
 
   render() {
     if (!this.passport)
       return <Redirect to="/" />
 
+    let responseError = this.state.serverError && this.state.serverError.Message;
+
     return (
-      <AuthForm withWrapper onSubmit={this.submitHandler}>
+      <AuthForm withWrapper withErrorHighlight={responseError} onSubmit={this.submitHandler}>
         <AuthTitle>Registration</AuthTitle>
         <AuthField
           name="name"
@@ -121,7 +127,8 @@ class Signup extends Component {
           value={this.state.form.rePassword}
           onChange={this.changeHandler}
         >Repeat password</AuthField>
-        <AuthSubmit>Sign up</AuthSubmit>
+        <AuthSubmit disabled={this.props.auth.loaded === false}>Sign up</AuthSubmit>
+        <AuthError>{responseError}</AuthError>
       </AuthForm>
     );
   }
@@ -129,7 +136,9 @@ class Signup extends Component {
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth
+    auth: {
+      loaded: state.auth.loaded.signup
+    }
   }
 }
 
