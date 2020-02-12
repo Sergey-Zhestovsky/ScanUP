@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from "react-redux";
 
 import Home, { pageConfig as homePageConfig } from "../pages/Home/Home";
 import TransportSystems, { pageConfig as transportSystemsPageConfig } from "../pages/TransportSystems/TransportSystems";
+import About, { pageConfig as aboutPageConfig } from "../pages/About/About";
 import Login, { pageConfig as loginPageConfig } from "../pages/Login/Login";
 import Signup, { pageConfig as SignupPageConfig } from "../pages/Signup/Signup";
 import PersonalAccount, { pageConfig as accountPageConfig } from "../pages/PersonalAccount/PersonalAccount";
@@ -29,7 +30,7 @@ class App extends Component<AppProps> {
             <Switch>
               <PageRoute path="/" exact component={Home} {...homePageConfig} />
               <PageRoute path="/transport-systems" component={TransportSystems} {...transportSystemsPageConfig} />
-              <PageRoute path="/about" component={TransportSystems} {...transportSystemsPageConfig} />
+              <PageRoute path="/about" component={About} {...aboutPageConfig} />
               <PageRoute path="/login" component={Login} {...loginPageConfig} />
               <PageRoute path="/signup" component={Signup} {...SignupPageConfig} />
               <PageRoute path="/account" component={PersonalAccount} {...accountPageConfig} />

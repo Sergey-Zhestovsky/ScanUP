@@ -5,7 +5,7 @@ interface Config {
   method?: Method
 }
 
-interface ServerResponse {
+interface DefaultServerResponse {
   error: object,
   result?: object
 }
@@ -15,15 +15,34 @@ interface Response {
   request: any;
 }
 
+interface ConnectorConfig {
+  signRequests?: boolean;
+  responseType?: ResponseType
+  axiosConfig?: AxiosRequestConfig
+}
+
+export enum ResponseType {
+  defaultObject,
+  text
+}
+
 export default class Connector {
 
   protected signRequests: boolean;
+  protected responseType: ResponseType;
+  protected axiosConfig: AxiosRequestConfig;
 
-  constructor({ signRequests = false }: { signRequests?: boolean } = {}) {
+  constructor({
+    signRequests = false,
+    responseType = ResponseType.defaultObject,
+    axiosConfig = {}
+  }: ConnectorConfig = {}) {
     this.signRequests = signRequests;
+    this.responseType = responseType;
+    this.axiosConfig = axiosConfig;
   }
 
-  * request(path: string, requestBody: any, config: Config = {},
+  protected * request(path: string, requestBody: any, config: Config = {},
     axiosConfig: AxiosRequestConfig): Generator {
     let requestObject = this.requestBuilder(path, requestBody, config, axiosConfig);
 
@@ -31,7 +50,7 @@ export default class Connector {
     yield this.responseDestructor(requestObject.request, path, requestBody);
   }
 
-  straightRequest(path: string, requestBody?: any, config: Config = {},
+  protected straightRequest(path: string, requestBody?: any, config: Config = {},
     axiosConfig?: AxiosRequestConfig): Promise<any> {
     return this.responseDestructor(
       this.requestBuilder(path, requestBody, config, axiosConfig).request,
@@ -40,20 +59,35 @@ export default class Connector {
     );
   }
 
-  private async responseDestructor(promise: Promise<AxiosResponse<ServerResponse>>,
+  private async responseDestructor(promise: Promise<AxiosResponse<any>>,
     path: string, requestBody: any): Promise<any> {
     try {
       let { data } = await promise;
 
-      if (data.error) // connection is ok, error in body
-        return this.ErrorHandler(path, requestBody, data.error, data.result);
-
-      return data.result;
+      switch (this.responseType) {
+        case ResponseType.defaultObject:
+          return await defaultObjectHandler(data, this.ErrorHandler);
+        case ResponseType.text:
+          return await textHandler(data, this.ErrorHandler);
+        default: return data;
+      }
     } catch (error) {
       if (axios.isCancel(error))
         error.code = ErrorCodes.AXIOS__REQUEST_CANCELED;
 
       return this.ErrorHandler(path, requestBody, error);
+    }
+
+    function defaultObjectHandler(data: DefaultServerResponse,
+      ErrorHandler: Function) {
+      if (data.error)
+        return ErrorHandler(path, requestBody, data.error, data.result);
+
+      return data.result;
+    }
+
+    function textHandler(data: string, ErrorHandler: Function) {
+      return data;
     }
   }
 
@@ -62,9 +96,11 @@ export default class Connector {
     let source: CancelTokenSource = axios.CancelToken.source();
 
     axiosConfig = {
+      method: "post",
+      ...this.axiosConfig,
       ...axiosConfig,
+      ...config,
       url: path,
-      method: config.method = "post",
       data: requestBody,
       cancelToken: source.token
     };

@@ -73,6 +73,21 @@
     }
 }
 
+.default {
+    &.header {
+        position: fixed;
+        width: 100%;
+        background: rgb(249, 249, 249);
+        box-shadow: 0 0 25px rgba(36, 47, 51, 0.05);
+        z-index: 50;
+        transition: all .225s;
+    }
+
+    &.stick {
+        box-shadow: none;
+    }
+}
+
 .account {
     &.header {
         margin-left: 230px;

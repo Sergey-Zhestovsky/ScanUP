@@ -72,4 +72,10 @@ export default {
       getAll: "get-all"
     }
   },
+  pageConnector: {
+    pathStructure: {
+      root: "/public/pages/",
+      about: "about.md"
+    }
+  },
 }

@@ -8,6 +8,7 @@ import ScannerConnector from "./ScannerConnector";
 import BaggageConnector from "./BaggageConnector";
 import BaggageStateConnector from "./BaggageStateConnector";
 import ComplaintConnector from "./ComplaintConnector";
+import PageConnector from "./PageConnector";
 
 import config from "../../data/defaultConnectorConfig";
 
@@ -20,6 +21,7 @@ export const scannerConnector = new ScannerConnector(config.scannerConnector);
 export const baggageConnector = new BaggageConnector(config.baggageConnector);
 export const baggageStateConnector = new BaggageStateConnector(config.baggageStateConnector);
 export const complaintConnector = new ComplaintConnector(config.complaintConnector);
+export const pageConnector = new PageConnector(config.pageConnector);
 
 const rootConnector = {
   authConnector,
@@ -30,7 +32,8 @@ const rootConnector = {
   scannerConnector,
   baggageConnector,
   baggageStateConnector,
-  complaintConnector
+  complaintConnector,
+  pageConnector
 };
 
 export default rootConnector;
