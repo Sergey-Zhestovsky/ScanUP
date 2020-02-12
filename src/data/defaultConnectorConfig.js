@@ -75,7 +75,8 @@ export default {
   pageConnector: {
     pathStructure: {
       root: "/public/pages/",
-      about: "about.md"
+      about: "about.md",
+      policy: "policy.md"
     }
   },
 }

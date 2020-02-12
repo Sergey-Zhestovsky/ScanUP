@@ -5,7 +5,7 @@
     background: #fdfdfd;
     height: 64px;
     z-index: 1;
-    transition: background .125s;
+    //transition: background .125s;
 }
 
 .logo-block {
@@ -14,7 +14,6 @@
     display: flex;
     align-items: center;
     transition: all .125s;
-    //background: #f1f1f1;
 }
 
 .logo-wrapper {
@@ -50,12 +49,31 @@
 }
 
 .menu-elements {
+    position: relative;
     padding: 10px;
     margin: 0 10px;
     transition: all .125s;
 
     &:hover {
         color: #1d9283;
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        height: 2px;
+        width: 0%;
+        background: #1e9284;
+        transition: all .125s;
+    }
+
+    &.active {
+        &:after {
+            left: 25%;
+            width: 50%;
+        }
     }
 }
 

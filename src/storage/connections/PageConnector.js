@@ -10,7 +10,8 @@ export default class Page extends Connector {
 
     ({
       root: pathStructure.root = "",
-      about: pathStructure.about = ""
+      about: pathStructure.about = "",
+      policy: pathStructure.policy = ""
     } = pathStructure);
 
     this.pathStructure = pathStructure;
@@ -20,5 +21,11 @@ export default class Page extends Connector {
     let path = this.pathStructure;
 
     return super.straightRequest(path.root + path.about);
+  }
+
+  policy() {
+    let path = this.pathStructure;
+
+    return super.straightRequest(path.root + path.policy);
   }
 }

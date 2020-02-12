@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Logo from "./Logo/Logo";
 import UserMenu from "./UserMenu/UserMenu";
@@ -71,9 +71,27 @@ class Header extends PureComponent {
         </div>
         <div className={styles["menu-wrapper"]}>
           <nav className={styles.menu}>
-            <Link className={styles["menu-elements"]} to="/">Home</Link>
-            <Link className={styles["menu-elements"]} to="/transport-systems">Transport systems</Link>
-            <Link className={styles["menu-elements"]} to="/about">About us</Link>
+            <NavLink
+              className={styles["menu-elements"]}
+              activeClassName={styles["active"]}
+              to="/"
+              exact
+            >Home</NavLink>
+            <NavLink
+              className={styles["menu-elements"]}
+              activeClassName={styles["active"]}
+              to="/transport-systems"
+            >Transport systems</NavLink>
+            <NavLink
+              className={styles["menu-elements"]}
+              activeClassName={styles["active"]}
+              to="/about"
+            >About us</NavLink>
+            <NavLink
+              className={styles["menu-elements"]}
+              activeClassName={styles["active"]}
+              to="/policy"
+            >Policy</NavLink>
           </nav>
           {
             this.props.isAuthorized
