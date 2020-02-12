@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
 
-import Frame from "../../pages/Frame/Frame";
+import Frame from "../../parts/Frame/Frame";
 import MenuContext from "../../../contexts/MenuContext";
 
 export default function PageRoute(props) {

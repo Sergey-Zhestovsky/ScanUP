@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import Header from "../../parts/Header/Header";
-import Footer from "../../parts/Footer/Footer";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 class Frame extends Component {
   componentDidUpdate() {
