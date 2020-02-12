@@ -4,27 +4,144 @@ let mongoose = require("../connect"),
   { ServerError, serverErrors } = require("../../classes/ServerError"),
   getTSSchema = require("../../data/dbAggregationSchemas/getTransportSystem");
 
-async function get(query) {
-  let ts, aggregationSchema = getTSSchema;
-
-  if (query)
-    aggregationSchema = [{
-      $match: query
-    }, ...aggregationSchema];
+async function get(query = {}, filter = []) {
+  query = query instanceof Object ? query : {};
+  filter = filter instanceof Array ? filter : [filter];
 
   try {
-    ts = await schemas.TransportSystem.aggregate(aggregationSchema);
+    return await schemas.TransportSystem.aggregate([{
+      $match: query
+    },
+    ...filter]);
   } catch (error) {
-    throw ServerError.customError("getAll_ts", error);
+    throw ServerError.customError("get_ts", error);
   }
-
-  return ts;
 }
 
-async function getOne(id) {
-  return (await get({
+async function getPublic(query, filter = []) {
+  filter = filter instanceof Array ? filter : [filter];
+
+  return await get(query, [...getTSSchema, ...filter]);
+}
+
+async function getOneById(id) {
+  return (await getPublic({
     _id: new mongoose.Types.ObjectId(id)
   }))[0];
+}
+
+async function getStatistics() {
+  try {
+    return await get({}, [{
+      $lookup: {
+        from: "transportsystemtypes",
+        localField: "typeId",
+        foreignField: "_id",
+        as: "type"
+      }
+    }, {
+      $unwind: {
+        path: "$type",
+        preserveNullAndEmptyArrays: true
+      }
+    }, {
+      $lookup: {
+        from: "transportsystemreceptions",
+        localField: "_id",
+        foreignField: "transportSystemId",
+        as: "receptions"
+      }
+    }, {
+      $addFields: {
+        receptionsCount: { $size: "$receptions" }
+      }
+    }, {
+      $addFields: {
+        receptions: {
+          $map: {
+            input: "$receptions",
+            as: "reception",
+            in: "$$reception._id"
+          }
+        }
+      }
+    }, {
+      $lookup: {
+        from: "users",
+        let: { receptions: "$receptions" },
+        pipeline: [
+          { $match: { $expr: { $in: ["$transportSystemReceptionId", "$$receptions"] } } },
+          { $project: { _id: 1 } }
+        ],
+        as: "users"
+      }
+    }, {
+      $project: { receptions: 0 }
+    }, {
+      $addFields: {
+        users: {
+          $map: {
+            input: "$users",
+            as: "user",
+            in: "$$user._id"
+          }
+        }
+      }
+    }, {
+      $addFields: {
+        moderatorsCount: { $size: "$users" }
+      }
+    }, {
+      $lookup: {
+        from: "scans",
+        let: { users: "$users" },
+        pipeline: [
+          { $match: { $expr: { $in: ["$managerId", "$$users"] } } },
+          { $project: { _id: 1 } }
+        ],
+        as: "scans"
+      }
+    }, {
+      $addFields: {
+        scans: {
+          $map: {
+            input: "$scans",
+            as: "scan",
+            in: "$$scan._id"
+          }
+        }
+      }
+    }, {
+      $project: { users: 0 }
+    }, {
+      $lookup: {
+        from: "baggages",
+        let: { scans: "$scans" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $or: [
+                  { $in: ["$formerScanId", "$$scans"] },
+                  { $in: ["$latterScanId", "$$scans"] },
+                ]
+              }
+            }
+          },
+          { $project: { _id: 1 } }
+        ],
+        as: "baggages"
+      }
+    }, {
+      $addFields: {
+        baggagesCount: { $size: "$baggages" }
+      }
+    }, {
+      $project: { scans: 0, baggages: 0 }
+    }]);
+  } catch (error) {
+    throw ServerError.customError("getStatistics_ts", error);
+  }
 }
 
 async function add({ login, password, selfControl, ...rest }) {
@@ -44,9 +161,9 @@ async function add({ login, password, selfControl, ...rest }) {
     }
 
     let ts = new schemas.TransportSystem(tsData),
-      responce = await ts.save();
+      response = await ts.save();
 
-    tsResult = await getOne(responce._id);
+    tsResult = await getOneById(response._id);
   } catch (error) {
     throw ServerError.customError("add_ts", error);
   }
@@ -90,6 +207,9 @@ async function deleteOne(id) {
 
 module.exports = {
   get,
+  getPublic,
+  getOneById,
+  getStatistics,
   add,
-  deleteOne
+  deleteOne,
 };

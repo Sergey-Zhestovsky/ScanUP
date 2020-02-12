@@ -14,7 +14,8 @@ export { HEADER_STYLE };
 const headerClasses = {
   [HEADER_STYLE.default]: styles["default"],
   [HEADER_STYLE.ACCOUNT]: styles["account"],
-  [HEADER_STYLE.MAIN_PAGE]: styles["main-page"]
+  [HEADER_STYLE.MAIN_PAGE]: styles["main-page"],
+  [HEADER_STYLE.TRANSPORT_SYSTEM]: styles["transport-system"]
 }
 
 function Header(props) {
@@ -28,8 +29,8 @@ function Header(props) {
       <div className={styles["menu-wrapper"]}>
         <nav className={styles.menu}>
           <Link className={styles["menu-elements"]} to="/">Home</Link>
-          <Link className={styles["menu-elements"]} to="/">Transport systems</Link>
-          <Link className={styles["menu-elements"]} to="/">About us</Link>
+          <Link className={styles["menu-elements"]} to="/transport-systems">Transport systems</Link>
+          <Link className={styles["menu-elements"]} to="/about">About us</Link>
         </nav>
         {
           props.isAuthorized

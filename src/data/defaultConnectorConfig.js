@@ -20,7 +20,8 @@ export default {
       root: "/transport-system/",
       getAll: "get-all",
       add: "add",
-      delete: "delete"
+      delete: "delete",
+      getStatistics: "get-statistics",
     }
   },
   tsReceptionConnector: {

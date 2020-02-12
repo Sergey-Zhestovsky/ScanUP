@@ -5,7 +5,7 @@ let express = require("express"),
   Validator = require("../logic/classes/Validator"),
   addTSVconf = require("../logic/data/validationConfigs/addTransportSystem");
 
-let deelteValidator = new Validator({
+let deleteValidator = new Validator({
   id: ["required"]
 });
 
@@ -14,7 +14,11 @@ router.all('*', function (req, res, next) {
 });
 
 router.post('/get-all', function (req, res, next) {
-  return serverAnswer.default(dbAPI.transportSystem.get(), res);
+  return serverAnswer.default(dbAPI.transportSystem.getPublic(), res);
+});
+
+router.post('/get-statistics', function (req, res, next) {
+  return serverAnswer.default(dbAPI.transportSystem.getStatistics(), res);
 });
 
 router.post('/add', function (req, res, next) {
@@ -33,7 +37,7 @@ router.post('/add', function (req, res, next) {
 
 router.post('/delete', function (req, res, next) {
   let data = req.body,
-    isValid = deelteValidator.validate(data);
+    isValid = deleteValidator.validate(data);
 
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));

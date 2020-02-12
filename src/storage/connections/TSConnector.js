@@ -8,7 +8,8 @@ export default class TS extends Connector {
       root: pathStructure.root = "",
       getAll: pathStructure.getAll = "",
       add: pathStructure.add = "",
-      delete: pathStructure.delete = ""
+      delete: pathStructure.delete = "",
+      getStatistics: pathStructure.getStatistics = ""
     } = pathStructure);
 
     this.pathStructure = pathStructure;
@@ -30,5 +31,11 @@ export default class TS extends Connector {
     let path = this.pathStructure;
 
     return super.straightRequest(path.root + path.delete, data);
+  }
+
+  getStatistics() {
+    let path = this.pathStructure;
+
+    return super.straightRequest(path.root + path.getStatistics);
   }
 }

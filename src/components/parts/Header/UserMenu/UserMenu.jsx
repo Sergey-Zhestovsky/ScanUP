@@ -15,7 +15,8 @@ import styles from "./UserMenu.module.less";
 const userMenuClasses = {
   [HEADER_STYLE.default]: styles["default"],
   [HEADER_STYLE.ACCOUNT]: styles["account"],
-  [HEADER_STYLE.MAIN_PAGE]: styles["main-page"]
+  [HEADER_STYLE.MAIN_PAGE]: styles["main-page"],
+  [HEADER_STYLE.TRANSPORT_SYSTEM]: styles["transport-system"]
 }
 
 class UserMenu extends Component {

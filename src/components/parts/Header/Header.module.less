@@ -6,19 +6,6 @@
     height: 64px;
     z-index: 1;
     transition: background .125s;
-
-    &.main-page {
-        position: fixed;
-        width: 100%;
-        background: none;
-        z-index: 50;
-
-        .menu-elements {
-            &:hover {
-                background: rgba(249, 249, 249, 0.5);
-            }
-        }
-    }
 }
 
 .logo-block {
@@ -72,7 +59,7 @@
     }
 }
 
-.button { 
+.button {
     margin: 0 20px;
     padding: 6px 18px;
     color: #343e42;
@@ -96,6 +83,45 @@
         left: 0;
         height: 64px;
         background: #343e42;
+    }
+
+    .logo-suffix {
+        color: white;
+    }
+}
+
+.main-page {
+    &.header {
+        position: fixed;
+        width: 100%;
+        background: none;
+        z-index: 50;
+    }
+
+    .menu-elements {
+        &:hover {
+            background: rgba(249, 249, 249, 0.5);
+        }
+    }
+}
+
+.transport-system {
+    &.header {
+        position: fixed;
+        background: rgba(21, 32, 37, 0.95);
+        width: 100%;
+        z-index: 50;
+        color: white;
+    }
+
+    .button {
+        color: whitesmoke;
+        border-color: whitesmoke;
+
+        &:hover {
+            background: whitesmoke;
+            color: #242f33;
+        }
     }
 
     .logo-suffix {
