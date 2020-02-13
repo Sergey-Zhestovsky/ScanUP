@@ -70,10 +70,11 @@ class UserMenu extends Component {
 
   render() {
     let activeClass = this.state.open ? styles["active"] : null,
+      stickClass = this.props.stick ? styles["stick"] : null,
       userMenuClass = userMenuClasses[this.props.style];
 
     return (
-      <div className={concatClasses(styles["menu"], userMenuClass, activeClass)} ref={this.menuRef}>
+      <div className={concatClasses(styles["menu"], userMenuClass, activeClass, stickClass)} ref={this.menuRef}>
         <div className={styles["menu-wrapper"]}>
           <div className={styles["name"]}>{this.props.userName}</div>
           <FontAwesomeIcon className={styles["enter-icon"]} icon={faBars} onClick={this.toggleMenu} />

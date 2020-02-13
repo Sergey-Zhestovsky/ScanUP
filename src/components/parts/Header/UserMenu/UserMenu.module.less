@@ -1,142 +1,152 @@
 .menu {
-    position: relative;
-    height: 100%;
-    width: 230px;
-    color: var(--dark-grey-600);
+  position: relative;
+  height: 100%;
+  width: 230px;
+  color: var(--dark-grey-600);
 
-    &.active {
-        .menu-wrapper:after {
-            height: 100%;
-            opacity: 1;
-        }
-
-        .name {
-            color: var(--black-100);
-        }
-
-        .enter-icon {
-            color: var(--accent-green-600);
-        }
+  &.active {
+    .menu-wrapper:after {
+      height: 100%;
+      opacity: 1;
     }
+
+    .name {
+      color: var(--black-100);
+    }
+
+    .enter-icon {
+      color: var(--accent-green-600);
+    }
+  }
 }
 
 .menu-wrapper {
-    position: relative;
-    display: flex;
-    height: 100%;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    background: #fdfdfd;
-    padding: 10px 20px;
-    z-index: 2;
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white-200);
+  padding: 10px 20px;
+  z-index: 2;
 
-    &:after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 0%;
-        background: #e0e0e0;
-        z-index: -1;
-        opacity: 0;
-        transition: all .175s;
-    }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--soft-grey-300);
+    z-index: -1;
+    opacity: 0;
+    transition: all .175s;
+  }
 }
 
 .name {
-    white-space: nowrap;
-    overflow: hidden;
-    margin-right: 20px;
-    text-overflow: ellipsis;
-    color: #8c9092;
-    font-size: 16px;
-    cursor: default;
-    transition: all .175s;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 20px;
+  text-overflow: ellipsis;
+  color: var(--soft-grey-900);
+  font-size: 16px;
+  cursor: default;
+  transition: all .175s;
 }
 
 .enter-icon {
-    font-size: 25px;
-    cursor: pointer;
-    transition: all .125s;
+  font-size: 25px;
+  cursor: pointer;
+  transition: all .125s;
 
-    &:hover {
-        color: #1d9283;
-    }
+  &:hover {
+    color: var(--accent-green-600);
+  }
 }
 
 .dropdown-menu-wrapper {
-    position: absolute;
-    top: 100%;
-    left: 0px;
-    width: 230px;
-    z-index: 1;
-    overflow: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  width: 230px;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .dropdown-menu {
-    background: #242f33;
-    color: whitesmoke;
-    margin: -25% 0;
-    padding: 15px;
-    opacity: 0;
-    transition: all .175s;
+  background: var(--dark-grey-700);
+  color: var(--soft-grey-100);
+  margin: -25% 0;
+  padding: 15px;
+  opacity: 0;
+  transition: all .175s;
 
-    &.appear-active {
-        opacity: 1;
-        margin: 0% 0;
-    }
+  &.appear-active {
+    opacity: 1;
+    margin: 0% 0;
+  }
 
-    &.appear-done {
-        opacity: 1;
-        margin: 0% 0;
-    }
+  &.appear-done {
+    opacity: 1;
+    margin: 0% 0;
+  }
 }
 
 .menu-link {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: all .125s;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all .125s;
 
-    &:last-child {
-        margin-bottom: 0px;
-    }
+  &:last-child {
+    margin-bottom: 0px;
+  }
 
-    &:hover {
-        background: #343e42;
-    }
+  &:hover {
+    background: var(--dark-grey-600);
+  }
 }
 
 .link-icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .default,
 .main-page {
-    .menu-wrapper {
-        background: none;
+  .menu-wrapper {
+    background: none;
 
-        &:after {
-            background: #f9f9f9;
-        }
+    &:after {
+      background: var(--white-200);
     }
+  }
+}
+
+.default {
+  &.stick {
+    .menu-wrapper {
+      &:after {
+        background: var(--soft-grey-200);
+      }
+    }
+  }
 }
 
 .transport-system {
-    .menu-wrapper {
-        background: none;
+  .menu-wrapper {
+    background: none;
 
-        &:after {
-            background: #343e42;
-        }
+    &:after {
+      background: var(--dark-grey-600);
     }
+  }
 
-    &.active .name,
-    .enter-icon {
-        color: white;
-    }
+  &.active .name,
+  .enter-icon {
+    color: var(--white-100);
+  }
 }

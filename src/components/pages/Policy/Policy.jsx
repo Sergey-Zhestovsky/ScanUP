@@ -4,11 +4,8 @@ import Markdown from "../../parts/Markdown/Markdown";
 import { HEADER_STYLE } from "../../parts/Header/Header";
 import { pageConnector } from "../../../storage/connections/rootConnector";
 
-import styles from "./policy.module.less";
-
 export const pageConfig = {
   headerClass: HEADER_STYLE.default,
-  mainBodyClass: styles["markdown-wrapper"],
   footer: false
 };
 

@@ -1,163 +1,168 @@
 .header {
-    position: relative;
-    display: flex;
-    font-size: 1.25em;
-    background: #fdfdfd;
-    height: 64px;
-    z-index: 1;
-    //transition: background .125s;
+  position: relative;
+  display: flex;
+  font-size: 1.25em;
+  height: 64px;
+  z-index: 1;
 }
 
 .logo-block {
-    width: 230px;
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
-    transition: all .125s;
+  width: 230px;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  transition: all .125s;
 }
 
 .logo-wrapper {
-    display: flex;
-    font-family: "Mont";
-    font-size: 30px;
-    user-select: none;
+  display: flex;
+  font-family: "Mont";
+  font-size: 30px;
+  user-select: none;
 }
 
 .logo-name {
-    padding-top: 2px;
-    font-weight: 600;
-    color: #1d9283;
+  padding-top: 2px;
+  font-weight: 600;
+  color: var(--accent-green-600);
 }
 
 .logo-suffix {
-    padding-top: 2px;
-    font-weight: 800;
-    color: #343e42;
-    transition: all .125s;
+  padding-top: 2px;
+  font-weight: 800;
+  color: var(--dark-grey-600);
+  transition: all .125s;
 }
 
 .menu-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .menu {
-    display: flex;
-    padding: 10px 0;
+  display: flex;
+  padding: 10px 0;
 }
 
 .menu-elements {
-    position: relative;
-    padding: 10px;
-    margin: 0 10px;
+  position: relative;
+  padding: 8px 10px;
+  margin: 0 10px;
+  transition: all .125s;
+
+  &:hover {
+    color: var(--accent-green-600);
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 2px;
+    width: 0%;
+    background: var(--accent-green-600);
     transition: all .125s;
+  }
 
-    &:hover {
-        color: #1d9283;
-    }
-
+  &.active {
     &:after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        height: 2px;
-        width: 0%;
-        background: #1e9284;
-        transition: all .125s;
+      left: 25%;
+      width: 50%;
     }
-
-    &.active {
-        &:after {
-            left: 25%;
-            width: 50%;
-        }
-    }
+  }
 }
 
 .button {
-    margin: 0 20px;
-    padding: 6px 18px;
-    color: #343e42;
-    font-weight: 600;
-    border: 2px solid #343e42;
-    transition: all .125s;
+  margin: 0 20px;
+  padding: 6px 18px;
+  color: var(--dark-grey-600);
+  font-weight: 600;
+  border: 2px solid var(--dark-grey-600);
+  transition: all .125s;
 
-    &:hover {
-        background: #242f33;
-        color: whitesmoke;
-    }
+  &:hover {
+    background: var(--dark-grey-700);
+    color: var(--soft-grey-100);
+  }
 }
 
 .default {
-    &.header {
-        position: fixed;
-        width: 100%;
-        background: rgb(249, 249, 249);
-        box-shadow: 0 0 25px rgba(36, 47, 51, 0.05);
-        z-index: 50;
-        transition: all .225s;
-    }
+  &.header-wrapper {
+    width: 100%;
+    height: 64px;
+  }
 
-    &.stick {
-        box-shadow: none;
+  &.header {
+    position: fixed;
+    width: 100%;
+    box-shadow: none;
+    background: var(--soft-grey-200);
+    z-index: 50;
+    transition: box-shadow .225s, background .225s;
+
+    &:not(.stick) {
+      background: var(--white-200);
+      box-shadow: 0 0 25px var(--shadow-black-300);
     }
+  }
 }
 
 .account {
-    &.header {
-        margin-left: 230px;
-    }
+  &.header {
+    margin-left: 230px;
+    background: var(--white-200);
+  }
 
-    .logo-block {
-        position: fixed;
-        left: 0;
-        height: 64px;
-        background: #343e42;
-    }
+  .logo-block {
+    position: fixed;
+    left: 0;
+    height: 64px;
+    background: var(--dark-grey-600);
+  }
 
-    .logo-suffix {
-        color: white;
-    }
+  .logo-suffix {
+    color: var(--white-100);
+  }
 }
 
 .main-page {
-    &.header {
-        position: fixed;
-        width: 100%;
-        background: none;
-        z-index: 50;
-    }
+  &.header {
+    position: fixed;
+    width: 100%;
+    background: none;
+    z-index: 50;
+  }
 
-    .menu-elements {
-        &:hover {
-            background: rgba(249, 249, 249, 0.5);
-        }
+  .menu-elements {
+    &:hover {
+      background: var(--soft-grey-200-50);
     }
+  }
 }
 
 .transport-system {
-    &.header {
-        position: fixed;
-        background: rgba(21, 32, 37, 0.95);
-        width: 100%;
-        z-index: 50;
-        color: white;
-    }
+  &.header {
+    position: fixed;
+    background: var(--dark-grey-900-95);
+    width: 100%;
+    z-index: 50;
+    color: var(--soft-grey-100);
+  }
 
-    .button {
-        color: whitesmoke;
-        border-color: whitesmoke;
+  .button {
+    color: var(--soft-grey-100);
+    border-color: $color;
 
-        &:hover {
-            background: whitesmoke;
-            color: #242f33;
-        }
+    &:hover {
+      background: var(--soft-grey-100);
+      color: var(--dark-grey-700);
     }
+  }
 
-    .logo-suffix {
-        color: white;
-    }
+  .logo-suffix {
+    color: var(--soft-grey-100);
+  }
 }

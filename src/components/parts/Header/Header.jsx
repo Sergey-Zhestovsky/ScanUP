@@ -28,9 +28,16 @@ class Header extends PureComponent {
     super(props);
 
     this.state = {
-      stick: null,
+      style: null,
+      stick: true,
       observe: false
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    state.style = props.style ?? HEADER_STYLE.default;
+
+    return state;
   }
 
   componentDidMount() {
@@ -43,7 +50,7 @@ class Header extends PureComponent {
   }
 
   stickHandler() {
-    let position = headerStyle[this.props.style].position;
+    let position = headerStyle[this.state.style].position;
 
     if (position === HeaderPosition.fixed && this.state.observe === false) {
       this.setState({ observe: true });
@@ -61,43 +68,45 @@ class Header extends PureComponent {
   }
 
   render() {
-    let headerClass = headerStyle[this.props.style].class,
+    let headerClass = headerStyle[this.state.style].class,
       stickClass = this.state.stick ? styles["stick"] : null;
 
     return (
-      <header className={concatClasses(headerClass, styles.header, stickClass)}>
-        <div className={styles["logo-block"]}>
-          <Logo />
-        </div>
-        <div className={styles["menu-wrapper"]}>
-          <nav className={styles.menu}>
-            <NavLink
-              className={styles["menu-elements"]}
-              activeClassName={styles["active"]}
-              to="/"
-              exact
-            >Home</NavLink>
-            <NavLink
-              className={styles["menu-elements"]}
-              activeClassName={styles["active"]}
-              to="/transport-systems"
-            >Transport systems</NavLink>
-            <NavLink
-              className={styles["menu-elements"]}
-              activeClassName={styles["active"]}
-              to="/about"
-            >About us</NavLink>
-            <NavLink
-              className={styles["menu-elements"]}
-              activeClassName={styles["active"]}
-              to="/policy"
-            >Policy</NavLink>
-          </nav>
-          {
-            this.props.isAuthorized
-              ? <UserMenu style={this.props.style} />
-              : <Link className={styles["button"]} to="/login">Log in</Link>
-          }
+      <header className={concatClasses(headerClass, styles["header-wrapper"])}>
+        <div className={concatClasses(headerClass, styles["header"], stickClass)}>
+          <div className={styles["logo-block"]}>
+            <Logo />
+          </div>
+          <div className={styles["menu-wrapper"]}>
+            <nav className={styles.menu}>
+              <NavLink
+                className={styles["menu-elements"]}
+                activeClassName={styles["active"]}
+                to="/"
+                exact
+              >Home</NavLink>
+              <NavLink
+                className={styles["menu-elements"]}
+                activeClassName={styles["active"]}
+                to="/transport-systems"
+              >Transport systems</NavLink>
+              <NavLink
+                className={styles["menu-elements"]}
+                activeClassName={styles["active"]}
+                to="/about"
+              >About us</NavLink>
+              <NavLink
+                className={styles["menu-elements"]}
+                activeClassName={styles["active"]}
+                to="/policy"
+              >Policy</NavLink>
+            </nav>
+            {
+              this.props.isAuthorized
+                ? <UserMenu style={this.state.style} stick={this.state.stick} />
+                : <Link className={styles["button"]} to="/login">Log in</Link>
+            }
+          </div>
         </div>
       </header>
     );
