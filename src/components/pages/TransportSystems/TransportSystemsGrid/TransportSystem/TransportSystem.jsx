@@ -25,7 +25,7 @@ export default function TransportSystem(props) {
               </div>
               <div className={styles["field-group"]}>
                 <Field name="Receptions available">{element.receptionsCount}</Field>
-                <Field name="Amount of workers">{element.moderatorsCount}</Field>
+                <Field name="Employees">{element.moderatorsCount}</Field>
                 <Field name="Baggages delivered">{element.baggagesCount}</Field>
               </div>
             </div>

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 
 import Markdown from "../../parts/Markdown/Markdown";
-import { HEADER_STYLE } from "../../parts/Header/Header";
+import { HEADER_STYLE } from "../../parts/Frame/Header/Header";
 import { pageConnector } from "../../../storage/connections/rootConnector";
 
 export const pageConfig = {
-  headerClass: HEADER_STYLE.default,
-  footer: false
+  headerClass: HEADER_STYLE.default
 };
 
 class About extends Component {

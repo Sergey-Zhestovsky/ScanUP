@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import Footer from "./Footer/Footer";
 
 class Frame extends Component {
   componentDidUpdate() {
@@ -24,9 +25,12 @@ class Frame extends Component {
             ? <Header style={headerClass} />
             : null
         }
-        <main className={mainBodyClass}>
+        <Main
+          headerStyle={headerClass}
+          withFooter={footer}
+          className={mainBodyClass}>
           {this.props.children}
-        </main>
+        </Main>
         {
           footer
             ? <Footer style={footerClass} />

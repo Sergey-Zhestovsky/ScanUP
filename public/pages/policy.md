@@ -1,7 +1,7 @@
 # Policy
 
 ### Introduction
-PLEASE READ THESE TERMS OF SERVICE CAREFULLY. THIS IS A BINDING CONTRACT. Welcome to the services operated by ScanUP Interactive, Inc. (with its affiliates, “ScanUP”) consisting of the website available at http://www.scanup.com, and its network of websites, software applications, or any other products or services offered by ScanUP (the “ ScanUP Services ”). Other services offered by ScanUP may be subject to separate terms.
+PLEASE READ THESE TERMS OF SERVICE CAREFULLY. THIS IS A BINDING CONTRACT. Welcome to the services operated by ScanUP Interactive, Inc. (with its affiliates, “ScanUP”) consisting of the website available at www.scanup.com, and its network of websites, software applications, or any other products or services offered by ScanUP (the “ ScanUP Services ”). Other services offered by ScanUP may be subject to separate terms.
 
 When using the ScanUP Services, you will be subject to ScanUP’s Privacy Policy, ScanUP’s Community Guidelines, and you be subject to additional guidelines or rules that are posted on the ScanUP Services or made available to you, or applicable to specific services and features that are disclosed to you in connection with such services. ScanUP may also offer certain paid services, which are subject to the ScanUP Terms of Sale as well as any additional terms or conditions that are disclosed to you in connection with such services. All such terms and guidelines (the "Guidelines") are incorporated into these Terms of Service by reference.
 
@@ -182,7 +182,7 @@ c/o Corporation Service Company
 2710 Gateway Oaks Drive, Suite 150N
 Sacramento CA 95833.
 
-Please note that ScanUP does not accept such requests for information or documents, or service of process, via e-mail or fax and will not respond to such requests. All requests must include the information you may have that will help us identify the relevant records (particularly, the ScanUP Service at issue, e.g. www.scanup.com, and the username at issue, e.g. the ScanUP username: http://www.scanup.com/username), the specific information requested, and its relationship to your investigation. Please also note that limiting your request to the relevant records (e.g. a limited time period) will facilitate efficient processing of your request.
+Please note that ScanUP does not accept such requests for information or documents, or service of process, via e-mail or fax and will not respond to such requests. All requests must include the information you may have that will help us identify the relevant records (particularly, the ScanUP Service at issue, e.g. www.scanup.com, and the username at issue, e.g. the ScanUP username: www.scanup.com/username), the specific information requested, and its relationship to your investigation. Please also note that limiting your request to the relevant records (e.g. a limited time period) will facilitate efficient processing of your request.
 
 The ScanUP Services are offered by ScanUP Interactive, Inc., located at: 350 Bush Street, 2nd Floor, San Francisco, CA 94104 and email: help@scanup.com. If you are a California resident, you may have this same information emailed to you by sending a letter to the foregoing address with your email address and a request for this information.
 

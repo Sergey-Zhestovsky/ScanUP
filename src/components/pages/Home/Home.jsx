@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import GlowingNodes from "../../parts/GlowingNodes/GlowingNodes";
-import { HEADER_STYLE } from "../../parts/Header/Header";
+import { HEADER_STYLE } from "../../parts/Frame/Header/Header";
 import SearchForm from "./SearchForm/SearchForm";
 
 import styles from "./home.module.less";

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import TransportSystemsGrid from "./TransportSystemsGrid/TransportSystemsGrid";
-import { HEADER_STYLE } from "../../parts/Header/Header";
+import { HEADER_STYLE } from "../../parts/Frame/Header/Header";
 import Parallax from "../../utils/Parallax/Parallax";
 import { tsConnector } from "../../../storage/connections/rootConnector";
 import { ReactComponent as Plane } from "../../../svg/plane.svg";
@@ -9,8 +9,7 @@ import { ReactComponent as Plane } from "../../../svg/plane.svg";
 import styles from "./transportSystems.module.less";
 
 export const pageConfig = {
-  headerClass: HEADER_STYLE.TRANSPORT_SYSTEM,
-  footer: false
+  headerClass: HEADER_STYLE.TRANSPORT_SYSTEM
 };
 
 class TransportSystems extends Component {

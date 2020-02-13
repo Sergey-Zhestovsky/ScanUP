@@ -4,8 +4,8 @@ import { NavLink, Link } from "react-router-dom";
 
 import Logo from "./Logo/Logo";
 import UserMenu from "./UserMenu/UserMenu";
-import concatClasses from "../../../modules/concatClasses";
-import HEADER_STYLE from "../../../data/styles/headerStyles";
+import concatClasses from "../../../../modules/concatClasses";
+import HEADER_STYLE from "../../../../data/styles/headerStyles";
 
 import styles from "./Header.module.less";
 

@@ -58,7 +58,7 @@ export const ErrorsList: ErrorsList = {
     message: "Required data not received"
   },
   [ServerErrorCodes.TRANSPORT_SYSTEM_REMOVE__RECEPTIONS]: {
-    message: "Transport system have receptions"
+    message: "Transport system already have receptions"
   },
   [ServerErrorCodes.USER_REMOVE__BLOCKED]: {
     message: "Cant remove user due to his privilege"

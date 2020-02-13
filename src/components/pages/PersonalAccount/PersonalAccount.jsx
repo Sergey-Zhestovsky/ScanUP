@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import MenuContext from "../../../contexts/MenuContext";
 import Menu from "./parts/Menu/Menu";
-import { HEADER_STYLE } from "../../parts/Header/Header";
+import { HEADER_STYLE } from "../../parts/Frame/Header/Header";
 import withAuthentication from "../../../hoc/withAuthentication";
 import getPrivilege from "../../../modules/getPrivilege";
 import accounts from "../../../data/accounts";

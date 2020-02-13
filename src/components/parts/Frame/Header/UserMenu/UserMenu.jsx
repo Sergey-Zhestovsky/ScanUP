@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUserAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { authActions } from "../../../../storage/actions";
+import { authActions } from "../../../../../storage/actions";
 import { CSSTransition } from "react-transition-group";
-import concatClasses from "../../../../modules/concatClasses";
+import concatClasses from "../../../../../modules/concatClasses";
 import MenuLink from "./MenuLink/MenuLink";
 import MenuButton from "./MenuButton/MenuButton";
-import HEADER_STYLE from "../../../../data/styles/headerStyles";
+import HEADER_STYLE from "../../../../../data/styles/headerStyles";
 
 import styles from "./UserMenu.module.less";
 
