@@ -1,178 +1,179 @@
 .ticket {
-    position: relative;
-    display: inline-block;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 350px;
-    font-family: "Acme Gothic";
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 1.25em;
-    letter-spacing: 2px;
-    background: #f9f9f9;
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 0 25px var(--shadow-black-300);
+  overflow: hidden;
+  width: 350px;
+  font-family: "Acme Gothic";
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.25em;
+  letter-spacing: 2px;
+  background: var(--soft-grey-200);
 }
 
 .container {
-    position: relative;
-    padding: 10px 25px;
-    border-bottom: 4px solid;
+  position: relative;
+  padding: 10px 25px;
+  border-bottom: 4px solid;
 
-    &:last-child {
-        border-bottom: none;
-    }
+  &:last-child {
+    border-bottom: none;
+  }
 
-    &:before, &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        width: 25px;
-        height: 100%;
-        background: #a7d120;
-    }
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 25px;
+    height: 100%;
+    background: var(--contrast-green);
+  }
 
-    &:before {
-        left: 0;
-    }
+  &:before {
+    left: 0;
+  }
 
-    &:after {
-        right: 0;
-    }
+  &:after {
+    right: 0;
+  }
 }
 
 .ticket-sing-group {
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
 
-    &:last-child {
-        padding-bottom: unset;
-    }
+  &:last-child {
+    padding-bottom: unset;
+  }
 }
 
 .sing-context {
-    width: 100%;
-    text-align: center;
-    font-size: 1.25em;
-    color: #343e42;
-    background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  font-size: 1.25em;
+  color: #343e42;
+  background: var(--shadow-black-300);
 }
 
 .sing-logo {
-    display: flex;
-    align-items: center;
-    width: 1em;
-    margin-left: 25px;
+  display: flex;
+  align-items: center;
+  width: 1em;
+  margin-left: 25px;
 }
 
 .sing-logo-img {
-    width: inherit;
+  width: inherit;
 }
 
 .sing-name {
-    font-family: "Proxima Nova";
-    text-transform: initial;
-    margin-left: 5px;
-    margin-top: 3px;
+  font-family: "Proxima Nova";
+  text-transform: initial;
+  margin-left: 5px;
+  margin-top: 3px;
 }
 
 .ts-abbreviation {
-    background: black;
-    color: white;
-    display: inline-block;
-    padding: 5px 10px;
-    font-size: 5em;
+  background: black;
+  color: white;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 5em;
 }
 
 .ts-name {
-    text-align: right;
-    font-size: 1.75em;
+  text-align: right;
+  font-size: 1.75em;
 }
 
 .main-line {
-    padding: 5px 0px;
+  padding: 5px 0px;
 }
 
 .main-date {
-    position: relative;
-    padding: 10px;
-    text-align: right;
-    color: #343e42;
+  position: relative;
+  padding: 10px;
+  text-align: right;
+  color: var(--dark-grey-600);
 
-    &:after {
-        content: attr(data-date);
-        position: absolute;
-        width: max-content;
-        left: 100%;
-        top: 0%;
-        font-size: 2em;
-        transform: translate(8%, -50%) rotate(-90deg);
-        transform-origin: bottom left;
-        z-index: 100;
-        color: rgba(0, 0, 0, 0.7);
-    }
+  &:after {
+    content: attr(data-date);
+    position: absolute;
+    width: max-content;
+    left: 100%;
+    top: 0%;
+    font-size: 2em;
+    transform: translate(8%, -50%) rotate(-90deg);
+    transform-origin: bottom left;
+    z-index: 100;
+    color: var(--shadow-black-700);
+  }
 }
 
 .description-block {
-    padding-bottom: 15px;
+  padding-bottom: 15px;
 }
 
 .description-block-name {
-    padding-bottom: 5px;
+  padding-bottom: 5px;
 
-    &:after {
-        content: ":";
-    }
+  &:after {
+    content: ":";
+  }
 }
 
 .description-block-context {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .qr-code-block {
-    display: flex;
-    justify-content: center;
-    padding: 25px;
+  display: flex;
+  justify-content: center;
+  padding: 25px;
 }
 
 .qr-code-wrapper {
-    position: relative;
-    display: flex;
-    overflow: hidden;
+  position: relative;
+  display: flex;
+  overflow: hidden;
 
-    &:after {
-        content: "";
-        position: absolute;
-        top: -15px;
-        right: 0;
-        width: 150%;
-        height: 15px;
-        background: #a7d120;
-        transform: rotate(-45deg);
-        transform-origin: bottom right;
-    }
+  &:after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: 0;
+    width: 150%;
+    height: 15px;
+    background: var(--contrast-green);
+    transform: rotate(-45deg);
+    transform-origin: bottom right;
+  }
 }
 
 .qr-code {
-    clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+  clip-path: polygon(100% 0, 0% 100%, 100% 100%);
 }
 
 .barcode-title {
-    margin-top: 25px;
-    padding-top: 25px;
-    padding-left: 20px;
-    margin-bottom: 25px;
-    border-top: 2px dashed;
+  margin-top: 25px;
+  padding-top: 25px;
+  padding-left: 20px;
+  margin-bottom: 25px;
+  border-top: 2px dashed;
 }
 
 .barcode {
-    padding: 15px;
+  padding: 15px;
 }
 
 .barcode-img {
-    width: 100%;
+  width: 100%;
 }
 
 .barcode-side {
-    padding: 15px 40px;
-    transform: rotate(90deg);
+  padding: 15px 40px;
+  transform: rotate(90deg);
 }

@@ -9,8 +9,9 @@ import thunk from "redux-thunk";
 import rootReducer from "./storage/reducers/rootReducer";
 import rootConnector from "./storage/connections/rootConnector";
 
-import "./index.less";
-import "normalize.css"; 
+import "./css/root.less";
+import "./css/index.less";
+import "normalize.css";
 
 let store = createStore(
   rootReducer,

@@ -1,78 +1,90 @@
+@import "../../../css/root.less";
+
 .canvas-wrapper {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 
-    &:after {
-        content: "";
-        position: absolute;
-        z-index: 800;
-        height: 100%;
-        left: 0%;
-        top: 0%;
-        width: 100%;
-        pointer-events: none;
-        will-change: transform;
-        transition: opacity .6s ease-out;
-        animation: noiseAnimation 1s steps(4) infinite; 
-        background-image: url(/public/images/site/noise.png);
-        background-position: 0% 0%;
-        opacity: 0.55;
-    }
+  &:after {
+    content: "";
+    position: absolute;
+    z-index: 800;
+    height: 100%;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    pointer-events: none;
+    will-change: transform;
+    transition: opacity .6s ease-out;
+    animation: noiseAnimation 1s steps(4) infinite;
+    background-image: url("@{images}/noise.png");
+    background-position: 0% 0%;
+    opacity: 0.55;
+  }
 
-    .canvas {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
+  .canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .search-form-container {
-    padding: 80px 0;
-    margin: auto;
-    z-index: 1;
+  padding: 80px 0;
+  margin: auto;
+  z-index: 1;
 }
 
 .search-form-col {
-    margin: auto;
+  margin: auto;
 }
 
 @keyframes noiseAnimation {
-    0% {
-        background-position: 0% 0%;
-    }
-    10% {
-        background-position:-5%, -5%;
-    }
-    20% {
-        background-position:-10%, 5%;
-    }
-    30% {
-        background-position:5%, -10%;
-    }
-    40% {
-        background-position:-5%, 15%;
-    }
-    50% {
-        background-position:-10%, 5%;
-    }
-    60% {
-        background-position:15%;
-    }
-    70% {
-        background-position:10%;
-    }
-    80% {
-        background-position:-15%;
-    }
-    90% {
-        background-position:10%, 5%;
-    }
-    to {
-        background-position:5%;
-    }
+  0% {
+    background-position: 0% 0%;
+  }
+
+  10% {
+    background-position: -5%, -5%;
+  }
+
+  20% {
+    background-position: -10%, 5%;
+  }
+
+  30% {
+    background-position: 5%, -10%;
+  }
+
+  40% {
+    background-position: -5%, 15%;
+  }
+
+  50% {
+    background-position: -10%, 5%;
+  }
+
+  60% {
+    background-position: 15%;
+  }
+
+  70% {
+    background-position: 10%;
+  }
+
+  80% {
+    background-position: -15%;
+  }
+
+  90% {
+    background-position: 10%, 5%;
+  }
+
+  to {
+    background-position: 5%;
+  }
 }

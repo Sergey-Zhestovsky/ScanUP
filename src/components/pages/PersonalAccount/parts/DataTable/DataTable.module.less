@@ -1,74 +1,75 @@
 .datatable {
-    width: 100%;
-    margin-top: 20px;
-    font-size: 18px;
-    border-spacing: 0;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 18px;
+  border-spacing: 0;
 
-    th {
-        font-weight: normal;
-        text-transform: uppercase;
-        text-align: left;
-        color: #8c9092;
+  th {
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--soft-grey-900);
+  }
+
+  tbody td {
+    border-top: 1px solid var(--soft-grey-300);
+  }
+
+  th,
+  td {
+    padding: 12px 5px;
+
+    &.fit {
+      white-space: nowrap;
+      width: 1px;
     }
 
-    tbody td {
-        border-top: 1px solid #e0e0e0;
+    &.center {
+      text-align: center;
     }
-
-    th, td {
-        padding: 12px 5px;
-
-        &.fit {
-            white-space: nowrap;
-            width: 1px;
-        }
-
-        &.center {
-            text-align: center;
-        }
-    }
+  }
 }
 
 .link {
-    display: flex;
-    align-items: center;
-    color: #1d9283;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  color: var(--accent-green-600);
+  justify-content: center;
 
-    &:hover {
-        .link-icon {
-            margin-left: 10px;
-            margin-right: 0px;
-        }
+  &:hover {
+    .link-icon {
+      margin-left: 10px;
+      margin-right: 0px;
     }
+  }
 }
 
 .link-icon {
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: .85em;
-    margin-top: 1px;
-    transition: all .125s;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: .85em;
+  margin-top: 1px;
+  transition: all .125s;
 }
 
 .buttons-group {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .button {
-    font-size: .9em;
-    padding: 8px 14px;
-    margin-right: 10px;
+  font-size: .9em;
+  padding: 8px 14px;
+  margin-right: 10px;
 
-    &:last-child {
-        margin-right: 0px;
-    }
+  &:last-child {
+    margin-right: 0px;
+  }
 }
 
 .empty-body-message {
-    padding: 1em;
-    font-size: 3em;
-    color: #e0e0e0;
-    text-align: center;
+  padding: 1em;
+  font-size: 3em;
+  color: var(--soft-grey-300);
+  text-align: center;
 }

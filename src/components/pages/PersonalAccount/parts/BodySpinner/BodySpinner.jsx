@@ -7,7 +7,7 @@ import styles from "./bodySpinner.module.less";
 export default function BodySpinner(props) {
   return (
     <div className={styles["main-spinner-wrapper"]}>
-      <Spinner backgroundClass={styles["backgrounbd-style"]} />
+      <Spinner backgroundClass={styles["background-style"]} />
     </div>
   );
 }

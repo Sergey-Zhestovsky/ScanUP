@@ -1,3 +1,5 @@
+@import "../../../../../css/root.less";
+
 .wrapper {
   margin: 50px;
   opacity: 0;
@@ -21,14 +23,14 @@
 
 .background {
   display: inline-block;
-  filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.05));
+  filter: drop-shadow(0 0 25px var(--shadow-black-100));
 }
 
 .ts {
   width: 375px;
   font-size: 1.25em;
-  background: #eaeaea;
-  mask: url(/public/images/site/ts-clip.svg);
+  background: var(--soft-grey-250);
+  mask: url("@{images}/ts-clip.svg");
 }
 
 .image {
@@ -37,7 +39,7 @@
   height: 250px;
   background-size: cover;
   background-position: 0% 50%;
-  background-image: url(https://blog.aci.aero/wp-content/uploads/2019/03/shutterstock_745544935-952x635.jpg);
+  background-image: url("@{images}/default-airoport-image.jpg");
 }
 
 .name {
@@ -48,8 +50,8 @@
   height: 2em;
   margin-top: -1em;
   padding: 10px 20px 10px 50px;
-  color: white;
-  background: #1d9283;
+  color: var(--white-100);
+  background: var(--accent-green-600);
   font-size: 1.25em;
   border-bottom-right-radius: 50px;
   border-top-right-radius: 50px;
@@ -74,7 +76,7 @@
 }
 
 .field-name {
-  color: #8c9092;
+  color: var(--soft-grey-900);
   margin-right: 10px;
 
   &:after {

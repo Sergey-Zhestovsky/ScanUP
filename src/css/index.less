@@ -2,20 +2,24 @@
   font-family: "Proxima Nova F";
   src: url("/public/fonts/Proxima Nova Reg.otf");
 }
+
 @font-face {
   font-family: "Proxima Nova";
   src: url("/public/fonts/Proxima Nova Alt Reg.otf");
 }
+
 @font-face {
   font-family: "Proxima Nova";
   src: url("/public/fonts/Proxima Nova Alt Bold.otf");
   font-weight: 600;
 }
+
 @font-face {
   font-family: "Proxima Nova";
   src: url("/public/fonts/ProximaNovaA-Extrabld.ttf");
   font-weight: 900;
 }
+
 @font-face {
   font-family: "Proxima Nova";
   src: url("/public/fonts/Mont-Regular.otf");
@@ -28,6 +32,7 @@
   src: url("/public/fonts/Mont-SemiBold.otf");
   font-weight: 600;
 }
+
 @font-face {
   font-family: "Mont";
   src: url("/public/fonts/Mont-Heavy.otf");
@@ -37,7 +42,6 @@
 @font-face {
   font-family: "Acme Gothic";
   src: url("/public/fonts/AcmeGothic-BoldCondensed.otf");
-  //font-weight: 900;
 }
 
 
@@ -45,9 +49,8 @@
   box-sizing: border-box;
 
   &::selection {
-    background: #1d9283;
-    color: #343e42;
-    color: whitesmoke;
+    background: var(--accent-green-600);
+    color: var(--soft-white);
   }
 }
 
@@ -57,7 +60,9 @@ a {
   display: inherit;
 }
 
-button, input, select {
+button,
+input,
+select {
   font: inherit;
   color: inherit;
 
@@ -73,7 +78,7 @@ fieldset {
 }
 
 body {
-  background: #f9f9f9;
+  background: var(--soft-grey-200);
   margin: 0;
   font-family: "Proxima Nova", "Proxima Nova F", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -81,10 +86,10 @@ body {
 *::-webkit-scrollbar {
   height: 12px;
   width: 12px;
-  background: #e0e0e0;
+  background: var(--soft-grey-300);
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #8c9092;
-  border: 1px solid #8c9092;
+  background: var(--soft-grey-900);
+  border: 1px solid $background;
 }
