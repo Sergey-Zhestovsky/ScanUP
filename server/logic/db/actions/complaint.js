@@ -1,5 +1,5 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
+  schemas = mongoose.models,
   { ServerError, serverErrors } = require("../../classes/ServerError");
 
 async function addByScanId({ title, message, scanId }) {

@@ -1,5 +1,4 @@
-let mongoose = require("mongoose"),
-  baggage = require("./schemas/baggage"),
+let baggage = require("./schemas/baggage"),
   baggageComparison = require("./schemas/baggageComparison"),
   baggageTransportationState = require("./schemas/baggageTransportationState"),
   complaint = require("./schemas/complaint"),
@@ -16,21 +15,25 @@ let mongoose = require("mongoose"),
   transportSystemType = require("./schemas/transportSystemType"),
   user = require("./schemas/user");
 
-module.exports = {
-  Baggage: mongoose.model('Baggage', baggage),
-  BaggageComparison: mongoose.model('BaggageComparison', baggageComparison),
-  BaggageTransportationState: mongoose.model('BaggageTransportationState', baggageTransportationState),
-  Complaint: mongoose.model('Complaint', complaint),
-  ComplaintReason: mongoose.model('ComplaintReason', complaintReason),
-  Privilege: mongoose.model('Privilege', privilege),
-  PrivilegeAction: mongoose.model('PrivilegeAction', privilegeAction),
-  Scan: mongoose.model('Scan', scan),
-  ScanPlaceDescription: mongoose.model('ScanPlaceDescription', scanPlaceDescription),
-  ScanTypeDescription: mongoose.model('ScanTypeDescription', scanTypeDescription),
-  Scanner: mongoose.model('Scanner', scanner),
-  TransportSystem: mongoose.model('TransportSystem', transportSystem),
-  TransportSystemNamingStandard: mongoose.model('TransportSystemNamingStandard', transportSystemNamingStandard),
-  TransportSystemReception: mongoose.model('TransportSystemReception', transportSystemReception),
-  TransportSystemType: mongoose.model('TransportSystemType', transportSystemType),
-  User: mongoose.model('User', user),
-};
+function createModels(mongoose) {
+  return {
+    Baggage: mongoose.model('Baggage', baggage),
+    BaggageComparison: mongoose.model('BaggageComparison', baggageComparison),
+    BaggageTransportationState: mongoose.model('BaggageTransportationState', baggageTransportationState),
+    Complaint: mongoose.model('Complaint', complaint),
+    ComplaintReason: mongoose.model('ComplaintReason', complaintReason),
+    Privilege: mongoose.model('Privilege', privilege),
+    PrivilegeAction: mongoose.model('PrivilegeAction', privilegeAction),
+    Scan: mongoose.model('Scan', scan),
+    ScanPlaceDescription: mongoose.model('ScanPlaceDescription', scanPlaceDescription),
+    ScanTypeDescription: mongoose.model('ScanTypeDescription', scanTypeDescription),
+    Scanner: mongoose.model('Scanner', scanner),
+    TransportSystem: mongoose.model('TransportSystem', transportSystem),
+    TransportSystemNamingStandard: mongoose.model('TransportSystemNamingStandard', transportSystemNamingStandard),
+    TransportSystemReception: mongoose.model('TransportSystemReception', transportSystemReception),
+    TransportSystemType: mongoose.model('TransportSystemType', transportSystemType),
+    User: mongoose.model('User', user)
+  };
+}
+
+module.exports = createModels;

@@ -1,6 +1,6 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
-  { ServerError, serverErrors } = require("../../classes/ServerError");
+  schemas = mongoose.models,
+  { ServerError } = require("../../classes/ServerError");
 
 async function getAll() {
   let tsTypes;

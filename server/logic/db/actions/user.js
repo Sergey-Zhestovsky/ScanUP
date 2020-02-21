@@ -1,5 +1,5 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
+  schemas = mongoose.models,
   privilegeActions = require("./privilege"),
   { ServerError, serverErrors } = require("../../classes/ServerError"),
 
@@ -29,8 +29,8 @@ async function isExists({ email, passport }) {
 
   counter = counter[0];
   counter = {
-    email: counter.email[0] && counter.email[0].count || 0,
-    passport: counter.passport[0] && counter.passport[0].count || 0
+    email: counter.email[0] ? counter.email[0].count : 0,
+    passport: counter.passport[0] ? counter.passport[0].count : 0
   };
 
   return counter;
@@ -69,9 +69,9 @@ async function add(data) {
       data.privilegeId = (await privilegeActions.getPrivilegeByIndex("04"))._id;
 
     let user = new schemas.User(data);
-    let responce = await user.save();
+    let response = await user.save();
 
-    return await getOnePublicDataById(responce._id);
+    return await getOnePublicDataById(response._id);
   } catch (error) {
     throw ServerError.customError("add_user", error);
   }
@@ -213,7 +213,7 @@ async function getUserPublicDataByPrivilegeId(userId, privilegeId) {
 }
 
 async function removeGlobalModerator(id) {
-  let responce;
+  let response;
 
   try {
     let privilege = await privilegeActions.getPrivilegeByIndex("02"),
@@ -222,12 +222,12 @@ async function removeGlobalModerator(id) {
     if (user === null)
       throw new ServerError(serverErrors.USER_REMOVE__BLOCKED);
 
-    responce = await schemas.User.findByIdAndRemove(id);
+    response = await schemas.User.findByIdAndRemove(id);
   } catch (error) {
     throw ServerError.customError("removeGlobalModerator_user", error);
   }
 
-  return responce;
+  return response;
 }
 
 module.exports = {

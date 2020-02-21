@@ -1,5 +1,5 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
+  schemas = mongoose.models,
   userActions = require("./user"),
   { ServerError, serverErrors } = require("../../classes/ServerError"),
   getTSSchema = require("../../data/dbAggregationSchemas/getTransportSystem");

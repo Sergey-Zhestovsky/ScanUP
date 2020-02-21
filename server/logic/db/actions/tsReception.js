@@ -1,10 +1,10 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
+  schemas = mongoose.models,
   keyGenerator = require("../../modules/keyGenerator"),
-  { ServerError, serverErrors } = require("../../classes/ServerError");
+  { ServerError } = require("../../classes/ServerError");
 
 async function add(data) {
-  let reception, responce = {}, scanner, uKey;
+  let reception, response = {}, scanner, uKey;
 
   try {
     do {
@@ -18,19 +18,19 @@ async function add(data) {
     reception = new schemas.TransportSystemReception({ ...data, scannerId: scanner._id });
     reception = await reception.save();
 
-    responce = (await schemas.TransportSystemReception.aggregate([{
+    response = (await schemas.TransportSystemReception.aggregate([{
       $match: {
         transportSystemId: new mongoose.Types.ObjectId(reception.transportSystemId)
       }
     }, {
       $count: "receptions"
     }]))[0];
-    responce = { ...responce, ...reception._doc };
+    response = { ...response, ...reception._doc };
   } catch (error) {
     throw ServerError.customError("add_tsReception", error);
   }
 
-  return responce;
+  return response;
 }
 
 async function addByGlobalModeratorId(data, id) {

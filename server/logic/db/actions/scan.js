@@ -1,8 +1,6 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
-  userActions = require("./user"),
-  { ServerError, serverErrors } = require("../../classes/ServerError"),
-  getTSSchema = require("../../data/dbAggregationSchemas/getTransportSystem");
+  schemas = mongoose.models,
+  { ServerError } = require("../../classes/ServerError");
 
 
 async function getDescriptionSample(size) {

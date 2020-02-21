@@ -1,5 +1,5 @@
 let mongoose = require("../connect"),
-  schemas = require("../models"),
+  schemas = mongoose.models,
   keyGenerator = require("../../modules/keyGenerator"),
   baggageStateActions = require("./baggageTransportationState"),
   round = require("../../modules/round"),
