@@ -71,11 +71,13 @@ class SessionController {
   }
 
   static async init(cookieController, storage) {
-    let sid = cookieController.init();
+    let sid = cookieController.init(), storageAnswer;
 
     if (!sid) return null;
+    storageAnswer = await storage.get(sid);
+    if (!storageAnswer) cookieController.clearCookies();
 
-    return await storage.get(sid);
+    return storageAnswer;
   }
 
   async set(sid, uid, data) {

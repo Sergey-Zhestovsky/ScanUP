@@ -101,7 +101,7 @@ router.all('*', function (req, res, next) {
 });
 
 router.post('/logout', async function (req, res, next) {
-  req.data.user.logout();
+  await req.data.user.logout();
 
   return res.send(serverAnswer(null, true));
 });

@@ -9,6 +9,7 @@ function UserBuilder(session) {
 
     synchronize() {
       this.id = session.uid;
+      if (!session.data) return;
       this.privilege = session.data.privilege;
     }
 
