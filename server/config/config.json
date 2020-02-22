@@ -5,13 +5,26 @@
     "name": "ScanUP",
     "url": "mongodb://localhost/ScanUP",
     "options": {
-      "useNewUrlParser": "true",
-      "useCreateIndex": "true",
-      "useFindAndModify": "false",
-      "useUnifiedTopology": "true"
+      "useNewUrlParser": true,
+      "useCreateIndex": true,
+      "useFindAndModify": false,
+      "useUnifiedTopology": true
     }
   },
   "session": {
+    "expires_time": 315360000000,
+    "session_name": "SID",
+    "token_name": "session_token",
+    "secret": "vPAYV-m9ok1-mwMWh-0Esnb-J1j9x-YzHAq",
+    "storage": {
+      "url": "mongodb://localhost/ScanUP-session",
+      "options": {
+        "useNewUrlParser": true,
+        "useCreateIndex": true,
+        "useFindAndModify": false,
+        "useUnifiedTopology": true
+      }
+    },
     "identification": {
       "expires_time": 315360000000,
       "session_name": "session_token"

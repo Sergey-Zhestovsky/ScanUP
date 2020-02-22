@@ -1,10 +1,23 @@
 let express = require("express"),
   bodyParser = require("body-parser"),
   config = require("./config"),
+  SessionManager = require("./logic/session/manager"),
+  sessionStorage = require("./logic/session/storage"),
   cookieParser = require("cookie-parser"),
   morgan = require("morgan"),
-  colors = require("colors"),
-  port = process.env.PORT || config.port || 3001;
+  colors = require("colors");
+
+let port = process.env.PORT || config.port || 3001;
+let sessionManager = new SessionManager({
+  storage: sessionStorage,
+  secret: config.session.secret,
+  sessionType: SessionManager.Type.Default,
+  cookie: {
+    sessionName: config.session.session_name,
+    tokenName: config.session.token_name,
+    maxAge: config.session.expires_time
+  }
+});
 
 let entryRouter = require("./routes/entry"),
   indexRouter = require("./routes/index"),
@@ -31,6 +44,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/public", express.static(__dirname + `/../public`));
+app.use(sessionManager.createMiddleware());
 
 app.all("*", entryRouter);
 app.use("/authorization", authorizationRouter);
