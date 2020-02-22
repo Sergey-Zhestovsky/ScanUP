@@ -1,53 +1,44 @@
-let config = require("../../config"),
-  jwt = require("jsonwebtoken"),
-  { ServerError, serverErrors } = require("./ServerError");
+function UserBuilder(session) {
+  class User {
+    constructor() {
+      this.id = null;
+      this.privilege = null;
 
-const ENCODE_SERVER_KEY = config["encode_server_key"];
-
-class User {
-  constructor({ token, id, privilege }) {
-    this.token = token;
-    this.id = id;
-    this.privilege = privilege;
-  }
-
-  getUser() {
-    return {
-      id: this.id,
-      privilege: this.privilege
+      this.synchronize();
     }
-  }
 
-  getToken() {
-    return {
-      token: this.token
+    synchronize() {
+      this.id = session.uid;
+      this.privilege = session.data.privilege;
     }
-  }
 
-  setToken() {
-    if (!this.id || !this.privilege) // TODO VERIFICATION
-      throw new ServerError(serverErrors.USER__VALIDATION_MISSING_DATA);
-
-    this.token = jwt.sign(this.getUser(), ENCODE_SERVER_KEY, {noTimestamp: true});
-
-    return this.token;
-  }
-
-  async verifyToken() {
-    if (!this.token)
-      throw new ServerError(serverErrors.USER__VALIDATION_TOKEN).reject();
-
-    try {
-      ({
+    getUser() {
+      return {
         id: this.id,
         privilege: this.privilege
-      } = jwt.verify(this.token, ENCODE_SERVER_KEY));
-    } catch (err) {
-      throw new ServerError(serverErrors.USER__BED_TOKEN).reject();
+      }
     }
 
-    return true;
+    async logout() {
+      await session.remove();
+      this.synchronize();
+    }
+
+    async login(id, privilege) {
+      let data = {
+        privilege
+      };
+
+      await session.create(id, data);
+      this.synchronize();
+    }
   }
+
+  return new User();
 }
 
-module.exports = User;
+module.exports = new Proxy(UserBuilder, {
+  construct: (target, args) => {
+    return target(...args);
+  }
+});

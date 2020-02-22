@@ -1,10 +1,10 @@
 let express = require("express"),
-  config = require("../config"),
   router = express.Router(),
-  Authorization = require("../logic/classes/Authorization");
+  DataStorage = require("../logic/classes/DataStorage"),
+  User = require("../logic/classes/User");
 
 router.all('*', async function (req, res, next) {
-  req.data = {};
+  req.data = new DataStorage();
 
   try {
     await identification(req, res, next);
@@ -16,9 +16,7 @@ router.all('*', async function (req, res, next) {
 });
 
 async function identification(req, res, next) {
-  let auth = new Authorization({ request: req, response: res });
-
-  return await auth.verify();
+  req.data("user", new User(req.session));
 }
 
 module.exports = router;

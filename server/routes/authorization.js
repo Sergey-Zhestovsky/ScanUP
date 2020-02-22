@@ -1,6 +1,5 @@
 let express = require("express"),
   router = express.Router(),
-  Authorization = require("../logic/classes/Authorization"),
   serverAnswer = require("../logic/modules/serverAnswer"),
   dbAPI = require("../logic/db/API"),
   Validator = require("../logic/classes/Validator"),
@@ -30,73 +29,68 @@ router.post('/is-registered', function (req, res, next) {
     });
 });
 
-router.post('/signup', function (req, res, next) {
-  let user = req.body,
-    isValid = registrationValidator.validate(user);
+router.post('/signup', async function (req, res, next) {
+  let userData = req.body,
+    isValid = registrationValidator.validate(userData);
 
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.user.add(user)
-    .then((user) => {
-      let auth = new Authorization({ request: req, response: res });
+  try {
+    let user = await dbAPI.user.add(userData),
+      session = req.data.user;
 
-      auth.login({
-        id: user._id,
-        privilege: user.privilegeId
-      });
+    await session.login(user._id, user.privilegeId);
 
-      return res.send(serverAnswer(null, user));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+    return res.send(serverAnswer(null, user));
+  } catch (error) {
+    return res.send(serverAnswer(error));
+  }
 });
 
-router.post('/login', function (req, res, next) {
-  let user = req.body,
-    isValid = authValidator.validate(user);
+router.post('/login', async function (req, res, next) {
+  let userData = req.body,
+    isValid = authValidator.validate(userData);
 
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.user.authorize(user)
-    .then((user) => {
-      let auth = new Authorization({ request: req, response: res });
+  try {
+    let user = await dbAPI.user.authorize(userData),
+      session = req.data.user;
 
-      auth.login({
-        id: user._id,
-        privilege: user.privilegeId
-      });
+    await session.login(user._id, user.privilegeId);
 
-      return res.send(serverAnswer(null, user));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+    return res.send(serverAnswer(null, user));
+  } catch (error) {
+    return res.send(serverAnswer(error));
+  }
 });
 
-router.post('/mobile-login', function (req, res, next) {
-  let user = req.body,
-    isValid = authValidator.validate(user);
+router.post('/mobile-login', async function (req, res, next) {
+  let userData = req.body,
+    isValid = authValidator.validate(userData);
 
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  dbAPI.user.authorize(user)
-    .then((user) => {
-      let auth = new Authorization({ request: req, response: res });
+  try {
+    //let user = await dbAPI.user.authorize(userData),
+    //  session = req.data.user;
 
-      let token = auth.login({
-        id: user._id,
-        privilege: user.privilegeId
-      }).token;
+    //await session.login(user._id, user.privilegeId);
 
-      return res.send(serverAnswer(null, { token, details: user }));
-    })
-    .catch((error) => {
-      return res.send(serverAnswer(error));
-    });
+    // auth = new Authorization({ request: req, response: res }),
+    // token = await auth.login({
+    //   id: user._id,
+    //   privilege: user.privilegeId
+    // }).token;
+
+    //return res.send(serverAnswer(null, { token, details: user }));
+    return res.send(serverAnswer(false));
+  } catch (error) {
+    return res.send(serverAnswer(error));
+  }
 });
 
 router.all('*', function (req, res, next) {
@@ -106,10 +100,8 @@ router.all('*', function (req, res, next) {
   return next();
 });
 
-router.post('/logout', function (req, res, next) {
-  let auth = new Authorization({ request: req, response: res });
-
-  auth.logout();
+router.post('/logout', async function (req, res, next) {
+  req.data.user.logout();
 
   return res.send(serverAnswer(null, true));
 });

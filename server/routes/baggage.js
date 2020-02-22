@@ -93,29 +93,31 @@ router.post('/mobile-get-all', function (req, res, next) {
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 
-  let user = new User({
-    token: data.token
-  });
-  user.verifyToken();
+  return res.send(serverAnswer(false));
 
-  return PrivilegeController.switch(user.privilege, {
-    "03": moderatorAction,
-    "04": userAction
-  }, res);
+  // let user = new User({
+  //   token: data.token
+  // });
+  // user.verifyToken();
 
-  function moderatorAction() {
-    return serverAnswer.default(
-      dbAPI.baggage.getAllActive(),
-      res
-    );
-  }
+  // return PrivilegeController.switch(user.privilege, {
+  //   "03": moderatorAction,
+  //   "04": userAction
+  // }, res);
 
-  function userAction() {
-    return serverAnswer.default(
-      dbAPI.baggage.getAllActiveByUserId(user.id),
-      res
-    );
-  }
+  // function moderatorAction() {
+  //   return serverAnswer.default(
+  //     dbAPI.baggage.getAllActive(),
+  //     res
+  //   );
+  // }
+
+  // function userAction() {
+  //   return serverAnswer.default(
+  //     dbAPI.baggage.getAllActiveByUserId(user.id),
+  //     res
+  //   );
+  // }
 });
 
 router.post('/get-history', function (req, res, next) {
