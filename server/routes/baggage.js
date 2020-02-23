@@ -86,40 +86,6 @@ router.post('/get-all', function (req, res, next) {
   }
 });
 
-router.post('/mobile-get-all', function (req, res, next) {
-  let data = req.body,
-    isValid = mobileGetBaggageValidator.validate(data);
-
-  if (isValid !== true)
-    return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
-
-  return res.send(serverAnswer(false));
-
-  // let user = new User({
-  //   token: data.token
-  // });
-  // user.verifyToken();
-
-  // return PrivilegeController.switch(user.privilege, {
-  //   "03": moderatorAction,
-  //   "04": userAction
-  // }, res);
-
-  // function moderatorAction() {
-  //   return serverAnswer.default(
-  //     dbAPI.baggage.getAllActive(),
-  //     res
-  //   );
-  // }
-
-  // function userAction() {
-  //   return serverAnswer.default(
-  //     dbAPI.baggage.getAllActiveByUserId(user.id),
-  //     res
-  //   );
-  // }
-});
-
 router.post('/get-history', function (req, res, next) {
   let user = req.data.user.getUser();
 

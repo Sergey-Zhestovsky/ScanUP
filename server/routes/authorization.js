@@ -67,32 +67,6 @@ router.post('/login', async function (req, res, next) {
   }
 });
 
-router.post('/mobile-login', async function (req, res, next) {
-  let userData = req.body,
-    isValid = authValidator.validate(userData);
-
-  if (isValid !== true)
-    return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
-
-  try {
-    //let user = await dbAPI.user.authorize(userData),
-    //  session = req.data.user;
-
-    //await session.login(user._id, user.privilegeId);
-
-    // auth = new Authorization({ request: req, response: res }),
-    // token = await auth.login({
-    //   id: user._id,
-    //   privilege: user.privilegeId
-    // }).token;
-
-    //return res.send(serverAnswer(null, { token, details: user }));
-    return res.send(serverAnswer(false));
-  } catch (error) {
-    return res.send(serverAnswer(error));
-  }
-});
-
 router.all('*', function (req, res, next) {
   if (!req.data.user)
     return res.send(serverAnswer(serverAnswer.ERRORS.PRIVILEGE__BLOCKED));
