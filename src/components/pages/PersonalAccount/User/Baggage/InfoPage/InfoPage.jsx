@@ -67,7 +67,7 @@ class InfoPage extends Component {
       return withWrapper(<BodySpinner />);
 
     if (!this.state.baggage)
-      return withWrapper(<BaggageNotFound uId={baggage.uId} />);
+      return withWrapper(<BaggageNotFound uId={this.props.match.params.uId} />);
 
     let body = (
       <React.Fragment>

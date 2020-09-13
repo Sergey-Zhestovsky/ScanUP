@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import PopUp, { PopUpTitle } from "../../../../../utils/PopUp/PopUp";
 import { Form, FormBlock, FormGroup, FormInputField, FormSubmit } from "../../../parts/Form/Form";
 import KeyInput from "../../../../../utils/KeyInput/KeyInput";
-import Validator from "../../../../../../classes/Validator";
+import Validator, { Rules } from "../../../../../../classes/Validator";
 
 import styles from "./SearchForm.module.less";
 
@@ -20,8 +20,8 @@ class SearchForm extends Component {
     };
     this.timeout = 200;
     this.validator = new Validator({
-      key: ["required", ["test", /^.{4}-.{4}-.{4}$/]]
-    })
+      key: [Rules.required, [Rules.test, /^.{4}-.{4}-.{4}$/]]
+    });
   }
 
   changeHandler = (name, value) => {

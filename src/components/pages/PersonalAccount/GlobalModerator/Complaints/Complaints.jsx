@@ -48,7 +48,7 @@ class Complaints extends Component {
           viewHandler={this.openViewHandler.bind(null, i)} />
       );
     };
-    console.log(this.state.complaints)
+
     return (
       <div>
         <Title style={titleStyle.CAPITAL}>Complaints</Title>

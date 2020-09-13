@@ -157,7 +157,7 @@ async function add({ login, password, selfControl, ...rest }) {
         privilegeId: privilege._id
       });
 
-      tsData = { ...tsData, adminId: user.id };
+      tsData = { ...tsData, adminId: user._id };
     }
 
     let ts = new schemas.TransportSystem(tsData),

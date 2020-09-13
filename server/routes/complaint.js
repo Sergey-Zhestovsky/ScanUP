@@ -15,7 +15,7 @@ router.all('*', function (req, res, next) {
 router.post('/add', function (req, res, next) {
   let data = req.body,
     isValid = addComplaintValidator.validate(data);
-
+console.log(data, isValid);
   if (isValid !== true)
     return res.send(serverAnswer(serverAnswer.ERRORS.VALIDATION__REQUIRED_DATA));
 

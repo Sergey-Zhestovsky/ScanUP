@@ -134,14 +134,14 @@ class Validator {
 
     function maxLength(data, size) {
       if (typeof data !== typeof "")
-        return false;
+        return true;
 
       return data.toString().length <= size;
     }
 
     function minLength(data, size) {
       if (typeof data !== typeof "")
-        return false;
+        return true;
 
       return data.toString().length >= size;
     }

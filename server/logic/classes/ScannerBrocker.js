@@ -5,7 +5,7 @@ class ScannerBrocker {
 
   request(key, handler, response) {
     this.setInQueue(key, handler);
-
+    
     response.on("close", () => {
       this.removeFromQueue(key, handler);
     });
@@ -37,7 +37,7 @@ class ScannerBrocker {
   removeFromQueue(key, value) {
     let queue = this.requestsQueue;
 
-    if (!value)
+    if (!value || !queue.get(key))
       return queue.delete(key);
 
     let values = [...queue.get(key)];
