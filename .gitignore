@@ -11,7 +11,10 @@
 # production
 /build
 /public/fonts
-/public/images
+/public/images/**/*.*
+!/public/images/screenshots/*.*
+!/public/images/site/*.png
+!/public/images/site/*.jpg
 /public/scans
 
 # misc
